@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="リソース &apos;test/src/serial.h&apos; を削除します" deleteContents="false" description="リソース &apos;test/src/serial.h&apos; を削除します" element1="/test/src/serial.h" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1494575288474"/>
+</session>

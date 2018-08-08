@@ -1,0 +1,63 @@
+Optimizing Linkage Editor (V.10.02.01.000)        08-Aug-2018 11:11:11
+
+*** Options ***
+
+-subcommand=LinkerSubCommand.tmp
+-input="./src/init_stack.obj"
+-input="./src/CMT.obj"
+-input="./src/LED.obj"
+-input="./src/MTU.obj"
+-input="./src/calc.obj"
+-input="./src/dbsct.obj"
+-input="./src/init.obj"
+-input="./src/interrupt_handlers.obj"
+-input="./src/map.obj"
+-input="./src/motor.obj"
+-input="./src/reset_program.obj"
+-input="./src/sbrk.obj"
+-input="./src/sensor.obj"
+-input="./src/serial.obj"
+-input="./src/test.obj"
+-input="./src/util.obj"
+-input="./src/vector_table.obj"
+-start=DVECTTBL,DINTTBL,PIntPRG/0,PResetPRG/0800,P,C,C$BSEC,C$DSEC,D/01000,B,R/0FFFFA000,S/0FFFFBC00
+-library=C:\D\mice\CAMELL~3\e2\test\Release\test.lib
+-noprelink
+-list=test.map
+-nooptimize
+-nodebug
+-output=C:\D\mice\Camellia_2\e2\test\Release\test.abs
+-rom=D=R
+-nomessage
+-nologo
+
+*** Error information ***
+
+*** Mapping List ***
+
+SECTION                            START      END         SIZE   ALIGN
+
+DVECTTBL
+                                  00000000  0000000f        10   4
+DINTTBL
+                                  00000010  000003ff       3f0   4
+PIntPRG
+                                  00000400  0000061b       21c   4
+PResetPRG
+                                  00000800  0000082f        30   4
+P
+                                  00001000  0000cb2b      bb2c   4
+C
+                                  0000cb2c  0000cf77       44c   4
+C$BSEC
+                                  0000cf78  0000cf7f         8   4
+C$DSEC
+                                  0000cf80  0000cf8b         c   4
+D
+                                  0000cf8c  0000cf8f         4   4
+B
+                                  ffffa000  ffffaa13       a14   4
+R
+                                  ffffaa14  ffffaa17         4   4
+S
+                                  ffffbc00  ffffbfff       400   4

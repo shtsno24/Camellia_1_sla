@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<item value="デフォルト C ソース・テンプレート" key="LastUsedSourceTemplate"/>
+	<item value="デフォルト C ヘッダー・テンプレート" key="LastUsedHeaderTemplate"/>
+	<section name="org.eclipse.cdt.internal.ui.text.QuickOutline">
+		<item value="true" key="org.eclipse.cdt.internal.ui.text.COutlineInformationControlDIALOG_USE_PERSISTED_SIZE"/>
+		<item value="436" key="org.eclipse.cdt.internal.ui.text.COutlineInformationControlDIALOG_Y_ORIGIN"/>
+		<item value="350" key="org.eclipse.cdt.internal.ui.text.COutlineInformationControlDIALOG_WIDTH"/>
+		<item value="true" key="org.eclipse.cdt.internal.ui.text.COutlineInformationControlDIALOG_USE_PERSISTED_LOCATION"/>
+		<item value="300" key="org.eclipse.cdt.internal.ui.text.COutlineInformationControlDIALOG_HEIGHT"/>
+		<item value="916" key="org.eclipse.cdt.internal.ui.text.COutlineInformationControlDIALOG_X_ORIGIN"/>
+	</section>
+	<section name="org.eclipse.cdt.internal.ui.browser.opentype.OpenTypeActionSettings">
+		<item value="true" key="show_enums"/>
+		<item value="true" key="show_unions"/>
+		<item value="true" key="show_macros"/>
+		<item value="true" key="show_classes"/>
+		<item value="true" key="show_functions"/>
+		<item value="true" key="show_lowlevel"/>
+		<item value="true" key="show_namespaces"/>
+		<item value="true" key="show_enumerators"/>
+		<item value="true" key="show_structs"/>
+		<item value="212" key="x"/>
+		<item value="537" key="width"/>
+		<item value="69" key="y"/>
+		<item value="true" key="show_typedefs"/>
+		<item value="true" key="show_variables"/>
+		<item value="681" key="height"/>
+	</section>
+	<section name="org.eclipse.cdt.ui.text.hover.CMacroExpansionExploration">
+	</section>
+	<section name="PDOMSearchPage">
+	</section>
+	<section name="completion_proposal_size">
+	</section>
+	<section name="org.eclipse.cdt.internal.ui.typehierarchy.OpenTypeInHierarchyActionSettings">
+		<item value="true" key="show_enums"/>
+		<item value="true" key="show_unions"/>
+		<item value="false" key="show_macros"/>
+		<item value="true" key="show_classes"/>
+		<item value="false" key="show_functions"/>
+		<item value="true" key="show_lowlevel"/>
+		<item value="false" key="show_namespaces"/>
+		<item value="false" key="show_enumerators"/>
+		<item value="true" key="show_structs"/>
+		<item value="768" key="x"/>
+		<item value="384" key="width"/>
+		<item value="78" key="y"/>
+		<item value="true" key="show_typedefs"/>
+		<item value="false" key="show_variables"/>
+		<item value="663" key="height"/>
+	</section>
+</section>

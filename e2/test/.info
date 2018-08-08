@@ -1,0 +1,6 @@
+TOOL_CHAIN=Renesas SHC Toolchain
+VERSION=v9.04.03
+TC_INSTALL=C:\Program Files (x86)\Renesas\Hew\Tools\Renesas\Sh\9_4_3\
+VERSION_IDE=
+E2STUDIO_VERSION=4.3.0.007
+ACTIVE_CONFIGURATION=Release
