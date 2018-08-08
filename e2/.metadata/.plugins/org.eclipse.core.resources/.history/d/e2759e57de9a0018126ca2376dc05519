@@ -1,0 +1,8 @@
+################################################################################
+# Automatically-generated file. Do not edit!
+################################################################################
+
+export SHC_INC=C:\PROGRA~2\Renesas\Hew\Tools\Renesas\Sh\9_4_3\include
+export SHC_LIB=C:\PROGRA~2\Renesas\Hew\Tools\Renesas\Sh\9_4_3\bin
+export SHC_TMP=C:\PROGRA~2\Renesas\Hew\Tools\Renesas\Sh\9_4_3\Ctemp
+PATH := $(PATH):C:\PROGRA~2\Renesas\Hew\Tools\Renesas\Sh\9_4_3\bin

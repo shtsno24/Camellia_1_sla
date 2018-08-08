@@ -161,11 +161,10 @@ void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
 		start_MTU(cst0);
 		start_MTU(cst1);
 		myprintf("%s\n",
-				"r_motor.vel, vehicle.vel, vehicle.tar_vel, r_motor.dist, vehicle.dist, vehicle.tar_dist");
+				"l_motor.vel, r_motor.vel, vehicle.ang,vehicle.tar_ang, r_motor.dist");
 		while (vehicle.end_flag <= 0) {
-			myprintf("%f,%f,%f,%f,%f,%f\n", r_motor.vel, vehicle.vel,
-					vehicle.tar_vel, r_motor.dist, vehicle.dist,
-					vehicle.tar_dist);
+			myprintf("%f,%f,%f,%f,%f\n", l_motor.vel, r_motor.vel, vehicle.ang,
+					vehicle.tar_ang, r_motor.dist);
 		}
 		drv_Status_LED(Green, on);
 		//代入(減速フェーズ)
@@ -195,9 +194,8 @@ void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
 		vehicle.dist = 0;
 		vehicle.ang = 0;
 		while (vehicle.end_flag <= 0) {
-			myprintf("%f,%f,%f,%f,%f,%f\n", r_motor.vel, vehicle.vel,
-					vehicle.tar_vel, r_motor.dist, vehicle.dist,
-					vehicle.tar_dist);
+			myprintf("%f,%f,%f,%f,%f\n", l_motor.vel, r_motor.vel, vehicle.ang,
+								vehicle.tar_ang, r_motor.dist);
 		}
 		drv_Status_LED(Yerrow, on);
 		stop_MTU(cst0);

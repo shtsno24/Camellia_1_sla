@@ -1,4 +1,4 @@
-Optimizing Linkage Editor (V.10.02.01.000)        08-Aug-2018 11:11:11
+Optimizing Linkage Editor (V.10.02.01.000)        08-Aug-2018 16:50:25
 
 *** Options ***
 
@@ -21,12 +21,12 @@ Optimizing Linkage Editor (V.10.02.01.000)        08-Aug-2018 11:11:11
 -input="./src/util.obj"
 -input="./src/vector_table.obj"
 -start=DVECTTBL,DINTTBL,PIntPRG/0,PResetPRG/0800,P,C,C$BSEC,C$DSEC,D/01000,B,R/0FFFFA000,S/0FFFFBC00
--library=C:\D\mice\CAMELL~3\e2\test\Release\test.lib
+-library=C:\D\mice\CAMELL~3\Camellia_1_sla\e2\test\Release\test.lib
 -noprelink
 -list=test.map
 -nooptimize
 -nodebug
--output=C:\D\mice\Camellia_2\e2\test\Release\test.abs
+-output=C:\D\mice\Camellia_2\Camellia_1_sla\e2\test\Release\test.abs
 -rom=D=R
 -nomessage
 -nologo
@@ -46,15 +46,15 @@ PIntPRG
 PResetPRG
                                   00000800  0000082f        30   4
 P
-                                  00001000  0000cb2b      bb2c   4
+                                  00001000  0000cab3      bab4   4
 C
-                                  0000cb2c  0000cf77       44c   4
+                                  0000cab4  0000cee7       434   4
 C$BSEC
-                                  0000cf78  0000cf7f         8   4
+                                  0000cee8  0000ceef         8   4
 C$DSEC
-                                  0000cf80  0000cf8b         c   4
+                                  0000cef0  0000cefb         c   4
 D
-                                  0000cf8c  0000cf8f         4   4
+                                  0000cefc  0000ceff         4   4
 B
                                   ffffa000  ffffaa13       a14   4
 R

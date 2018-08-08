@@ -108,7 +108,7 @@ all: test.mot
 # Tool invocations
 test.mot: $(LINKER_OUTPUT_OUTPUTS)
 	@echo 'Invoking: Converter'
-	optlnk   "C:\D\mice\Camellia_2\e2\test\Release\test.abs" -form=stype  -output="C:\D\mice\Camellia_2\e2\test\Release\test.mot"
+	optlnk   "C:\D\mice\Camellia_2\Camellia_1_sla\e2\test\Release\test.abs" -form=stype  -output="C:\D\mice\Camellia_2\Camellia_1_sla\e2\test\Release\test.mot"
 	@echo 'Finished building target:'
 	@echo.
 	$(MAKE) --no-print-directory post-build
@@ -116,7 +116,7 @@ test.mot: $(LINKER_OUTPUT_OUTPUTS)
 test.abs: $(OBJS) $(LIBRARY_GENERATOR_OUTPUTTYPE_OUTPUTS) $(ALL_ASMS) 
 	@echo 'Invoking: Linker'
 	@echo 'Building target:'
-	optlnk  -subcommand="LinkerSubCommand.tmp"  -library="C:\D\mice\CAMELL~3\e2\test\Release\test.lib" -noprelink -list="test.map" -nooptimize -nodebug -output="C:\D\mice\Camellia_2\e2\test\Release\test.abs" -rom=D=R -nomessage -nologo
+	optlnk  -subcommand="LinkerSubCommand.tmp"  -library="C:\D\mice\CAMELL~3\Camellia_1_sla\e2\test\Release\test.lib" -noprelink -list="test.map" -nooptimize -nodebug -output="C:\D\mice\Camellia_2\Camellia_1_sla\e2\test\Release\test.abs" -rom=D=R -nomessage -nologo
 	@echo 'Finished building:'
 	@echo.
 
