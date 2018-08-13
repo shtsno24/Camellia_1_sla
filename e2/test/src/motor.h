@@ -45,6 +45,8 @@ void drv_Motor(float, float, float, float, float, float, float, unsigned char, u
 
 void switch_Motor(char);
 
+void start_Motor(void);
+
 void mot_app(float, float, int, char, char);
 
 void mot_app2(float, float, int, char, char);

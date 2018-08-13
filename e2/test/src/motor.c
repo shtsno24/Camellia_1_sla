@@ -23,9 +23,9 @@ void init_Motor(void) {
 	 l_motor.max_acc = 1500;*/
 
 	spec.motor_max_acc = 1700;
-	spec.motor_max_vel = 1000;
+	spec.motor_max_vel = 1800;
 	spec.motor_min_acc = 0;
-	spec.motor_min_vel = 250;
+	spec.motor_min_vel = 230;
 	r_motor.acc = 0.0;
 	l_motor.acc = 0.0;
 	/*
@@ -35,8 +35,8 @@ void init_Motor(void) {
 	 r_motor.max_vel = 2000.0;
 	 l_motor.max_vel = 2000.0;
 	 */
-	r_motor.vel = 250.0;
-	l_motor.vel = 250.0;
+	r_motor.vel = 0.0;
+	l_motor.vel = 0.0;
 
 	r_motor.cnt = 0.0;
 	l_motor.cnt = 0.0;
@@ -71,15 +71,30 @@ void switch_Motor(char sw) {
 	}
 }
 
+void start_Motor() {
+	r_motor.tar_vel = 0.01;
+	l_motor.tar_vel = 0.01;
+	r_motor.cnt = 0.0;
+	l_motor.cnt = 0.0;
+	r_motor.vel = 0.0;
+	l_motor.vel = 0.0;
+	vehicle.dist = 0.0;
+	vehicle.ang = 0.0;
+	vehicle.vel = 0.0;
+	vehicle.rot_vel = 0.0;
+}
+
 void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
 		float rot_acc, float mot_acc, unsigned char stop_flag,
 		unsigned char direction) {
 	/*
-	 * direction : left or right (enum)
+	 * direction : straight, back, left or right (enum)
+	 * each parameters must be absolute value
 	 * select_flag : sla_on or sla_off (enum)
 	 * stop_flag : on or off (enum)
 	 * */
 	float deceleration;
+
 //上下限設定
 	if (mot_acc > spec.motor_max_acc) {
 		mot_acc = spec.motor_max_acc;
@@ -95,6 +110,14 @@ void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
 	//減速時パターン分け
 	switch (stop_flag) {
 	case off:
+		//ターン方向
+		if (direction == right) {
+			ang *= -1;
+			rot_vel *= -1;
+		} else if (direction == back) {
+			dist *= -1;
+			vel *= -1;
+		}
 		//代入(加速のみ)
 		r_motor.cnt = 0.0;
 		l_motor.cnt = 0.0;
@@ -111,6 +134,7 @@ void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
 		vehicle.ang = 0;
 		start_MTU(cst0);
 		start_MTU(cst1);
+
 		while (vehicle.end_flag <= 0)
 			;
 
@@ -122,13 +146,22 @@ void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
 			if (deceleration >= dist) {
 				deceleration = dist;
 			}
+
+			if (direction == back) {
+				dist *= -1;
+				deceleration *= -1;
+				vel *= -1;
+			}
 		} else {
 			deceleration = (rot_vel * rot_vel) / (2 * rot_acc);
 			if (deceleration >= ang) {
 				deceleration = ang;
 			}
+
 			if (direction == right) {
 				deceleration *= -1;
+				ang *= -1;
+				rot_vel *= -1;
 			}
 		}
 
@@ -161,16 +194,20 @@ void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
 		start_MTU(cst0);
 		start_MTU(cst1);
 		myprintf("%s\n",
-				"l_motor.vel, r_motor.vel, vehicle.ang,vehicle.tar_ang, r_motor.dist");
+				"r_motor.tar_vel, r_motor.vel, vehicle.vel, vehicle.tar_vel, vehicle.dist, vehicle.tar_dist");
 		while (vehicle.end_flag <= 0) {
-			myprintf("%f,%f,%f,%f,%f\n", l_motor.vel, r_motor.vel, vehicle.ang,
-					vehicle.tar_ang, r_motor.dist);
+			myprintf("%f,%f,%f,%f,%f,%f\n", r_motor.tar_vel, r_motor.vel,
+					vehicle.vel, vehicle.tar_vel, vehicle.dist,
+					vehicle.tar_dist);
 		}
 		drv_Status_LED(Green, on);
 		//代入(減速フェーズ)
 		if (vehicle.select_flag == sla_off) {
 			vehicle.tar_dist = deceleration;
 			vehicle.tar_vel = spec.motor_min_vel;
+			if (direction == back) {
+				vehicle.tar_vel *= -1.0;
+			}
 			vehicle.tar_acc = acc;
 			vehicle.tar_ang = ang;
 			vehicle.tar_rot_vel = rot_vel;
@@ -194,12 +231,14 @@ void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
 		vehicle.dist = 0;
 		vehicle.ang = 0;
 		while (vehicle.end_flag <= 0) {
-			myprintf("%f,%f,%f,%f,%f\n", l_motor.vel, r_motor.vel, vehicle.ang,
-								vehicle.tar_ang, r_motor.dist);
+			myprintf("%f,%f,%f,%f,%f,%f\n", r_motor.tar_vel, r_motor.vel,
+					vehicle.vel, vehicle.tar_vel, vehicle.dist,
+					vehicle.tar_dist);
 		}
 		drv_Status_LED(Yerrow, on);
 		stop_MTU(cst0);
 		stop_MTU(cst1);
+		start_Motor();
 		break;
 	}
 }

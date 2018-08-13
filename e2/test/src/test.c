@@ -328,7 +328,9 @@ int main(void) {
 			UX_effect(alart);
 			switch_Motor(on);
 			wait_ms(1000);
-			drv_Motor(1000.0, 900.0, 1000.0, 0.0, 0.0, 0.0, 1000.0, on, left);
+			drv_Motor(500.0, 500.0, 1000.0, 0.0, 0.0, 0.0, 1000.0, on, back);
+			wait_ms(1000);
+			drv_Motor(500.0, 500.0, 1000.0, 0.0, 0.0, 0.0, 1000.0, on, straight);
 			wait_ms(1000);
 			switch_Motor(off);
 			drv_Status_LED(Red, off);
