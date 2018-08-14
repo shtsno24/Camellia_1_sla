@@ -137,7 +137,7 @@ void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
 			deceleration = (vel * vel - spec.motor_min_vel * spec.motor_min_vel)
 					/ (2 * acc);
 			if (deceleration >= dist) {
-				deceleration = dist;
+				deceleration = dist / 2.0;
 			}
 
 			if (direction == back) {
@@ -146,12 +146,13 @@ void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
 				vel *= -1;
 			}
 		} else {
-			deceleration = (rot_vel * rot_vel) / (2 * rot_acc);
+			deceleration = (rot_vel * rot_vel
+					- (0.5 * rot_vel) * (0.5 * rot_vel)) / (2 * rot_acc);
 			if (deceleration >= ang) {
-				deceleration = ang;
+				deceleration = ang / 2.0;
 			}
 
-			if (direction == left) {
+			if (direction == right) {
 				deceleration *= -1;
 				ang *= -1;
 				rot_vel *= -1;
@@ -214,7 +215,10 @@ void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
 			vehicle.tar_vel = vel;
 			vehicle.tar_acc = acc;
 			vehicle.tar_ang = deceleration;
-			vehicle.tar_rot_vel = 0;
+			vehicle.tar_rot_vel = 0.5 * rot_vel;
+			if (direction == right) {
+				vehicle.tar_rot_vel *= -1.0;
+			}
 			vehicle.tar_rot_acc = rot_acc;
 		}
 		r_motor.cnt = 0.0;
@@ -236,6 +240,8 @@ void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
 		vehicle.tar_rot_vel = 0.0;
 		r_motor.tar_vel = 0.0;
 		l_motor.tar_vel = 0.0;
+		r_motor.vel = 0.0;
+		l_motor.vel = 0.0;
 		drv_Status_LED(Yerrow, on);
 		stop_MTU(cst0);
 		stop_MTU(cst1);
