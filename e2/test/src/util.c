@@ -38,9 +38,7 @@ void init_Vehicle() {
 void init_Spec() {
 	spec.tread = 91.0;
 	spec.tire_dim = 51.6;
-	//spec.tire_dim = 90.0;
 	spec.step_angle = 0.9; //[deg]
-	//spec.step_dist = 0.408407;
 	spec.step_dist = spec.tire_dim * 3.14159265 * (spec.step_angle / 360);//[mm]
 
 	spec.pwm_base_clock = 6250 - 1; //(interrupt duty : 1ms(@6.25MHz))
