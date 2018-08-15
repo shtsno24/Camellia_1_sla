@@ -109,8 +109,8 @@ void sen_cmt1(void) {
 	cl_sen.old[0] = cl_sen.sen;		//CL sensor
 	l_sen.old[0] = l_sen.sen;		//L sensor
 
-	calc_2vel();
 	calc_diff();
 	calc_vel();
+	calc_2vel();
 	end_signal();
 }

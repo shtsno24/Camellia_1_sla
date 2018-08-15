@@ -30,12 +30,14 @@ typedef struct veh {
 	float vel;//現在速度
 	float tar_vel;//目標速度
 	float tar_acc;//目標加速度
+	float buff_vel;//計算結果
 
 	float ang;//[rad] 現在車体角
 	float tar_ang;//[rad/s] 目標角速度
 	float rot_vel;//[rad/s] 現在角速度
 	float tar_rot_vel;//[rad/s] 目標角速度
 	float tar_rot_acc;//[rad/s^2] 目標角加速度
+	float buff_rot_vel;//計算結果
 
 	unsigned char end_flag; // 終了可否
 	unsigned char select_flag;//スラローム・直進選択

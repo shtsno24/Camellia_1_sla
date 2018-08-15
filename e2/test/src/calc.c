@@ -87,11 +87,10 @@ void calc_veh_vel() {
 	 * calculate vehicle's velocity
 	 * */
 	if (vehicle.vel <= vehicle.tar_vel) {
-		vehicle.vel += vehicle.tar_acc * 0.001;
+		vehicle.buff_vel = vehicle.vel + vehicle.tar_acc * 0.001;
 	} else if (vehicle.vel > vehicle.tar_vel) {
-		vehicle.vel -= vehicle.tar_acc * 0.001;
+		vehicle.buff_vel = vehicle.vel - vehicle.tar_acc * 0.001;
 	}
-
 }
 
 void calc_veh_rot_vel() {
@@ -99,9 +98,9 @@ void calc_veh_rot_vel() {
 	 * calculate vehicle's angular velocity
 	 * */
 	if (vehicle.rot_vel <= vehicle.tar_rot_vel) {
-		vehicle.rot_vel += vehicle.tar_rot_acc * 0.001;
+		vehicle.buff_rot_vel = vehicle.rot_vel + vehicle.tar_rot_acc * 0.001;
 	} else if (vehicle.rot_vel > vehicle.tar_rot_vel) {
-		vehicle.rot_vel -= vehicle.tar_rot_acc * 0.001;
+		vehicle.buff_rot_vel = vehicle.rot_vel - vehicle.tar_rot_acc * 0.001;
 	}
 }
 
@@ -109,9 +108,8 @@ void calc_2mot_vel() {
 	/*
 	 *  convert vehicle's velocity and angular velocity to motors' velocity
 	 * */
-	r_motor.tar_vel = vehicle.vel - spec.tread * vehicle.rot_vel / 2.0;
-	l_motor.tar_vel = vehicle.vel + spec.tread * vehicle.rot_vel / 2.0;
-
+	r_motor.tar_vel = vehicle.buff_vel - spec.tread * vehicle.buff_rot_vel / 2.0;
+	l_motor.tar_vel = vehicle.buff_vel - spec.tread * vehicle.buff_rot_vel / 2.0;
 }
 
 void calc_2vel() {
@@ -120,8 +118,8 @@ void calc_2vel() {
 	 *
 	 * */
 	vehicle.vel = (l_motor.vel + r_motor.vel) / 2;
-	vehicle.dist = (l_motor.dist + r_motor.dist) / 2;
 	vehicle.rot_vel = (l_motor.vel - r_motor.vel) / spec.tread;
+	vehicle.dist = (l_motor.dist + r_motor.dist) / 2;
 	vehicle.ang = (l_motor.dist - r_motor.dist) / spec.tread;
 }
 
@@ -148,6 +146,7 @@ void calc_dist_end() {
 	/*
 	 * raise end flag(sla_off)
 	 * */
+
 	if (fabs(vehicle.dist) >= fabs(vehicle.tar_dist)) {
 		vehicle.end_flag = 1;
 	}
@@ -157,6 +156,7 @@ void calc_ang_end() {
 	/*
 	 * raise end flag(sla_on)
 	 * */
+
 	if (fabs(vehicle.ang) >= fabs(vehicle.tar_ang)) {
 		vehicle.end_flag = 2;
 	}
@@ -166,6 +166,7 @@ void calc_vel() {
 	switch (vehicle.select_flag) {
 	case sla_on:
 		calc_veh_rot_vel();
+		calc_veh_vel();
 		calc_2mot_vel();
 		calc_mot_vel();
 		break;

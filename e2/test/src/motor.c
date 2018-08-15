@@ -125,6 +125,7 @@ void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
 		vehicle.tar_rot_vel = rot_vel;
 		vehicle.tar_rot_acc = rot_acc;
 		vehicle.ang = 0;
+
 		start_MTU(cst0);
 		start_MTU(cst1);
 
@@ -152,7 +153,7 @@ void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
 				deceleration = ang / 2.0;
 			}
 
-			if (direction == right) {
+			if (direction == left) {
 				deceleration *= -1;
 				ang *= -1;
 				rot_vel *= -1;
@@ -185,18 +186,19 @@ void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
 		l_motor.acc = mot_acc;
 		vehicle.dist = 0;
 		vehicle.ang = 0;
+
 		start_MTU(cst0);
 		start_MTU(cst1);
 		myprintf("%s\n",
-				"r_motor.vel, l_motor.vel, vehicle.rot_vel, vehicle.tar_rot_vel, vehicle.ang, vehicle.tar_ang");
+				"l_motor.tar_vel, r_motor.tar_vel, vehicle.rot_vel, vehicle.tar_rot_vel, vehicle.ang, vehicle.tar_ang");
 		while (vehicle.end_flag <= 0) {
-			myprintf("%f,%f,%f,%f,%f,%f\n", r_motor.vel, l_motor.vel,
+			myprintf("%f,%f,%f,%f,%f,%f\n", l_motor.tar_vel, r_motor.tar_vel,
 					vehicle.rot_vel / 3.141592 * 180.0,
 					vehicle.tar_rot_vel / 3.141592 * 180.0,
 					vehicle.ang / 3.141592 * 180.0,
 					vehicle.tar_ang / 3.141592 * 180.0);
 		}
-		drv_Status_LED(Green, on);
+
 		//代入(減速フェーズ)
 		if (vehicle.select_flag == sla_off) {
 			vehicle.end_flag = 0;
@@ -229,8 +231,9 @@ void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
 		l_motor.acc = mot_acc;
 		vehicle.dist = 0;
 		vehicle.ang = 0;
+
 		while (vehicle.end_flag <= 0) {
-			myprintf("%f,%f,%f,%f,%f,%f\n", r_motor.vel, l_motor.vel,
+			myprintf("%f,%f,%f,%f,%f,%f\n", l_motor.tar_vel, r_motor.tar_vel,
 					vehicle.rot_vel / 3.141592 * 180.0,
 					vehicle.tar_rot_vel / 3.141592 * 180.0,
 					vehicle.ang / 3.141592 * 180.0,
@@ -242,13 +245,13 @@ void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
 		l_motor.tar_vel = 0.0;
 		r_motor.vel = 0.0;
 		l_motor.vel = 0.0;
+
 		drv_Status_LED(Yerrow, on);
 		stop_MTU(cst0);
 		stop_MTU(cst1);
 		break;
 	}
 }
-
 void mot_app(float dist, float t_vel, int t_acc, char move_flag, char end_flag) {
 
 	int decel_dist;
@@ -325,7 +328,7 @@ void mot_app2(float dist, float t_vel, int t_acc, char move_flag, char end_flag)
 }
 
 void move_test(float angle, float omega) {
-	//mot_sla_app(180, 330, angle, omega, 1500, on);
+//mot_sla_app(180, 330, angle, omega, 1500, on);
 }
 
 void move_Left() {

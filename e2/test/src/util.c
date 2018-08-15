@@ -23,10 +23,12 @@ void init_Vehicle() {
 	vehicle.vel = 0.0;
 	vehicle.tar_vel = 0.0;
 	vehicle.tar_acc = 0.0;
+	vehicle.buff_vel = 0.0;
 	vehicle.ang = 0.0;
 	vehicle.tar_ang = 0.0;
 	vehicle.rot_vel = 0.0;
 	vehicle.tar_rot_vel = 0.0;
+	vehicle.buff_rot_vel = 0.0;
 	vehicle.tar_acc = 0.0;
 	vehicle.end_flag = 0;
 	vehicle.select_flag = 0;
@@ -36,8 +38,8 @@ void init_Vehicle() {
 }
 
 void init_Spec() {
-	spec.tread = 91.0;
-	spec.tire_dim = 51.6;
+	spec.tread = 91.0;//[mm]
+	spec.tire_dim = 51.6;//[mm]
 	spec.step_angle = 0.9; //[deg]
 	spec.step_dist = spec.tire_dim * 3.14159265 * (spec.step_angle / 360);//[mm]
 
