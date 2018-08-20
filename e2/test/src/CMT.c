@@ -111,6 +111,6 @@ void sen_cmt1(void) {
 
 	calc_diff();
 	calc_vel();
-	calc_2vel();
 	end_signal();
+//	calc_2vel();
 }

@@ -108,19 +108,10 @@ void calc_2mot_vel() {
 	/*
 	 *  convert vehicle's velocity and angular velocity to motors' velocity
 	 * */
-	r_motor.tar_vel = vehicle.buff_vel - spec.tread * vehicle.buff_rot_vel / 2.0;
-	l_motor.tar_vel = vehicle.buff_vel - spec.tread * vehicle.buff_rot_vel / 2.0;
-}
-
-void calc_2vel() {
-	/*
-	 * convert motors' velocity to vehicle's velocity and angular velocity
-	 *
-	 * */
-	vehicle.vel = (l_motor.vel + r_motor.vel) / 2;
-	vehicle.rot_vel = (l_motor.vel - r_motor.vel) / spec.tread;
-	vehicle.dist = (l_motor.dist + r_motor.dist) / 2;
-	vehicle.ang = (l_motor.dist - r_motor.dist) / spec.tread;
+	r_motor.tar_vel = vehicle.buff_vel
+			- spec.tread * vehicle.buff_rot_vel / 2.0;
+	l_motor.tar_vel = vehicle.buff_vel
+			+ spec.tread * vehicle.buff_rot_vel / 2.0;
 }
 
 void calc_mot_vel() {
@@ -140,6 +131,17 @@ void calc_mot_vel() {
 	} else if (r_motor.tar_vel - spec.kp_r * spec.diff <= r_motor.vel) {
 		r_motor.vel -= (r_motor.acc * 0.001);
 	}
+}
+
+void calc_2vel() {
+	/*
+	 * convert motors' velocity to vehicle's velocity and angular velocity
+	 *
+	 * */
+	vehicle.vel = (l_motor.tar_vel + r_motor.tar_vel) / 2;
+	vehicle.rot_vel = (l_motor.tar_vel - r_motor.tar_vel) / spec.tread;
+	vehicle.dist = (l_motor.dist + r_motor.dist) / 2;
+	vehicle.ang = (l_motor.dist - r_motor.dist) / spec.tread;
 }
 
 void calc_dist_end() {
@@ -163,28 +165,29 @@ void calc_ang_end() {
 }
 
 void calc_vel() {
-	switch (vehicle.select_flag) {
-	case sla_on:
-		calc_veh_rot_vel();
-		calc_veh_vel();
-		calc_2mot_vel();
-		calc_mot_vel();
-		break;
-	default:
-		calc_veh_vel();
-		calc_2mot_vel();
-		calc_mot_vel();
-		break;
-	}
+	calc_veh_rot_vel();
+	calc_veh_vel();
+
+	calc_2mot_vel();
+
+	calc_mot_vel();
+
+	calc_2vel();
 }
 
 void end_signal() {
 	switch (vehicle.select_flag) {
 	case sla_on:
-		calc_ang_end();
+//		calc_ang_end();
+		if (fabs(vehicle.ang) >= fabs(vehicle.tar_ang)) {
+			vehicle.end_flag = 2;
+		}
 		break;
 	default:
-		calc_dist_end();
+//		calc_dist_end();
+		if (fabs(vehicle.dist) >= fabs(vehicle.tar_dist)) {
+			vehicle.end_flag = 1;
+		}
 		break;
 	}
 }

@@ -8,11 +8,13 @@
 #include "util.h"
 #include "MTU.h"
 #include "motor.h"
+#include "LED.h"
 
 #define round(A)((int)(A + 0.5))
 
 extern SPC spec;
 extern MOT r_motor, l_motor;
+extern VEH vehicle;
 
 void init_MTU(void) {
 
@@ -110,13 +112,17 @@ void change_Duty_MTU20(void) {
 	 * write this function to interrupt_handlers.c
 	 * */
 
-	r_motor.duty = (int)(spec.step_dist / r_motor.vel * 25e+6);
+	r_motor.duty = (int) (spec.step_dist / r_motor.vel * 25e+6);
 	if (r_motor.duty < 0) {
 		PE.DRL.BIT.B1 = 1; //R_CW/CCW(0 : forward, 1 : backward)
 		r_motor.cnt--;
 	} else {
 		PE.DRL.BIT.B1 = 0; //R_CW/CCW(0 : forward, 1 : backward)
 		r_motor.cnt++;
+	}
+
+	if (vehicle.end_flag > 0) {
+		r_motor.cnt = 0;
 	}
 	r_motor.dist = spec.step_dist * r_motor.cnt;
 
@@ -137,13 +143,16 @@ void change_Duty_MTU21(void) {
 	 * this function operates L_motor
 	 * write this function to interrupt_handlers.c
 	 */
-	l_motor.duty = (int)(spec.step_dist / l_motor.vel * 25e+6);
+	l_motor.duty = (int) (spec.step_dist / l_motor.vel * 25e+6);
 	if (l_motor.duty < 0) {
 		PE.DRL.BIT.B5 = 0; //L_CW/CCW(1 : forward, 0 : backward)
 		l_motor.cnt--;
 	} else {
 		PE.DRL.BIT.B5 = 1; //L_CW/CCW(1 : forward, 0 : backward)
 		l_motor.cnt++;
+	}
+	if (vehicle.end_flag > 0) {
+		l_motor.cnt = 0;
 	}
 
 	l_motor.dist = spec.step_dist * l_motor.cnt;

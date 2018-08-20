@@ -113,8 +113,6 @@ void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
 		}
 		//代入(加速のみ)
 		vehicle.end_flag = 0;
-		r_motor.cnt = 0.0;
-		l_motor.cnt = 0.0;
 		r_motor.acc = mot_acc;
 		l_motor.acc = mot_acc;
 		vehicle.tar_dist = dist;
@@ -136,7 +134,7 @@ void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
 	case on:
 		if (vehicle.select_flag == sla_off) {
 			deceleration = (vel * vel - spec.motor_min_vel * spec.motor_min_vel)
-					/ (2 * acc);
+					/ (2.0 * acc);
 			if (deceleration >= dist) {
 				deceleration = dist / 2.0;
 			}
@@ -148,7 +146,7 @@ void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
 			}
 		} else {
 			deceleration = (rot_vel * rot_vel
-					- (0.5 * rot_vel) * (0.5 * rot_vel)) / (2 * rot_acc);
+					- (0.5 * rot_vel) * (0.5 * rot_vel)) / (2.0 * rot_acc);
 			if (deceleration >= ang) {
 				deceleration = ang / 2.0;
 			}
@@ -178,10 +176,7 @@ void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
 			vehicle.tar_rot_vel = rot_vel;
 			vehicle.tar_rot_acc = rot_acc;
 		}
-		r_motor.cnt = 0.0;
-		l_motor.cnt = 0.0;
-		r_motor.dist = 0.0;
-		l_motor.dist = 0.0;
+
 		r_motor.acc = mot_acc;
 		l_motor.acc = mot_acc;
 		vehicle.dist = 0;
@@ -190,13 +185,15 @@ void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
 		start_MTU(cst0);
 		start_MTU(cst1);
 		myprintf("%s\n",
-				"l_motor.tar_vel, r_motor.tar_vel, vehicle.rot_vel, vehicle.tar_rot_vel, vehicle.ang, vehicle.tar_ang");
-		while (vehicle.end_flag <= 0) {
+				"l_motor.tar_vel, r_motor.tar_vel, vehicle.vel, vehicle.tar_vel, vehicle.rot_vel, vehicle.tar_rot_vel");
+		while (1) {
+			if (vehicle.end_flag > 0) {
+				break;
+			}
 			myprintf("%f,%f,%f,%f,%f,%f\n", l_motor.tar_vel, r_motor.tar_vel,
-					vehicle.rot_vel / 3.141592 * 180.0,
-					vehicle.tar_rot_vel / 3.141592 * 180.0,
-					vehicle.ang / 3.141592 * 180.0,
-					vehicle.tar_ang / 3.141592 * 180.0);
+					vehicle.buff_vel, vehicle.tar_vel,
+					vehicle.buff_rot_vel / 3.141592 * 180.0,
+					vehicle.tar_rot_vel / 3.141592 * 180.0);
 		}
 
 		//代入(減速フェーズ)
@@ -223,21 +220,20 @@ void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
 			}
 			vehicle.tar_rot_acc = rot_acc;
 		}
-		r_motor.cnt = 0.0;
-		l_motor.cnt = 0.0;
-		r_motor.dist = 0.0;
-		l_motor.dist = 0.0;
+
 		r_motor.acc = mot_acc;
 		l_motor.acc = mot_acc;
 		vehicle.dist = 0;
 		vehicle.ang = 0;
 
-		while (vehicle.end_flag <= 0) {
+		while (1) {
+			if (vehicle.end_flag > 0) {
+				break;
+			}
 			myprintf("%f,%f,%f,%f,%f,%f\n", l_motor.tar_vel, r_motor.tar_vel,
-					vehicle.rot_vel / 3.141592 * 180.0,
-					vehicle.tar_rot_vel / 3.141592 * 180.0,
-					vehicle.ang / 3.141592 * 180.0,
-					vehicle.tar_ang / 3.141592 * 180.0);
+					vehicle.buff_vel, vehicle.tar_vel,
+					vehicle.buff_rot_vel / 3.141592 * 180.0,
+					vehicle.tar_rot_vel / 3.141592 * 180.0);
 		}
 		vehicle.tar_vel = 0.0;
 		vehicle.tar_rot_vel = 0.0;
@@ -246,12 +242,12 @@ void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
 		r_motor.vel = 0.0;
 		l_motor.vel = 0.0;
 
-		drv_Status_LED(Yerrow, on);
 		stop_MTU(cst0);
 		stop_MTU(cst1);
 		break;
 	}
 }
+
 void mot_app(float dist, float t_vel, int t_acc, char move_flag, char end_flag) {
 
 	int decel_dist;

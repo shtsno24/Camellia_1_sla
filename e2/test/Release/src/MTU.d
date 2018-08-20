@@ -1,5 +1,5 @@
 src/MTU.obj src/MTU.d: ../src/MTU.c ../src/iodefine.h ../src/util.h \
- ../src/MTU.h ../src/motor.h
+ ../src/MTU.h ../src/motor.h ../src/LED.h
 
 ../src/iodefine.h:
 
@@ -8,3 +8,5 @@ src/MTU.obj src/MTU.d: ../src/MTU.c ../src/iodefine.h ../src/util.h \
 ../src/MTU.h:
 
 ../src/motor.h:
+
+../src/LED.h:

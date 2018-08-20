@@ -328,16 +328,16 @@ int main(void) {
 			UX_effect(alart);
 			switch_Motor(on);
 			wait_ms(1000);
-			drv_Motor(0.0, 0.0, 0.0, 360.0, 600.0, 1000.0, 1000.0, on, right);
+			drv_Motor(0.0, 0.0, 0.0, 360.0, 600.0, 1000.0, 2000.0, on, right);
 			wait_ms(1000);
-			drv_Motor(0.0, 0.0, 0.0, 360.0, 600.0, 1000.0, 1000.0, on, left);
+			drv_Motor(0.0, 0.0, 0.0, 360.0, 600.0, 1000.0, 2000.0, on, left);
 			wait_ms(1000);
 			drv_Motor(500.0, 500.0, 1000.0, 0.0, 0.0, 0.0, 1000.0, on,
 					straight);
 			wait_ms(1000);
 			drv_Motor(500.0, 500.0, 1000.0, 0.0, 0.0, 0.0, 1000.0, on, back);
 			wait_ms(1000);
-			drv_Motor(0.0, 500.0, 1000.0, 90.0, 400.0, 1000.0, 1000.0, on, right);
+			drv_Motor(0.0, 300.0, 1000.0, 90.0, 600.0, 1000.0, 2000.0, on, right);
 			wait_ms(1000);
 			switch_Motor(off);
 			drv_Status_LED(Red, off);
