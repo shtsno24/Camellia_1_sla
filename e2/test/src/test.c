@@ -337,7 +337,7 @@ int main(void) {
 			wait_ms(1000);
 			drv_Motor(500.0, 500.0, 1000.0, 0.0, 0.0, 0.0, 1000.0, on, back);
 			wait_ms(1000);
-			drv_Motor(0.0, 300.0, 1000.0, 90.0, 600.0, 1000.0, 2000.0, on, right);
+			drv_Motor(0.0, 500.0, 1000.0, 90.0, 300.0, 500.0, 2000.0, on, right);
 			wait_ms(1000);
 			switch_Motor(off);
 			drv_Status_LED(Red, off);

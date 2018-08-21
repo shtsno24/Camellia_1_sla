@@ -1,6 +1,10 @@
-07:37:46 **** プロジェクト test に対する構成 Release の 逐次ビルド ****
+19:12:13 **** プロジェクト test に対する構成 Release の 逐次ビルド ****
 make all 
-'Build complete.'
+'Scanning and building file: ../src/motor.c'
+'Invoking: Scanner and Compiler'
+scandep1 -MM -MP -MF"src/motor.d" -MT"src/motor.obj" -MT"src/motor.d"   -I"C:\PROGRA~2\Renesas\Hew\Tools\Renesas\Sh\9_4_3/include" -D_SH   -D_SH2=1  -D_BIG=1 -D__STDC_VERSION__=199409L  -D__HITACHI__=1 -D__HITACHI_VERSION__=0x0904 -D_SH=1 -D__RENESAS__=1 -D__RENESAS_VERSION__=0x0904 -U_WIN32 -UWIN32 -U__WIN32__ -U__GNUC__ -U__GNUC_MINOR__ -U__GNUC_PATCHLEVEL__   -E -quiet -I. -C "../src/motor.c"
+shc -lang=c -object="src/motor.obj"  -include="C:\PROGRA~2\Renesas\Hew\Tools\Renesas\Sh\9_4_3/include"  -gbr=auto -opt_range=all -infinite_loop=0 -global_alloc=1 -global_volatile=0 -struct_alloc=1 -del_vacant_loop=0 -macsave=1 -cpu=sh2 -optimize=0 -nologo -chgincpath -errorpath  -define=_SH   "../src/motor.c"
+Command canceled
 
-07:37:46 ビルドが完了しました(所要時間 562ms)
+19:12:18 ビルドがキャンセルされました(所要時間 4s.318ms)
 
