@@ -116,19 +116,29 @@ void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
 		r_motor.acc = mot_acc;
 		l_motor.acc = mot_acc;
 		vehicle.tar_dist = dist;
-		vehicle.dist = 0;
 		vehicle.tar_vel = vel;
 		vehicle.tar_acc = acc;
 		vehicle.tar_ang = ang;
 		vehicle.tar_rot_vel = rot_vel;
 		vehicle.tar_rot_acc = rot_acc;
+		vehicle.dist = 0;
 		vehicle.ang = 0;
 
 		start_MTU(cst0);
 		start_MTU(cst1);
 
-		while (vehicle.end_flag <= 0)
-			;
+//		myprintf("%s\n",
+//				"l_motor.tar_vel, r_motor.tar_vel, vehicle.ang, vehicle.tar_ang, vehicle.rot_vel, vehicle.tar_rot_vel");
+		while (1) {
+			if (vehicle.end_flag > 0) {
+				break;
+			}
+			myprintf("%f,%f,%f,%f,%f,%f\n", l_motor.tar_vel, r_motor.tar_vel,
+					vehicle.ang / 3.141592 * 180.0,
+					vehicle.tar_ang / 3.141592 * 180.0,
+					vehicle.buff_rot_vel / 3.141592 * 180.0,
+					vehicle.tar_rot_vel / 3.141592 * 180.0);
+		}
 
 		break;
 	case on:
@@ -184,8 +194,8 @@ void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
 
 		start_MTU(cst0);
 		start_MTU(cst1);
-		myprintf("%s\n",
-				"l_motor.tar_vel, r_motor.tar_vel, vehicle.ang, vehicle.tar_ang, vehicle.rot_vel, vehicle.tar_rot_vel");
+//		myprintf("%s\n",
+//				"l_motor.tar_vel, r_motor.tar_vel, vehicle.ang, vehicle.tar_ang, vehicle.rot_vel, vehicle.tar_rot_vel");
 		while (1) {
 			if (vehicle.end_flag > 0) {
 				break;

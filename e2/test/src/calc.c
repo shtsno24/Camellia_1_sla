@@ -116,7 +116,7 @@ void calc_2mot_vel() {
 
 void calc_mot_vel() {
 	/*
-	 * follows motor velocity to target value
+	 * follow motor velocity to target value
 	 * */
 	if (l_motor.tar_vel + spec.kp_l * spec.diff > l_motor.vel) {
 		l_motor.vel += (l_motor.acc * 0.001);
