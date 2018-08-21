@@ -22,7 +22,7 @@ void init_Motor(void) {
 	 r_motor.max_acc = 1500;
 	 l_motor.max_acc = 1500;*/
 
-	spec.motor_max_acc = 1700;
+	spec.motor_max_acc = 2500;
 	spec.motor_max_vel = 1800;
 	spec.motor_min_acc = 0;
 	spec.motor_min_vel = 230;
@@ -155,7 +155,7 @@ void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
 				vel *= -1;
 			}
 		} else {
-			deceleration = (1 * 1 - 0.1 * 0.1) * rot_vel * rot_vel
+			deceleration = (1 * 1 - 0.01 * 0.01) * rot_vel * rot_vel
 					/ (2.0 * rot_acc);
 			if (deceleration > ang / 2.0) {
 				deceleration = ang / 2.0;
@@ -225,7 +225,7 @@ void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
 			vehicle.tar_vel = vel;
 			vehicle.tar_acc = acc;
 			vehicle.tar_ang = deceleration;
-			vehicle.tar_rot_vel = 0.1 * rot_vel;
+			vehicle.tar_rot_vel = 0.01 * rot_vel;
 			if (direction == left) {
 				vehicle.tar_rot_vel *= 1.0;
 			}

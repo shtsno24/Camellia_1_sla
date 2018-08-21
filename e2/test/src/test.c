@@ -82,7 +82,7 @@ int main(void) {
 	switch_Motor(off);
 
 	while (1) {
-		while (spec.batt < 11.3) {
+		while (spec.batt <= 11.3) {
 			get_Battery_Voltage();
 			myprintf("Low_battery\n");
 			UX_effect(error);
@@ -341,6 +341,15 @@ int main(void) {
 			wait_ms(1000);
 			drv_Motor(0.0, 500.0, 1000.0, 90.0, 300.0, 1000.0, 2000.0, on,
 					right);
+			wait_ms(1000);
+			drv_Motor(180.0, 500.0, 1000.0, 0.0, 0.0, 100.0, 1000.0, off,
+					straight);
+			drv_Motor(0.0, 500.0, 1000.0, 60.0, 300.0, 1500.0, 2500.0, off,
+					right);
+			drv_Motor(0.0, 500.0, 1000.0, 30.0, 0.0, 1500.0, 2500.0, off,
+								right);
+			drv_Motor(180.0, 500.0, 1000.0, 0.0, 0.0, 100.0, 1000.0, on,
+					straight);
 			wait_ms(1000);
 			switch_Motor(off);
 			drv_Status_LED(Red, off);
