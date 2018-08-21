@@ -140,8 +140,10 @@ void calc_2vel() {
 	 * */
 	vehicle.vel = (l_motor.tar_vel + r_motor.tar_vel) / 2;
 	vehicle.rot_vel = (l_motor.tar_vel - r_motor.tar_vel) / spec.tread;
-	vehicle.dist = (l_motor.dist + r_motor.dist) / 2;
-	vehicle.ang = (l_motor.dist - r_motor.dist) / spec.tread;
+//	vehicle.dist = (l_motor.dist + r_motor.dist) / 2;
+//	vehicle.ang = (l_motor.dist - r_motor.dist) / spec.tread;
+	vehicle.dist += vehicle.vel * 0.001;
+	vehicle.ang += vehicle.rot_vel * 0.001;
 }
 
 void calc_dist_end() {
