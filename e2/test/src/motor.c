@@ -340,90 +340,124 @@ void move_test(float angle, float omega) {
 }
 
 void move_Left() {
-	spec.kp_r -= 0.1;
-	spec.kp_l -= 0.1;
-	mot_app(spec.half_block, 330, 1700, straight, on);
-	wait_ms(100);
-	switch_Motor(off);
-	wait_ms(200);
-	switch_Motor(on);
-	wait_ms(100);
-	mot_app(spec.l_distance, 250, 1700, left, on);
-	wait_ms(100);
-	switch_Motor(off);
-	wait_ms(200);
-	switch_Motor(on);
-	wait_ms(100);
-	mot_app2(spec.half_block, 330, 1700, straight, on);
-	spec.kp_r += 0.1;
-	spec.kp_l += 0.1;
+	drv_Motor(90.0, 550.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, off, straight);
+	drv_Motor(0.0, 550.0, 1000.0, 120.0, 300.0, 1500.0, 2500.0, off, left);
+	drv_Motor(0.0, 550.0, 1000.0, 29.0, 0.0, 1500.0, 2500.0, off, left);
+	drv_Motor(90.0, 800.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, off, straight);
 }
 
 void move_Right() {
-	spec.kp_r -= 0.1;
-	spec.kp_l -= 0.1;
-	mot_app(spec.half_block, 330, 1700, straight, on);
-	wait_ms(100);
-	switch_Motor(off);
-	wait_ms(200);
-	switch_Motor(on);
-	wait_ms(100);
-	mot_app(spec.r_distance, 250, 1700, right, on);
-	wait_ms(10);
-	switch_Motor(off);
-	wait_ms(200);
-	switch_Motor(on);
-	wait_ms(100);
-	mot_app2(spec.half_block, 330, 1700, straight, on);
-	spec.kp_r += 0.1;
-	spec.kp_l += 0.1;
+	drv_Motor(90.0, 550.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, off, straight);
+	drv_Motor(0.0, 550.0, 1000.0, 120.0, 300.0, 1500.0, 2500.0, off, right);
+	drv_Motor(0.0, 550.0, 1000.0, 29.0, 0.0, 1500.0, 2500.0, off, right);
+	drv_Motor(90.0, 800.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, off, straight);
 }
 
 void move_Forward() {
-	spec.kp_r += 0.1;
-	spec.kp_l += 0.1;
-	mot_app2(spec.full_block, 330, 1700, straight, on);
-	spec.kp_r -= 0.1;
-	spec.kp_l -= 0.1;
+	drv_Motor(180.0, 550.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, off, straight);
 }
 
 void move_Backward() {
-	mot_app(spec.half_block, 330, 1700, straight, on);
-	wait_ms(100);
-	switch_Motor(off);
-	wait_ms(290);
-	switch_Motor(on);
-	wait_ms(100);
-	mot_app(spec.r_distance * 2, 250, 1700, right, on);
-	wait_ms(10);
-	switch_Motor(off);
-	wait_ms(200);
-	switch_Motor(on);
-	wait_ms(100);
-	mot_app(spec.half_block, 250, 1700, back, on);
-	wait_ms(100);
-	switch_Motor(off);
-	wait_ms(200);
-	switch_Motor(on);
-	wait_ms(200);
-	mot_app2(30 + spec.half_block, 330, 1500, straight, on);
+	drv_Motor(180.0, 550.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, on, straight);
+	wait_ms(500);
+	drv_Motor(0.0, 0.0, 0.0, 360.0, 600.0, 1000.0, 2000.0, on, left);
+	wait_ms(500);
+	drv_Motor(180.0, 550.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, on, straight);
 }
 
 void move_Backward_2() {
-	mot_app(spec.half_block, 330, 1700, straight, on);
-	wait_ms(100);
-	switch_Motor(off);
-	wait_ms(200);
-	switch_Motor(on);
-	wait_ms(100);
-	mot_app(spec.r_distance * 2, 250, 1700, right, on);
-	wait_ms(100);
-	switch_Motor(off);
-	wait_ms(200);
-	switch_Motor(on);
-	wait_ms(100);
-	mot_app2(spec.half_block, 330, 1700, straight, on);
+	drv_Motor(180.0, 550.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, on, straight);
+	wait_ms(500);
+	drv_Motor(0.0, 0.0, 0.0, 360.0, 600.0, 1000.0, 2000.0, on, left);
+	wait_ms(500);
+	drv_Motor(180.0, 550.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, on, straight);
 }
+
+//void move_Left() {
+//	spec.kp_r -= 0.1;
+//	spec.kp_l -= 0.1;
+//	mot_app(spec.half_block, 330, 1700, straight, on);
+//	wait_ms(100);
+//	switch_Motor(off);
+//	wait_ms(200);
+//	switch_Motor(on);
+//	wait_ms(100);
+//	mot_app(spec.l_distance, 250, 1700, left, on);
+//	wait_ms(100);
+//	switch_Motor(off);
+//	wait_ms(200);
+//	switch_Motor(on);
+//	wait_ms(100);
+//	mot_app2(spec.half_block, 330, 1700, straight, on);
+//	spec.kp_r += 0.1;
+//	spec.kp_l += 0.1;
+//}
+//
+//void move_Right() {
+//	spec.kp_r -= 0.1;
+//	spec.kp_l -= 0.1;
+//	mot_app(spec.half_block, 330, 1700, straight, on);
+//	wait_ms(100);
+//	switch_Motor(off);
+//	wait_ms(200);
+//	switch_Motor(on);
+//	wait_ms(100);
+//	mot_app(spec.r_distance, 250, 1700, right, on);
+//	wait_ms(10);
+//	switch_Motor(off);
+//	wait_ms(200);
+//	switch_Motor(on);
+//	wait_ms(100);
+//	mot_app2(spec.half_block, 330, 1700, straight, on);
+//	spec.kp_r += 0.1;
+//	spec.kp_l += 0.1;
+//}
+//
+//void move_Forward() {
+//	spec.kp_r += 0.1;
+//	spec.kp_l += 0.1;
+//	mot_app2(spec.full_block, 330, 1700, straight, on);
+//	spec.kp_r -= 0.1;
+//	spec.kp_l -= 0.1;
+//}
+//
+//void move_Backward() {
+//	mot_app(spec.half_block, 330, 1700, straight, on);
+//	wait_ms(100);
+//	switch_Motor(off);
+//	wait_ms(290);
+//	switch_Motor(on);
+//	wait_ms(100);
+//	mot_app(spec.r_distance * 2, 250, 1700, right, on);
+//	wait_ms(10);
+//	switch_Motor(off);
+//	wait_ms(200);
+//	switch_Motor(on);
+//	wait_ms(100);
+//	mot_app(spec.half_block, 250, 1700, back, on);
+//	wait_ms(100);
+//	switch_Motor(off);
+//	wait_ms(200);
+//	switch_Motor(on);
+//	wait_ms(200);
+//	mot_app2(30 + spec.half_block, 330, 1500, straight, on);
+//}
+//
+//void move_Backward_2() {
+//	mot_app(spec.half_block, 330, 1700, straight, on);
+//	wait_ms(100);
+//	switch_Motor(off);
+//	wait_ms(200);
+//	switch_Motor(on);
+//	wait_ms(100);
+//	mot_app(spec.r_distance * 2, 250, 1700, right, on);
+//	wait_ms(100);
+//	switch_Motor(off);
+//	wait_ms(200);
+//	switch_Motor(on);
+//	wait_ms(100);
+//	mot_app2(spec.half_block, 330, 1700, straight, on);
+//}
 
 // void drv_Motor(float dist, float t_vel, int t_acc, char rot_dir_flag,
 // char end_flag, char ch) {

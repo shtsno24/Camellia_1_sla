@@ -329,24 +329,37 @@ int main(void) {
 			switch_Motor(on);
 			myprintf("%s\n",
 					"l_motor.tar_vel, r_motor.tar_vel, vehicle.ang, vehicle.tar_ang, vehicle.rot_vel, vehicle.tar_rot_vel");
+//			wait_ms(1000);
+//			drv_Motor(0.0, 0.0, 0.0, 360.0, 600.0, 1000.0, 2000.0, on, right);
+//			wait_ms(1000);
+//			drv_Motor(0.0, 0.0, 0.0, 360.0, 600.0, 1000.0, 2000.0, on, left);
+//			wait_ms(1000);
+//			drv_Motor(500.0, 500.0, 1000.0, 0.0, 0.0, 0.0, 1000.0, on,
+//					straight);
+//			wait_ms(1000);
+//			drv_Motor(500.0, 500.0, 1000.0, 0.0, 0.0, 0.0, 1000.0, on, back);
+//			drv_Motor(180.0, 550.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, off,
+//					straight);
+//			drv_Motor(0.0, 550.0, 1000.0, 120.0, 300.0, 1500.0, 2500.0, off,
+//					left);
+//			drv_Motor(0.0, 550.0, 1000.0, 29.0, 0.0, 1500.0, 2500.0, off, left);
+//			drv_Motor(180.0, 550.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, off,
+//					straight);
+//			drv_Motor(0.0, 550.0, 1000.0, 120.0, 300.0, 1500.0, 2500.0, off,
+//					right);
+//			drv_Motor(0.0, 550.0, 1000.0, 29.0, 0.0, 1500.0, 2500.0, off,
+//					right);
+//			drv_Motor(180.0, 550.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, off,
+//					straight);
 			wait_ms(1000);
-			drv_Motor(0.0, 0.0, 0.0, 360.0, 600.0, 1000.0, 2000.0, on, right);
-			wait_ms(1000);
-			drv_Motor(0.0, 0.0, 0.0, 360.0, 600.0, 1000.0, 2000.0, on, left);
-			wait_ms(1000);
-			drv_Motor(500.0, 500.0, 1000.0, 0.0, 0.0, 0.0, 1000.0, on,
+			move_Left();
+			move_Left();
+			move_Right();
+			move_Right();
+			drv_Motor(270.0, 500.0, 1000.0, 0.0, 0.0, 0.0, 1000.0, on,
 					straight);
 			wait_ms(1000);
-			drv_Motor(500.0, 500.0, 1000.0, 0.0, 0.0, 0.0, 1000.0, on, back);
-			wait_ms(1000);
-
-			drv_Motor(180.0, 500.0, 1000.0, 0.0, 0.0, 100.0, 1000.0, off,
-					straight);
-			drv_Motor(0.0, 500.0, 1000.0, 60.0, 300.0, 1500.0, 2500.0, off,
-					right);
-			drv_Motor(0.0, 500.0, 1000.0, 30.0, 0.0, 1500.0, 2500.0, off,
-								right);
-			drv_Motor(180.0, 500.0, 1000.0, 0.0, 0.0, 100.0, 1000.0, on,
+			drv_Motor(1500.0, 1300.0, 1000.0, 0.0, 0.0, 0.0, 1500.0, on,
 					straight);
 			wait_ms(1000);
 			switch_Motor(off);
