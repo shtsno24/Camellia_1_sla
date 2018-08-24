@@ -47,10 +47,10 @@ void init_Spec() {
 	spec.pwm_half_clock = round((6250 - 1) / 2);
 	spec.r_distance = (int) ((90.0 / 180 * 3.141592) * (spec.tread / 2) - 2.6);
 	spec.l_distance = (int) ((90.0 / 180 * 3.141592) * (spec.tread / 2) - 2.6);
-	spec.full_block = 179.4;
-	spec.half_block = 92.2;
-	spec.kp_l = 0.3;
-	spec.kp_r = 0.3;
+	spec.full_block = 190.0;
+	spec.half_block = 100.0;
+	spec.kp_l = 0.6;
+	spec.kp_r = 0.6;
 	spec.cnt_ctl = 0;
 	spec.diff = 0.0;
 	spec.sta_LED_flag = 0;

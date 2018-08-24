@@ -22,13 +22,13 @@ void calc_diff(void) {
 	short ref_boost_L, ref_boost_R;
 
 	if (abs(r_sen.diff) > r_sen.diff_threshold) {
-		ref_boost_R = 80;  //変化量が一定以上なら、閾値を引き上げる
+		ref_boost_R = 0;  //変化量が一定以上なら、閾値を引き上げる
 	} else {
 		ref_boost_R = 0; //変化量が一定以下なら、設定通りの閾値
 	}
 
 	if (abs(l_sen.diff) > l_sen.diff_threshold) {
-		ref_boost_L = 80;  //変化量が一定以上なら、閾値を引き上げる
+		ref_boost_L = 0;  //変化量が一定以上なら、閾値を引き上げる
 	} else {
 		ref_boost_L = 0; //変化量が一定以下なら、設定通りの閾値
 	}
@@ -118,6 +118,9 @@ void calc_mot_vel() {
 	/*
 	 * follow motor velocity to target value
 	 * */
+	spec.kp_l = vehicle.vel * 0.0015;
+	spec.kp_r = vehicle.vel * 0.0015;
+
 	if (l_motor.tar_vel + spec.kp_l * spec.diff > l_motor.vel) {
 		l_motor.vel += (l_motor.acc * 0.001);
 

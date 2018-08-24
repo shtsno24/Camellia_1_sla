@@ -354,7 +354,7 @@ void move_Right() {
 }
 
 void move_Forward() {
-	drv_Motor(180.0, 550.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, off, straight);
+	drv_Motor(spec.full_block, 550.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, off, straight);
 }
 
 void move_Backward() {

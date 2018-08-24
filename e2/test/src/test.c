@@ -310,59 +310,45 @@ int main(void) {
 
 			 spec.sta_LED_flag = 0;
 			 */
-			/*
-			 UX_effect(alart);
-			 switch_Motor(on);
-			 wait_ms(100);
-			 move_test(0, 0);
-			 move_test(90, 200);
-			 move_test(0, 0);
-			 move_test(0, 0);
-			 move_test(-90, -200);
-			 move_test(0, 0);
-			 mot_app(spec.half_block, 300, 1000, straight, on);
-			 wait_ms(100);
-			 switch_Motor(off);*/
 
 			spec.sta_LED_flag = 0;
 			UX_effect(alart);
 			switch_Motor(on);
 			myprintf("%s\n",
 					"l_motor.tar_vel, r_motor.tar_vel, vehicle.ang, vehicle.tar_ang, vehicle.rot_vel, vehicle.tar_rot_vel");
-//			wait_ms(1000);
-//			drv_Motor(0.0, 0.0, 0.0, 360.0, 600.0, 1000.0, 2000.0, on, right);
-//			wait_ms(1000);
-//			drv_Motor(0.0, 0.0, 0.0, 360.0, 600.0, 1000.0, 2000.0, on, left);
-//			wait_ms(1000);
-//			drv_Motor(500.0, 500.0, 1000.0, 0.0, 0.0, 0.0, 1000.0, on,
-//					straight);
-//			wait_ms(1000);
-//			drv_Motor(500.0, 500.0, 1000.0, 0.0, 0.0, 0.0, 1000.0, on, back);
-//			drv_Motor(180.0, 550.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, off,
-//					straight);
-//			drv_Motor(0.0, 550.0, 1000.0, 120.0, 300.0, 1500.0, 2500.0, off,
-//					left);
-//			drv_Motor(0.0, 550.0, 1000.0, 29.0, 0.0, 1500.0, 2500.0, off, left);
-//			drv_Motor(180.0, 550.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, off,
-//					straight);
-//			drv_Motor(0.0, 550.0, 1000.0, 120.0, 300.0, 1500.0, 2500.0, off,
-//					right);
-//			drv_Motor(0.0, 550.0, 1000.0, 29.0, 0.0, 1500.0, 2500.0, off,
-//					right);
-//			drv_Motor(180.0, 550.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, off,
-//					straight);
 			wait_ms(1000);
-			move_Left();
-			move_Left();
-			move_Right();
-			move_Right();
-			drv_Motor(270.0, 500.0, 1000.0, 0.0, 0.0, 0.0, 1000.0, on,
-					straight);
+//			drv_Motor(spec.half_block, 300.0, 2000.0, 0.0, 0.0, 200.0, 1000.0,
+//					on, straight);
+//			wait_ms(300);
+//			switch_Motor(off);
+//
+//			while (PB.DR.BIT.B5 != 0)
+//				;
+//			switch_Motor(on);
+//			UX_effect(alart);
+//			wait_ms(1000);
+//			drv_Motor(spec.full_block, 300.0, 2000.0, 0.0, 0.0, 200.0, 1000.0,
+//					on, straight);
+//			wait_ms(300);
+//			switch_Motor(off);
+//
+//			while (PB.DR.BIT.B5 != 0)
+//				;
+			switch_Motor(on);
+			UX_effect(alart);
 			wait_ms(1000);
-			drv_Motor(1500.0, 1300.0, 1000.0, 0.0, 0.0, 0.0, 1500.0, on,
-					straight);
-			wait_ms(1000);
+			drv_Motor(spec.full_block * 14, 550.0, 1000.0, 0.0, 0.0, 200.0,
+					1000.0, on, straight);
+			wait_ms(300);
 			switch_Motor(off);
+//			move_Left();
+//			move_Left();
+//			move_Right();
+//			move_Right();
+//			drv_Motor(270.0, 500.0, 1000.0, 0.0, 0.0, 0.0, 1000.0, on,
+//					straight);
+//			drv_Motor(1500.0, 1300.0, 1000.0, 0.0, 0.0, 0.0, 1500.0, on,
+//					straight);
 			drv_Status_LED(Red, off);
 			drv_Status_LED(Green, off);
 
