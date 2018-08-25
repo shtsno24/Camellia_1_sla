@@ -359,7 +359,7 @@ int main(void) {
 			drv_Status_LED(Yerrow, on);
 			move_Left();
 			drv_Status_LED(Green, on);
-			move_Forward();
+//			move_Forward();
 			move_Right();
 			drv_Status_LED(Rst_status_LED, on);
 			move_Forward();
