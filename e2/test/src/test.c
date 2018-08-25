@@ -317,30 +317,31 @@ int main(void) {
 			myprintf("%s\n",
 					"l_motor.tar_vel, r_motor.tar_vel, vehicle.ang, vehicle.tar_ang, vehicle.rot_vel, vehicle.tar_rot_vel");
 			wait_ms(1000);
-//			drv_Motor(spec.half_block, 300.0, 2000.0, 0.0, 0.0, 200.0, 1000.0,
-//					on, straight);
-//			wait_ms(300);
-//			switch_Motor(off);
-//
+			drv_Motor(spec.half_block, 300.0, 2000.0, 0.0, 0.0, 200.0, 1000.0,
+					on, straight);
+			wait_ms(300);
+			switch_Motor(off);
+
+			while (PB.DR.BIT.B5 != 0)
+				;
+			switch_Motor(on);
+			UX_effect(alart);
+			wait_ms(1000);
+			drv_Motor(spec.full_block, 300.0, 2000.0, 0.0, 0.0, 200.0, 1000.0,
+					on, straight);
+			wait_ms(300);
+			switch_Motor(off);
+
 //			while (PB.DR.BIT.B5 != 0)
 //				;
 //			switch_Motor(on);
 //			UX_effect(alart);
 //			wait_ms(1000);
-//			drv_Motor(spec.full_block, 300.0, 2000.0, 0.0, 0.0, 200.0, 1000.0,
-//					on, straight);
+//			drv_Motor(spec.full_block * 14, 550.0, 1000.0, 0.0, 0.0, 200.0,
+//					1000.0, on, straight);
 //			wait_ms(300);
+
 //			switch_Motor(off);
-//
-//			while (PB.DR.BIT.B5 != 0)
-//				;
-			switch_Motor(on);
-			UX_effect(alart);
-			wait_ms(1000);
-			drv_Motor(spec.full_block * 14, 550.0, 1000.0, 0.0, 0.0, 200.0,
-					1000.0, on, straight);
-			wait_ms(300);
-			switch_Motor(off);
 //			move_Left();
 //			move_Left();
 //			move_Right();
