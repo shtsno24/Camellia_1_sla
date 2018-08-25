@@ -264,8 +264,6 @@ int main(void) {
 
 		case test:
 			/*
-			 spec.sta_LED_flag = 1;
-
 			 UX_effect(alart);
 			 switch_Motor(on);
 			 wait_ms(100);
@@ -311,38 +309,66 @@ int main(void) {
 			 spec.sta_LED_flag = 0;
 			 */
 
-			spec.sta_LED_flag = 0;
 			UX_effect(alart);
 			switch_Motor(on);
 			myprintf("%s\n",
 					"l_motor.tar_vel, r_motor.tar_vel, vehicle.ang, vehicle.tar_ang, vehicle.rot_vel, vehicle.tar_rot_vel");
+			spec.sta_LED_flag = 0;
 			wait_ms(1000);
-			drv_Motor(spec.half_block, 300.0, 2000.0, 0.0, 0.0, 200.0, 1000.0,
-					on, straight);
-			wait_ms(300);
-			switch_Motor(off);
-
-			while (PB.DR.BIT.B5 != 0)
-				;
-			switch_Motor(on);
-			UX_effect(alart);
-			wait_ms(1000);
-			drv_Motor(spec.full_block, 300.0, 2000.0, 0.0, 0.0, 200.0, 1000.0,
-					on, straight);
-			wait_ms(300);
-			switch_Motor(off);
-
+//			drv_Motor(spec.half_block, 550.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
+//					off, straight);
+//			drv_Motor(spec.half_block, 550.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
+//					off, straight);
+//			drv_Motor(spec.half_block, 550.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
+//					off, straight);
+//			drv_Motor(spec.half_block, 550.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
+//					on, straight);
+//			wait_ms(300);
+//			switch_Motor(off);
+//
 //			while (PB.DR.BIT.B5 != 0)
 //				;
 //			switch_Motor(on);
 //			UX_effect(alart);
 //			wait_ms(1000);
-//			drv_Motor(spec.full_block * 14, 550.0, 1000.0, 0.0, 0.0, 200.0,
-//					1000.0, on, straight);
+//			drv_Motor(spec.full_block, 550.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
+//					off, straight);
+//			drv_Motor(spec.full_block, 550.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
+//					on, straight);
 //			wait_ms(300);
-
 //			switch_Motor(off);
-//			move_Left();
+//
+//			while (PB.DR.BIT.B5 != 0)
+//				;
+//			switch_Motor(on);
+//			UX_effect(alart);
+//			wait_ms(1000);
+//			drv_Motor(spec.half_block, 550.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
+//					off, straight);
+//			drv_Motor(spec.full_block * 14, 550.0, 1000.0, 0.0, 0.0, 200.0,
+//					1000.0, off, straight);
+//			drv_Motor(spec.half_block, 550.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
+//					on, straight);
+//			wait_ms(300);
+//			switch_Motor(off);
+
+			drv_Motor(spec.half_block, 500.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
+					off, straight);
+			drv_Status_LED(Red, on);
+			move_Forward();
+			drv_Status_LED(Yerrow, on);
+			move_Left();
+			drv_Status_LED(Green, on);
+			move_Forward();
+			move_Right();
+			drv_Status_LED(Rst_status_LED, on);
+			move_Forward();
+			drv_Motor(spec.half_block, 300.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
+					on, straight);
+
+			wait_ms(300);
+			switch_Motor(off);
+
 //			move_Left();
 //			move_Right();
 //			move_Right();
@@ -352,6 +378,8 @@ int main(void) {
 //					straight);
 			drv_Status_LED(Red, off);
 			drv_Status_LED(Green, off);
+
+			spec.sta_LED_flag = 0;
 
 			break;
 		}

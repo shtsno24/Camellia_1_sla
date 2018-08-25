@@ -157,8 +157,8 @@ void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
 		} else {
 			deceleration = (1 * 1 - 0.01 * 0.01) * rot_vel * rot_vel
 					/ (2.0 * rot_acc);
-			if (deceleration > ang / 2.0) {
-				deceleration = ang / 2.0;
+			if (deceleration > ang / 1.9) {
+				deceleration = ang / 1.9;
 			}
 			acceleration = ang - deceleration;
 			if (direction == left) {
@@ -340,21 +340,22 @@ void move_test(float angle, float omega) {
 }
 
 void move_Left() {
-	drv_Motor(90.0, 550.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, off, straight);
-	drv_Motor(0.0, 550.0, 1000.0, 120.0, 300.0, 1500.0, 2500.0, off, left);
-	drv_Motor(0.0, 550.0, 1000.0, 29.0, 0.0, 1500.0, 2500.0, off, left);
-	drv_Motor(90.0, 800.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, off, straight);
+//	drv_Motor(10.0, 500.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, off, straight);
+	drv_Motor(0.0, 410.0, 1000.0, 90.0, 400.0, 1900.0, 2500.0, off, left);
+	drv_Motor(0.0, 425.0, 1000.0, 41.0, 4.0, 1900.0, 2500.0, off, left);
+//	drv_Motor(90.0, 550.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, off, straight);
 }
 
 void move_Right() {
-	drv_Motor(90.0, 550.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, off, straight);
-	drv_Motor(0.0, 550.0, 1000.0, 120.0, 300.0, 1500.0, 2500.0, off, right);
-	drv_Motor(0.0, 550.0, 1000.0, 29.0, 0.0, 1500.0, 2500.0, off, right);
-	drv_Motor(90.0, 800.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, off, straight);
+//	drv_Motor(90.0, 500.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, off, straight);
+	drv_Motor(0.0, 415.0, 1000.0, 80.0, 400.0, 1900.0, 2500.0, off, right);
+	drv_Motor(0.0, 425.0, 1000.0, 41.0, 4.0, 1900.0, 2500.0, off, right);
+//	drv_Motor(90.0, 500.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, off, straight);
 }
 
 void move_Forward() {
-	drv_Motor(spec.full_block, 550.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, off, straight);
+	drv_Motor(spec.full_block, 500.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, off,
+			straight);
 }
 
 void move_Backward() {

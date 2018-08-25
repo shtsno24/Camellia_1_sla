@@ -87,7 +87,7 @@ void sen_cmt1(void) {
 	l_sen.sen = get_Sensor(L_sen, ad_0);		//L sensor
 	drv_Sensor_LED(L_LED, off);
 
-	for (i = 0; i < 400; i++)
+	for (i = 0; i < 450; i++)
 		;
 	cr_sen.sen = cr_sen.sen - get_Sensor(CR_sen, ad_0);		//CR sensor
 	cl_sen.sen = cl_sen.sen - get_Sensor(CL_sen, ad_0);		//CL sensor
