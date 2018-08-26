@@ -343,7 +343,7 @@ void move_Left() {
 //	drv_Motor(1.0, 410.0, 1000.0, 0.0, 0.0, 10.0, 1000.0, off, straight);
 	drv_Motor(0.0, 410.0, 1000.0, 82.4, 400.0, 1900.0, 2500.0, off, left);
 //	drv_Status_LED(Red, on);
-	drv_Motor(0.0, 450.0, 1000.0, 38.5, 4.0, 1900.0, 2500.0, off, left);
+	drv_Motor(0.0, 450.0, 1000.0, 38.5, 4.0, 2000.0, 2500.0, off, left);
 //	drv_Status_LED(Green, on);
 	drv_Motor(4.0, 410.0, 1000.0, 0.0, 0.0, 10.0, 1000.0, off, straight);
 //	drv_Status_LED(Rst_status_LED, off);
@@ -353,7 +353,7 @@ void move_Right() {
 //	drv_Motor(1.0, 410.0, 1000.0, 0.0, 0.0, 10.0, 1000.0, off, straight);
 	drv_Motor(0.0, 410.0, 1000.0, 82.4, 400.0, 1900.0, 2500.0, off, right);
 //	drv_Status_LED(Red, on);
-	drv_Motor(0.0, 450.0, 1000.0, 38.5, 4.0, 1900.0, 2500.0, off, right);
+	drv_Motor(0.0, 450.0, 1000.0, 38.5, 4.0, 2000.0, 2500.0, off, right);
 //	drv_Status_LED(Green, on);
 	drv_Motor(4.0, 410.0, 1000.0, 0.0, 0.0, 10.0, 1000.0, off, straight);
 //	drv_Status_LED(Rst_status_LED, off);
@@ -365,19 +365,25 @@ void move_Forward() {
 }
 
 void move_Backward() {
-	drv_Motor(180.0, 550.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, on, straight);
+	drv_Motor(spec.half_block - 10, 300.0, 1000.0, 0.0, 0.0, 10.0, 1000.0, on,
+			straight);
+	wait_ms(10000);
+	drv_Motor(0.0, 0.0, 0.0, 90.0, 600.0, 1000.0, 2000.0, off, left);
+	drv_Motor(0.0, 0.0, 0.0, 90.0, 6.0, 1000.0, 2000.0, off, left);
+	drv_Motor(0.0, 0.0, 0.0, 0.0, 0.0, 1000.0, 2000.0, on, left);
 	wait_ms(500);
-	drv_Motor(0.0, 0.0, 0.0, 360.0, 600.0, 1000.0, 2000.0, on, left);
-	wait_ms(500);
-	drv_Motor(180.0, 550.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, on, straight);
+	drv_Motor(spec.half_block - 10, 300.0, 1000.0, 0.0, 0.0, 10.0, 1000.0, on,
+			straight);
 }
 
 void move_Backward_2() {
-	drv_Motor(180.0, 550.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, on, straight);
+	drv_Motor(spec.half_block - 10, 300.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, on,
+			straight);
+	wait_ms(10000);
+	drv_Motor(0.0, 0.0, 0.0, 180.0, 600.0, 2000.0, 2000.0, on, left);
 	wait_ms(500);
-	drv_Motor(0.0, 0.0, 0.0, 360.0, 600.0, 1000.0, 2000.0, on, left);
-	wait_ms(500);
-	drv_Motor(180.0, 550.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, on, straight);
+	drv_Motor(spec.half_block - 10, 300.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, on,
+			straight);
 }
 
 //void move_Left() {

@@ -172,11 +172,8 @@ void calc_ang_end() {
 void calc_vel() {
 	calc_veh_rot_vel();
 	calc_veh_vel();
-
 	calc_2mot_vel();
-
 	calc_mot_vel();
-
 	calc_2vel();
 }
 
