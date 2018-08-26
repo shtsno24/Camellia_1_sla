@@ -118,8 +118,8 @@ void calc_mot_vel() {
 	/*
 	 * follow motor velocity to target value
 	 * */
-	spec.kp_l = vehicle.vel * 0.0015;
-	spec.kp_r = vehicle.vel * 0.0015;
+	spec.kp_l = vehicle.vel * 0.0005;
+	spec.kp_r = vehicle.vel * 0.0005;
 
 	if (l_motor.tar_vel + spec.kp_l * spec.diff > l_motor.vel) {
 		l_motor.vel += (l_motor.acc * 0.001);
