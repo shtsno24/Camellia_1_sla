@@ -55,6 +55,12 @@ void mot_sla_app(float, float, float, float, float, int, char);
 
 void move_test(float, float);
 
+void move_Left_500(void);
+
+void move_Forward_500(void);
+
+void move_Right_500(void);
+
 void move_Left(void);
 
 void move_Right(void);

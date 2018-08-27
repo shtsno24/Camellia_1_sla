@@ -1,4 +1,4 @@
-Optimizing Linkage Editor (V.10.02.01.000)        26-Aug-2018 15:02:49
+Optimizing Linkage Editor (V.10.02.01.000)        27-Aug-2018 13:34:40
 
 *** Options ***
 
@@ -46,15 +46,15 @@ PIntPRG
 PResetPRG
                                   00000800  0000082f        30   4
 P
-                                  00001000  0000d3af      c3b0   4
+                                  00001000  0000d56b      c56c   4
 C
-                                  0000d3b0  0000d80b       45c   4
+                                  0000d56c  0000d9c7       45c   4
 C$BSEC
-                                  0000d80c  0000d813         8   4
+                                  0000d9c8  0000d9cf         8   4
 C$DSEC
-                                  0000d814  0000d81f         c   4
+                                  0000d9d0  0000d9db         c   4
 D
-                                  0000d820  0000d823         4   4
+                                  0000d9dc  0000d9df         4   4
 B
                                   ffffa000  ffffaa1b       a1c   4
 R
