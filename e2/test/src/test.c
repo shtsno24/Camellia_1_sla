@@ -114,7 +114,7 @@ int main(void) {
 			switch_Motor(on);
 			wait_ms(100);
 //			mot_app2(spec.half_block, 330, 2000, straight, on);
-			drv_Motor(spec.half_block, 400.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
+			drv_Motor(spec.half_block, 410.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
 					off, straight);
 
 			while (spec.run_interruption != 1) {
@@ -125,13 +125,13 @@ int main(void) {
 
 				if (map.tmp_path == 1) {
 					map.direction += 1;
-					move_Right();
+					move_Right_500();
 				} else if (map.tmp_path == 3) {
 					map.direction += 3;
-					move_Left();
+					move_Left_500();
 				} else if (map.tmp_path == 0) {
 					map.direction += 0;
-					move_Forward();
+					move_Forward_500();
 				} else if (map.tmp_path == 2) {
 					map.direction += 2;
 					if (map.wall == 7 || map.wall == 11 || map.wall == 13
@@ -151,7 +151,7 @@ int main(void) {
 			update_Wall_map();
 //			mot_app(spec.half_block, 330, 2000, straight, on);
 			drv_Motor(spec.half_block, 300.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
-								on, straight);
+					on, straight);
 			wait_ms(300);
 			switch_Motor(off);
 			spec.sta_LED_flag = 0;
@@ -356,23 +356,21 @@ int main(void) {
 //			wait_ms(300);
 //			switch_Motor(off);
 
-			drv_Motor(spec.half_block, 500.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
+			drv_Motor(spec.half_block, 410.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
 					off, straight);
 			drv_Status_LED(Red, on);
-			move_Forward_500();
-			drv_Status_LED(Yerrow, on);
-			move_Left_500();
-			drv_Status_LED(Green, on);
-			move_Left_500();
-			drv_Status_LED(Rst_status_LED, off);
-			move_Forward_500();
-			drv_Status_LED(Red, on);
-			move_Right_500();
-			drv_Status_LED(Yerrow, on);
-			move_Right_500();
-			drv_Status_LED(Green, on);
-			move_Forward_500();
-			drv_Status_LED(Rst_status_LED, off);
+//			drv_Status_LED(Red, on);
+//			move_Forward_500();
+//			drv_Status_LED(Green, on);
+//			move_Left_500();
+//			drv_Status_LED(Rst_status_LED, off);
+//			move_Forward_500();
+//			move_Forward_500();
+//			drv_Status_LED(Red, on);
+//			move_Right_500();
+//			drv_Status_LED(Green, on);
+//			move_Forward_500();
+//			drv_Status_LED(Rst_status_LED, off);
 			drv_Motor(spec.half_block, 300.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
 					on, straight);
 

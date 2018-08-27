@@ -341,28 +341,30 @@ void move_test(float angle, float omega) {
 
 void move_Left_500() {
 	drv_Status_LED(Rst_status_LED, off);
-	drv_Motor(20.0, 400.0, 1000.0, 0.0, 0.0, 10.0, 1000.0, off, straight);
+	drv_Motor(22.5, 410.0, 1000.0, 0.0, 0.0, 10.0, 1000.0, off, straight);
 	drv_Status_LED(Yerrow, on);
-	drv_Motor(0.0, 400.0, 1000.0, 93.25, 400.0, 5000.0, 5000.0, off, left);
+	drv_Motor(0.0, 410.0, 1000.0, 100.0, 400.0, 9000.0, 5000.0, off, left);
 	drv_Status_LED(Red, on);
-	drv_Motor(0.0, 400.0, 1000.0, 15.75, 2.0, 5000.0, 5000.0, off, left);
+	drv_Motor(0.0, 410.0, 1000.0, 8.7, 5.0, 9000.0, 5000.0, off, left);
 	drv_Status_LED(Green, on);
-	drv_Motor(45.0, 400.0, 1000.0, 0.0, 0.0, 10.0, 1000.0, off, straight);
+	drv_Motor(22.5, 410.0, 1000.0, 0.0, 0.0, 10.0, 1000.0, off, straight);
 	drv_Status_LED(Rst_status_LED, off);
 }
 
 void move_Forward_500() {
-	drv_Motor(spec.full_block, 400.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, off,
+	drv_Motor(spec.full_block, 450.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, off,
 			straight);
 }
 
 void move_Right_500() {
-//	drv_Motor(1.0, 410.0, 1000.0, 0.0, 0.0, 10.0, 1000.0, off, straight);
-	drv_Motor(0.0, 400.0, 1000.0, 100.4, 400.0, 5000.0, 5000.0, off, right);
+	drv_Status_LED(Rst_status_LED, off);
+	drv_Motor(22.5, 410.0, 1000.0, 0.0, 0.0, 10.0, 1000.0, off, straight);
+	drv_Status_LED(Yerrow, on);
+	drv_Motor(0.0, 410.0, 1000.0, 97.25, 400.0, 9000.0, 5000.0, off, right);
 	drv_Status_LED(Red, on);
-	drv_Motor(0.0, 400.0, 1000.0, 8.5, 4.0, 5000.0, 5000.0, off, right);
+	drv_Motor(0.0, 410.0, 1000.0, 8.7, 5.0, 9000.0, 5000.0, off, right);
 	drv_Status_LED(Green, on);
-	drv_Motor(4.0, 400.0, 1000.0, 0.0, 0.0, 10.0, 1000.0, off, straight);
+	drv_Motor(22.5, 410.0, 1000.0, 0.0, 0.0, 10.0, 1000.0, off, straight);
 	drv_Status_LED(Rst_status_LED, off);
 }
 
