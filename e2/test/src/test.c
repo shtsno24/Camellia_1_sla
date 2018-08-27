@@ -359,18 +359,17 @@ int main(void) {
 			drv_Motor(spec.half_block, 410.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
 					off, straight);
 			drv_Status_LED(Red, on);
-//			drv_Status_LED(Red, on);
-//			move_Forward_500();
-//			drv_Status_LED(Green, on);
-//			move_Left_500();
-//			drv_Status_LED(Rst_status_LED, off);
-//			move_Forward_500();
-//			move_Forward_500();
-//			drv_Status_LED(Red, on);
-//			move_Right_500();
-//			drv_Status_LED(Green, on);
-//			move_Forward_500();
-//			drv_Status_LED(Rst_status_LED, off);
+			move_Forward_500();
+			drv_Status_LED(Green, on);
+			move_Left_500();
+			drv_Status_LED(Rst_status_LED, off);
+			move_Forward_500();
+			move_Forward_500();
+			drv_Status_LED(Red, on);
+			move_Right_500();
+			drv_Status_LED(Green, on);
+			move_Forward_500();
+			drv_Status_LED(Rst_status_LED, off);
 			drv_Motor(spec.half_block, 300.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
 					on, straight);
 
