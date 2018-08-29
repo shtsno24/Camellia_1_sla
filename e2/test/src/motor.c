@@ -127,8 +127,6 @@ void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
 		start_MTU(cst0);
 		start_MTU(cst1);
 
-//		myprintf("%s\n",
-//				"l_motor.tar_vel, r_motor.tar_vel, vehicle.ang, vehicle.tar_ang, vehicle.rot_vel, vehicle.tar_rot_vel");
 		while (1) {
 			if (vehicle.end_flag > 0) {
 				break;
@@ -341,30 +339,30 @@ void move_test(float angle, float omega) {
 
 void move_Left_500() {
 	drv_Status_LED(Rst_status_LED, off);
-	drv_Motor(22.5, 410.0, 1000.0, 0.0, 0.0, 10.0, 1000.0, off, straight);
+	drv_Motor(23.0, 410.0, 1000.0, 0.0, 0.0, 10.0, 1000.0, off, straight);
 	drv_Status_LED(Yerrow, on);
 	drv_Motor(0.0, 410.0, 1000.0, 100.0, 400.0, 9000.0, 5000.0, off, left);
 	drv_Status_LED(Red, on);
 	drv_Motor(0.0, 410.0, 1000.0, 8.7, 5.0, 9000.0, 5000.0, off, left);
 	drv_Status_LED(Green, on);
-	drv_Motor(22.5, 410.0, 1000.0, 0.0, 0.0, 10.0, 1000.0, off, straight);
+	drv_Motor(30.0, 410.0, 1000.0, 0.0, 0.0, 10.0, 1000.0, off, straight);
 	drv_Status_LED(Rst_status_LED, off);
 }
 
 void move_Forward_500() {
-	drv_Motor(spec.full_block, 450.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, off,
+	drv_Motor(spec.full_block, 410.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, off,
 			straight);
 }
 
 void move_Right_500() {
 	drv_Status_LED(Rst_status_LED, off);
-	drv_Motor(22.5, 410.0, 1000.0, 0.0, 0.0, 10.0, 1000.0, off, straight);
+	drv_Motor(23.0, 410.0, 1000.0, 0.0, 0.0, 10.0, 1000.0, off, straight);
 	drv_Status_LED(Yerrow, on);
-	drv_Motor(0.0, 410.0, 1000.0, 97.25, 400.0, 9000.0, 5000.0, off, right);
+	drv_Motor(0.0, 410.0, 1000.0, 100.0, 400.0, 9000.0, 5000.0, off, right);
 	drv_Status_LED(Red, on);
 	drv_Motor(0.0, 410.0, 1000.0, 8.7, 5.0, 9000.0, 5000.0, off, right);
 	drv_Status_LED(Green, on);
-	drv_Motor(22.5, 410.0, 1000.0, 0.0, 0.0, 10.0, 1000.0, off, straight);
+	drv_Motor(30.0, 410.0, 1000.0, 0.0, 0.0, 10.0, 1000.0, off, straight);
 	drv_Status_LED(Rst_status_LED, off);
 }
 
@@ -394,25 +392,37 @@ void move_Forward() {
 }
 
 void move_Backward() {
-	drv_Motor(spec.half_block - 10, 300.0, 1000.0, 0.0, 0.0, 10.0, 1000.0, on,
+	drv_Status_LED(Rst_status_LED, off);
+	drv_Motor(spec.half_block - 10, 410.0, 1000.0, 0.0, 0.0, 10.0, 1000.0, on,
 			straight);
-	wait_ms(10000);
-	drv_Motor(0.0, 0.0, 0.0, 90.0, 600.0, 1000.0, 2000.0, off, left);
-	drv_Motor(0.0, 0.0, 0.0, 90.0, 6.0, 1000.0, 2000.0, off, left);
-	drv_Motor(0.0, 0.0, 0.0, 0.0, 0.0, 1000.0, 2000.0, on, left);
-	wait_ms(500);
-	drv_Motor(spec.half_block - 10, 300.0, 1000.0, 0.0, 0.0, 10.0, 1000.0, on,
+	wait_ms(1000);
+	drv_Status_LED(Red, on);
+	drv_Motor(0.0, 0.0, 0.0, 158.0, 400.0, 3000.0, 2000.0, off, left);
+	drv_Status_LED(Green, on);
+	drv_Motor(0.0, 0.0, 0.0, 25.0, 1.0, 3000.0, 2000.0, on, left);
+	drv_Status_LED(Rst_status_LED, off);
+	wait_ms(1000);
+	drv_Status_LED(Red, on);
+	drv_Motor(spec.half_block - 10, 410.0, 1000.0, 0.0, 0.0, 10.0, 1000.0, off,
 			straight);
+	drv_Status_LED(Rst_status_LED, off);
 }
 
 void move_Backward_2() {
-	drv_Motor(spec.half_block - 10, 300.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, on,
+	drv_Status_LED(Rst_status_LED, off);
+	drv_Motor(spec.half_block - 10, 410.0, 1000.0, 0.0, 0.0, 10.0, 1000.0, on,
 			straight);
-	wait_ms(10000);
-	drv_Motor(0.0, 0.0, 0.0, 180.0, 600.0, 2000.0, 2000.0, on, left);
-	wait_ms(500);
-	drv_Motor(spec.half_block - 10, 300.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, on,
+	wait_ms(1000);
+	drv_Status_LED(Red, on);
+	drv_Motor(0.0, 0.0, 0.0, 158.0, 400.0, 3000.0, 2000.0, off, left);
+	drv_Status_LED(Green, on);
+	drv_Motor(0.0, 0.0, 0.0, 25.0, 1.0, 3000.0, 2000.0, on, left);
+	drv_Status_LED(Rst_status_LED, off);
+	wait_ms(1000);
+	drv_Status_LED(Red, on);
+	drv_Motor(spec.half_block - 10, 410.0, 1000.0, 0.0, 0.0, 10.0, 1000.0, off,
 			straight);
+	drv_Status_LED(Rst_status_LED, off);
 }
 
 //void move_Left() {

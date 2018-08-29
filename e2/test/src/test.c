@@ -360,19 +360,25 @@ int main(void) {
 					off, straight);
 			drv_Status_LED(Red, on);
 			move_Forward_500();
-			drv_Status_LED(Green, on);
-			move_Left_500();
+//			drv_Status_LED(Green, on);
+//			move_Right_500();
+//			move_Forward_500();
+//			drv_Status_LED(Rst_status_LED, off);
+//			move_Forward_500();
+//			drv_Status_LED(Red, on);
+//			move_Forward_500();
+//			drv_Status_LED(Green, on);
+//			drv_Status_LED(Red, on);
+//			move_Right_500();
+//			drv_Status_LED(Green, on);
+//			move_Forward_500();
+//			drv_Status_LED(Rst_status_LED, off);
+
 			drv_Status_LED(Rst_status_LED, off);
+			move_Backward();
 			move_Forward_500();
-			move_Forward_500();
-			drv_Status_LED(Red, on);
-			move_Right_500();
-			drv_Status_LED(Green, on);
-			move_Forward_500();
-			drv_Status_LED(Rst_status_LED, off);
 			drv_Motor(spec.half_block, 300.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
 					on, straight);
-
 			wait_ms(300);
 			switch_Motor(off);
 

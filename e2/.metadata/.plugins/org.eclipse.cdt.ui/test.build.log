@@ -1,45 +1,6 @@
-15:44:50 **** プロジェクト test に対する構成 Release の 逐次ビルド ****
+12:31:48 **** プロジェクト test に対する構成 Release の 逐次ビルド ****
 make all 
-'Scanning and building file: ../src/test.c'
-'Invoking: Scanner and Compiler'
-scandep1 -MM -MP -MF"src/test.d" -MT"src/test.obj" -MT"src/test.d"   -I"C:\PROGRA~2\Renesas\Hew\Tools\Renesas\Sh\9_4_3/include" -D_SH   -D_SH2=1  -D_BIG=1 -D__STDC_VERSION__=199409L  -D__HITACHI__=1 -D__HITACHI_VERSION__=0x0904 -D_SH=1 -D__RENESAS__=1 -D__RENESAS_VERSION__=0x0904 -U_WIN32 -UWIN32 -U__WIN32__ -U__GNUC__ -U__GNUC_MINOR__ -U__GNUC_PATCHLEVEL__   -E -quiet -I. -C "../src/test.c"
-shc -lang=c -object="src/test.obj"  -include="C:\PROGRA~2\Renesas\Hew\Tools\Renesas\Sh\9_4_3/include"  -gbr=auto -opt_range=all -infinite_loop=0 -global_alloc=1 -global_volatile=0 -struct_alloc=1 -del_vacant_loop=0 -macsave=1 -cpu=sh2 -optimize=0 -nologo -chgincpath -errorpath  -define=_SH   "../src/test.c"
-C:\D\mice\Camellia_2\Camellia_1_sla\e2\test\src\iodefine.h(12) : C1405 (W) Illegal #pragma syntax
-'Finished scanning and building: ../src/test.c'
-
-'Invoking: Linker'
-'Building target:'
-optlnk  -subcommand="LinkerSubCommand.tmp"  -library="C:\D\mice\CAMELL~3\Camellia_1_sla\e2\test\Release\test.lib" -noprelink -list="test.map" -nooptimize -nodebug -output="C:\D\mice\Camellia_2\Camellia_1_sla\e2\test\Release\test.abs" -rom=D=R -nomessage -nologo
-Software license problem:
-	Duration of Trial License of UNKNOWN is exhausted. (37)
-Maximum link size limited to 256KB code+data.
-
-Optimizing Linkage Editor Completed
-'Finished building:'
-
-'Invoking: Converter'
-optlnk   "C:\D\mice\Camellia_2\Camellia_1_sla\e2\test\Release\test.abs" -form=stype  -output="C:\D\mice\Camellia_2\Camellia_1_sla\e2\test\Release\test.mot"
-
-Optimizing Linkage Editor V.10.02.01.000
-Copyright (C) 1989 (1989 - 2013) Renesas Electronics Corporation and
-Renesas Solutions Corp. All rights reserved.
-SentinelRMS (C) 1989-2010 SafeNet, Inc. All rights reserved.
-Software license problem:
-	Duration of Trial License of UNKNOWN is exhausted. (37)
-
-Optimizing Linkage Editor Completed
-'Finished building target:'
-
-make --no-print-directory post-build
-
-C:\Renesas\E2_STU~1\DEBUGC~1\SH\SH_CON~1.EXE test.abs test.x
-Loading input file test.abs
-Parsing the ELF input file.....
-Converting the DWARF information....
-Constructing the output ELF image....
-Saving the ELF output file test.x
-
 'Build complete.'
 
-15:44:55 ビルドが完了しました(所要時間 5s.14ms)
+12:31:49 ビルドが完了しました(所要時間 320ms)
 
