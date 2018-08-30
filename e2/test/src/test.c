@@ -114,7 +114,7 @@ int main(void) {
 			switch_Motor(on);
 			wait_ms(100);
 //			mot_app2(spec.half_block, 330, 2000, straight, on);
-			drv_Motor(spec.half_block, 410.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
+			drv_Motor(spec.half_block, 450.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
 					off, straight);
 
 			while (spec.run_interruption != 1) {
@@ -149,7 +149,6 @@ int main(void) {
 				}
 			}
 			update_Wall_map();
-//			mot_app(spec.half_block, 330, 2000, straight, on);
 			drv_Motor(spec.half_block, 300.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
 					on, straight);
 			wait_ms(300);
@@ -216,8 +215,7 @@ int main(void) {
 
 			switch_Motor(on);
 			wait_ms(100);
-			//			mot_app2(spec.half_block, 330, 2000, straight, on);
-			drv_Motor(spec.half_block, 410.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
+			drv_Motor(spec.half_block, 450.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
 					off, straight);
 
 			while (spec.run_interruption != 1) {
@@ -385,29 +383,28 @@ int main(void) {
 
 			drv_Status_LED(Rst_status_LED, off);
 
-			drv_Motor(spec.half_block, 410.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
-					off, straight);
+			move_half_450(off);
 			drv_Status_LED(Red, on);
-			drv_Motor(spec.half_block, 300.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
-					on, straight);
+			move_half_450(on);
 			wait_ms(300);
 			switch_Motor(off);
+			drv_Status_LED(Rst_status_LED, off);
 
 			while (PB.DR.BIT.B5 != 0)
 				;
 			switch_Motor(on);
 			UX_effect(alart);
-			drv_Motor(spec.half_block, 410.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
-					off, straight);
-			for (i = 0; i < 5; i++) {
-				move_Forward_410();
+
+			move_half_450(off);
+			drv_Status_LED(Red, on);
+			for (i = 0; i < 2; i++) {
+				move_Forward_450();
 			}
 			move_Backward();
-			for (i = 0; i < 5; i++) {
-				move_Forward_410();
+			for (i = 0; i < 2; i++) {
+				move_Forward_450();
 			}
-			drv_Motor(spec.half_block, 300.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
-					on, straight);
+			move_half_450(on);
 
 			wait_ms(300);
 			switch_Motor(off);

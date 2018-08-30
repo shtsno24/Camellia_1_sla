@@ -53,13 +53,19 @@ void mot_app2(float, float, int, char, char);
 
 void mot_sla_app(float, float, float, float, float, int, char);
 
-void move_test(float, float);
-
 void move_Left_410(void);
 
 void move_Forward_410(void);
 
 void move_Right_410(void);
+
+void move_Left_450(void);
+
+void move_Forward_450(void);
+
+void move_half_450(char);
+
+void move_Right_450(void);
 
 void move_Left(void);
 
