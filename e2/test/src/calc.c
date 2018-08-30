@@ -36,6 +36,9 @@ void calc_diff(void) {
 	if (vehicle.select_flag == sla_on) {
 		spec.diff = 0.0;
 		return;
+	} else if (cl_sen.sen > cl_sen.diff_threshold) {
+		spec.diff = 0.0;
+		return;
 	} else {
 		if ((r_sen.sen >= r_sen.non_threshold + ref_boost_R)
 				&& (l_sen.sen >= l_sen.non_threshold + ref_boost_L)) {
@@ -118,8 +121,9 @@ void calc_mot_vel() {
 	/*
 	 * follow motor velocity to target value
 	 * */
-	spec.kp_l = vehicle.vel * 0.0008;
-	spec.kp_r = vehicle.vel * 0.0008;
+
+	spec.kp_l = vehicle.vel * 0.0004;
+	spec.kp_r = vehicle.vel * 0.0004;
 
 	if (l_motor.tar_vel + spec.kp_l * spec.diff > l_motor.vel) {
 		l_motor.vel += (l_motor.acc * 0.001);
