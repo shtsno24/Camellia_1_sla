@@ -6,20 +6,20 @@
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="start_Motor" key="selection"/>
+		<item value="update" key="selection"/>
 		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
-		<item value="true" key="wrap"/>
+		<item value="false" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="update"/>
+			<item value="goal_"/>
 			<item value="start_Motor"/>
 			<item value="vehcle"/>
 			<item value="mot_acc"/>
 			<item value="calc_mot_vel"/>
 			<item value="start_MTU"/>
 			<item value="motor_max_vel"/>
-			<item value="init_ALL"/>
-			<item value="step_angle"/>
 		</list>
 		<list key="replacehistory">
 			<item value="vehicle"/>

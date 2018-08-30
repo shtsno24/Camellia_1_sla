@@ -416,7 +416,7 @@ void move_Right() {
 	move_half_450(on);
 	drv_Status_LED(Red, on);
 	wait_ms(1000);
-	drv_Motor(0.0, 0.0, 0.0, 70.0, 300.0, 3000.0, 2000.0, off, right);
+	drv_Motor(0.0, 0.0, 0.0, 74.0, 300.0, 3000.0, 2000.0, off, right);
 	drv_Status_LED(Green, on);
 	drv_Motor(0.0, 0.0, 0.0, 14.5, 1.0, 3000.0, 2000.0, on, right);
 	drv_Status_LED(Yerrow, on);
