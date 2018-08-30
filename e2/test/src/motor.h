@@ -77,4 +77,6 @@ void move_Backward(void);
 
 void move_Backward_2(void);
 
+void move_Backward_break(void);
+
 #endif /* MOTOR_H_ */

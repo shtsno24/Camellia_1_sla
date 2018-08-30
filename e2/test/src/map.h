@@ -11,6 +11,8 @@
 #define mp_size 16
 
 typedef struct map {
+	unsigned char tar_x;
+	unsigned char tar_y;
 	unsigned char pos_x;
 	unsigned char pos_y;
 	unsigned char goal_x;

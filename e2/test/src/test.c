@@ -107,15 +107,15 @@ int main(void) {
 			spec.sta_LED_flag = 0;
 			map.pos_x = 0;
 			map.pos_y = 1;
+			map.tar_x = map.goal_x;
+			map.tar_y = map.goal_y;
 			map.direction = 0;
 			spec.run_interruption = 0;
 			UX_effect(alart);
 
 			switch_Motor(on);
 			wait_ms(100);
-//			mot_app2(spec.half_block, 330, 2000, straight, on);
-			drv_Motor(spec.half_block, 450.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
-					off, straight);
+			move_half_450(off);
 
 			while (spec.run_interruption != 1) {
 				update_Wall_map();
@@ -125,13 +125,13 @@ int main(void) {
 
 				if (map.tmp_path == 1) {
 					map.direction += 1;
-					move_Right_410();
+					move_Right_450();
 				} else if (map.tmp_path == 3) {
 					map.direction += 3;
-					move_Left_410();
+					move_Left_450();
 				} else if (map.tmp_path == 0) {
 					map.direction += 0;
-					move_Forward_410();
+					move_Forward_450();
 				} else if (map.tmp_path == 2) {
 					map.direction += 2;
 					if (map.wall == 7 || map.wall == 11 || map.wall == 13
@@ -144,14 +144,65 @@ int main(void) {
 				map.direction %= 4;
 
 				detect_Direction();
-				if (map.pos_x == map.goal_x & map.pos_y == map.goal_y) {
+				if (map.pos_x == map.tar_x & map.pos_y == map.tar_y) {
 					spec.run_interruption = 1;
 				}
 			}
 			update_Wall_map();
-			drv_Motor(spec.half_block, 300.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
-					on, straight);
+			move_Backward_break();
+			map.direction += 2;
+			map.direction %= 4;
+			detect_Direction();
+
+			map.tar_x = 0;
+			map.tar_y = 0;
+			init_Path();
+			init_Dist_map();
+			update_Dist_map();
+			generate_Path();
+
+			spec.run_interruption = 0;
+
 			wait_ms(300);
+
+			UX_effect(alart);
+//			move_half_450(off);
+
+			while (spec.run_interruption != 1) {
+				update_Wall_map();
+				update_A_dist_map();
+				map.tmp_path = generate_A_path();
+				init_A_dist_map();
+
+				if (map.tmp_path == 1) {
+					map.direction += 1;
+					move_Right_450();
+				} else if (map.tmp_path == 3) {
+					map.direction += 3;
+					move_Left_450();
+				} else if (map.tmp_path == 0) {
+					map.direction += 0;
+					move_Forward_450();
+				} else if (map.tmp_path == 2) {
+					map.direction += 2;
+					if (map.wall == 7 || map.wall == 11 || map.wall == 13
+							|| map.wall == 14) {
+						move_Backward();
+					} else {
+						move_Backward_2();
+					}
+				}
+				map.direction %= 4;
+
+				detect_Direction();
+				if (map.pos_x == map.tar_x & map.pos_y == map.tar_y) {
+					spec.run_interruption = 1;
+				}
+			}
+			update_Wall_map();
+			move_half_450(on);
+			wait_ms(300);
+
 			switch_Motor(off);
 			spec.sta_LED_flag = 0;
 			map.pos_x = 0;
@@ -209,14 +260,15 @@ int main(void) {
 			spec.sta_LED_flag = 0;
 			map.pos_x = 0;
 			map.pos_y = 1;
+			map.tar_x = map.goal_x;
+			map.tar_y = map.goal_y;
 			map.direction = 0;
 			spec.run_interruption = 0;
 			UX_effect(alart);
 
 			switch_Motor(on);
 			wait_ms(100);
-			drv_Motor(spec.half_block, 450.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
-					off, straight);
+			move_half_450(off);
 
 			while (spec.run_interruption != 1) {
 				update_Wall_map();
@@ -232,7 +284,7 @@ int main(void) {
 					move_Left();
 				} else if (map.tmp_path == 0) {
 					map.direction += 0;
-					move_Forward();
+					move_Forward_450();
 				} else if (map.tmp_path == 2) {
 					map.direction += 2;
 					if (map.wall == 7 || map.wall == 11 || map.wall == 13
@@ -245,15 +297,65 @@ int main(void) {
 				map.direction %= 4;
 
 				detect_Direction();
-				if (map.pos_x == map.goal_x & map.pos_y == map.goal_y) {
+				if (map.pos_x == map.tar_x & map.pos_y == map.tar_y) {
 					spec.run_interruption = 1;
 				}
 			}
 			update_Wall_map();
-			//			mot_app(spec.half_block, 330, 2000, straight, on);
-			drv_Motor(spec.half_block, 300.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
-					on, straight);
+			move_Backward_break();
+			map.direction += 2;
+			map.direction %= 4;
+			detect_Direction();
+
+			map.tar_x = 0;
+			map.tar_y = 0;
+			init_Path();
+			init_Dist_map();
+			update_Dist_map();
+			generate_Path();
+
+			spec.run_interruption = 0;
+
 			wait_ms(300);
+
+			UX_effect(alart);
+			//			move_half_450(off);
+
+			while (spec.run_interruption != 1) {
+				update_Wall_map();
+				update_A_dist_map();
+				map.tmp_path = generate_A_path();
+				init_A_dist_map();
+
+				if (map.tmp_path == 1) {
+					map.direction += 1;
+					move_Right();
+				} else if (map.tmp_path == 3) {
+					map.direction += 3;
+					move_Left();
+				} else if (map.tmp_path == 0) {
+					map.direction += 0;
+					move_Forward_450();
+				} else if (map.tmp_path == 2) {
+					map.direction += 2;
+					if (map.wall == 7 || map.wall == 11 || map.wall == 13
+							|| map.wall == 14) {
+						move_Backward();
+					} else {
+						move_Backward_2();
+					}
+				}
+				map.direction %= 4;
+
+				detect_Direction();
+				if (map.pos_x == map.tar_x & map.pos_y == map.tar_y) {
+					spec.run_interruption = 1;
+				}
+			}
+			update_Wall_map();
+			move_half_450(on);
+			wait_ms(300);
+
 			switch_Motor(off);
 			spec.sta_LED_flag = 0;
 			map.pos_x = 0;
@@ -265,7 +367,8 @@ int main(void) {
 			break;
 
 		case show_map:
-
+			map.tar_x = map.goal_x;
+			map.tar_y = map.goal_y;
 			spec.sta_LED_flag = 0;
 			map.direction = 0;
 			UX_effect(alart);
@@ -329,93 +432,50 @@ int main(void) {
 					"l_motor.tar_vel, r_motor.tar_vel, vehicle.ang, vehicle.tar_ang, vehicle.rot_vel, vehicle.tar_rot_vel");
 			spec.sta_LED_flag = 0;
 			wait_ms(1000);
-//			drv_Motor(spec.half_block, 550.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
-//					off, straight);
-//			drv_Motor(spec.half_block, 550.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
-//					off, straight);
-//			drv_Motor(spec.half_block, 550.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
-//					off, straight);
-//			drv_Motor(spec.half_block, 550.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
-//					on, straight);
+			move_half_450(off);
+			for (i = 0; i < 4; i++) {
+				move_Left();
+			}
+			move_half_450(on);
+
+//			drv_Status_LED(Rst_status_LED, off);
+//			move_half_450(off);
+//			drv_Status_LED(Red, on);
+//			move_Forward_450();
+//			drv_Status_LED(Green, on);
+//			move_Right_450();
+//			move_Forward_450();
+//			drv_Status_LED(Red, on);
+//			move_half_450(on);
+//			drv_Status_LED(Green, on);
 //			wait_ms(300);
-//			switch_Motor(off);
-//
+
 //			while (PB.DR.BIT.B5 != 0)
 //				;
 //			switch_Motor(on);
 //			UX_effect(alart);
-//			wait_ms(1000);
-//			drv_Motor(spec.full_block, 550.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
-//					off, straight);
-//			drv_Motor(spec.full_block, 550.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
-//					on, straight);
-//			wait_ms(300);
-//			switch_Motor(off);
+
+//			move_half_450(off);
+//			drv_Status_LED(Red, on);
+//			for (i = 0; i < 2; i++) {
+//				move_Forward_450();
+//			}
+//			move_Backward();
+//			for (i = 0; i < 2; i++) {
+//				move_Forward_450();
+//			}
+//			move_half_450(on);
 //
-//			while (PB.DR.BIT.B5 != 0)
-//				;
-//			switch_Motor(on);
-//			UX_effect(alart);
-//			wait_ms(1000);
-//			drv_Motor(spec.half_block, 550.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
-//					off, straight);
-//			drv_Motor(spec.full_block * 14, 550.0, 1000.0, 0.0, 0.0, 200.0,
-//					1000.0, off, straight);
-//			drv_Motor(spec.half_block, 550.0, 1000.0, 0.0, 0.0, 200.0, 1000.0,
-//					on, straight);
 //			wait_ms(300);
 //			switch_Motor(off);
 
-//			move_Forward_500();
-//			drv_Status_LED(Green, on);
-//			move_Right_500();
-//			move_Forward_500();
-//			drv_Status_LED(Rst_status_LED, off);
-//			move_Forward_500();
-//			drv_Status_LED(Red, on);
-//			move_Forward_500();
-//			drv_Status_LED(Green, on);
-//			drv_Status_LED(Red, on);
-//			move_Right_500();
-//			drv_Status_LED(Green, on);
-//			move_Forward_500();
-//			drv_Status_LED(Rst_status_LED, off);
-
-			drv_Status_LED(Rst_status_LED, off);
-
-			move_half_450(off);
-			drv_Status_LED(Red, on);
-			move_half_450(on);
-			wait_ms(300);
-			switch_Motor(off);
-			drv_Status_LED(Rst_status_LED, off);
-
-			while (PB.DR.BIT.B5 != 0)
-				;
-			switch_Motor(on);
-			UX_effect(alart);
-
-			move_half_450(off);
-			drv_Status_LED(Red, on);
-			for (i = 0; i < 2; i++) {
-				move_Forward_450();
-			}
-			move_Backward();
-			for (i = 0; i < 2; i++) {
-				move_Forward_450();
-			}
-			move_half_450(on);
-
-			wait_ms(300);
-			switch_Motor(off);
-
-//			move_Left();
 //			move_Right();
 //			move_Right();
 //			drv_Motor(270.0, 500.0, 1000.0, 0.0, 0.0, 0.0, 1000.0, on,
 //					straight);
 //			drv_Motor(1500.0, 1300.0, 1000.0, 0.0, 0.0, 0.0, 1500.0, on,
 //					straight);
+			wait_ms(300);
 			drv_Status_LED(Red, off);
 			drv_Status_LED(Green, off);
 

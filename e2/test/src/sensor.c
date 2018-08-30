@@ -11,18 +11,18 @@ SEN r_sen, cr_sen, l_sen, cl_sen;
 
 void init_Sensor(void) {
 	int i;
-	r_sen.non_threshold = 150;
-	cr_sen.non_threshold = 150;
-	cl_sen.non_threshold = 150;
-	l_sen.non_threshold = 150;
+	r_sen.non_threshold = 80;
+	cr_sen.non_threshold = 80;
+	cl_sen.non_threshold = 80;
+	l_sen.non_threshold = 80;
 
 	r_sen.diff_threshold = 5;
-	cr_sen.diff_threshold = 460;
-	cl_sen.diff_threshold = 460;
+	cr_sen.diff_threshold = 300;
+	cl_sen.diff_threshold = 300;
 	l_sen.diff_threshold = 4;
 
-	r_sen.ref_wall = 351;
-	l_sen.ref_wall = 342;
+	r_sen.ref_wall = 342;
+	l_sen.ref_wall = 346;
 	cr_sen.ref_wall = 802 - 400;
 	cl_sen.ref_wall = 948 - 400;
 

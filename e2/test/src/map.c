@@ -22,6 +22,8 @@ void init_Map(void) {
 	map.direction = 0;
 	map.goal_x = 1;
 	map.goal_y = 0;
+	map.tar_x = map.goal_x;
+	map.tar_y = map.goal_y;
 	map.map_size = mp_size;
 	map.tmp_path = 0;
 	map.wall = 0;
@@ -41,8 +43,8 @@ void init_Map(void) {
 			map.dist_map[i][j] = 255;
 		}
 	}
-	map.a_dist_map[map.goal_x][map.goal_y] = 0;
-	map.dist_map[map.goal_x][map.goal_y] = 0;
+	map.a_dist_map[map.tar_x][map.tar_y] = 0;
+	map.dist_map[map.tar_x][map.tar_y] = 0;
 }
 
 void detect_Direction() {
@@ -510,7 +512,7 @@ void init_A_dist_map() {
 			map.a_dist_map[i][j] = 255;
 		}
 	}
-	map.a_dist_map[map.goal_x][map.goal_y] = 0;
+	map.a_dist_map[map.tar_x][map.tar_y] = 0;
 }
 
 void init_Dist_map() {
@@ -521,7 +523,7 @@ void init_Dist_map() {
 			map.dist_map[i][j] = 255;
 		}
 	}
-	map.dist_map[map.goal_x][map.goal_y] = 0;
+	map.dist_map[map.tar_x][map.tar_y] = 0;
 
 }
 
