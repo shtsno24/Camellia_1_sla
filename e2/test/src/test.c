@@ -201,6 +201,9 @@ int main(void) {
 			}
 			update_Wall_map();
 			move_half_450(on);
+			drv_Motor(0.0, 0.0, 0.0, 159.0, 400.0, 3000.0, 2000.0, off, left);
+			drv_Status_LED(Green, on);
+			drv_Motor(0.0, 0.0, 0.0, 25.0, 1.0, 3000.0, 2000.0, on, left);
 			wait_ms(300);
 
 			switch_Motor(off);
@@ -355,6 +358,13 @@ int main(void) {
 			update_Wall_map();
 			move_half_450(on);
 			wait_ms(300);
+			drv_Motor(0.0, 0.0, 0.0, 159.0, 400.0, 3000.0, 2000.0, off, left);
+			drv_Status_LED(Green, on);
+			drv_Motor(0.0, 0.0, 0.0, 25.0, 1.0, 3000.0, 2000.0, on, left);
+			wait_ms(300);
+			drv_Motor(spec.half_block + 30.0, 200.0, 1000.0, 0.0, 0.0, 10.0,
+					1000.0, on, back);
+			wait_ms(300);
 
 			switch_Motor(off);
 			spec.sta_LED_flag = 0;
@@ -434,7 +444,7 @@ int main(void) {
 			wait_ms(1000);
 			move_half_450(off);
 			for (i = 0; i < 4; i++) {
-				move_Left();
+				move_Right();
 			}
 			move_half_450(on);
 

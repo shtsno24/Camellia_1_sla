@@ -365,9 +365,9 @@ void move_Right_410() {
 void move_half_450(char flag) {
 	float dist = spec.half_block;
 	if (flag == on) {
-		dist -= 0.2;
+		dist -= 3.0;
 	}
-	drv_Motor(dist, 480.0, 1200.0, 0.0, 0.0, 10.0, 1200.0, flag, straight);
+	drv_Motor(dist, 500.0, 1200.0, 0.0, 0.0, 10.0, 1200.0, flag, straight);
 }
 
 void move_Left_450() {
@@ -403,9 +403,9 @@ void move_Left() {
 	move_half_450(on);
 	drv_Status_LED(Red, on);
 	wait_ms(1000);
-	drv_Motor(0.0, 0.0, 0.0, 68.0, 300.0, 3000.0, 2000.0, off, left);
+	drv_Motor(0.0, 0.0, 0.0, 76.0, 300.0, 3000.0, 2000.0, off, left);
 	drv_Status_LED(Green, on);
-	drv_Motor(0.0, 0.0, 0.0, 14.5, 1.0, 3000.0, 2000.0, on, left);
+	drv_Motor(0.0, 0.0, 0.0, 3.5, 300.0, 3000.0, 2000.0, on, left);
 	drv_Status_LED(Yerrow, on);
 	wait_ms(1000);
 	move_half_450(off);
@@ -418,7 +418,7 @@ void move_Right() {
 	wait_ms(1000);
 	drv_Motor(0.0, 0.0, 0.0, 74.0, 300.0, 3000.0, 2000.0, off, right);
 	drv_Status_LED(Green, on);
-	drv_Motor(0.0, 0.0, 0.0, 14.5, 1.0, 3000.0, 2000.0, on, right);
+	drv_Motor(0.0, 0.0, 0.0, 5.5, 300.0, 3000.0, 2000.0, on, right);
 	drv_Status_LED(Yerrow, on);
 	wait_ms(1000);
 	move_half_450(off);
@@ -426,7 +426,7 @@ void move_Right() {
 }
 
 void move_Forward() {
-	drv_Motor(spec.full_block, 450.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, off,
+	drv_Motor(spec.full_block, 500.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, off,
 			straight);
 }
 
@@ -455,7 +455,7 @@ void move_Backward_2() {
 	move_half_450(on);
 	wait_ms(1000);
 	drv_Status_LED(Red, on);
-	drv_Motor(0.0, 0.0, 0.0, 160.0, 400.0, 3000.0, 2000.0, off, left);
+	drv_Motor(0.0, 0.0, 0.0, 159.0, 400.0, 3000.0, 2000.0, off, left);
 	drv_Status_LED(Green, on);
 	drv_Motor(0.0, 0.0, 0.0, 25.0, 1.0, 3000.0, 2000.0, on, left);
 	drv_Status_LED(Rst_status_LED, off);
@@ -470,7 +470,7 @@ void move_Backward_break() {
 	move_half_450(on);
 	wait_ms(1000);
 	drv_Status_LED(Red, on);
-	drv_Motor(0.0, 0.0, 0.0, 160.0, 400.0, 3000.0, 2000.0, off, left);
+	drv_Motor(0.0, 0.0, 0.0, 159.0, 400.0, 3000.0, 2000.0, off, left);
 	drv_Status_LED(Green, on);
 	drv_Motor(0.0, 0.0, 0.0, 25.0, 1.0, 3000.0, 2000.0, on, left);
 	drv_Status_LED(Rst_status_LED, off);
@@ -479,7 +479,6 @@ void move_Backward_break() {
 	move_half_450(on);
 	drv_Status_LED(Rst_status_LED, off);
 }
-
 
 //void move_Left() {
 //	spec.kp_r -= 0.1;

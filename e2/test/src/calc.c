@@ -84,8 +84,8 @@ void calc_diff(void) {
 			}
 
 		}
-		if (fabs(vehicle.vel) < 400.0) {
-			spec.diff *= 0.5;
+		if (fabs(vehicle.vel) < 450.0) {
+			spec.diff *= 0.3;
 			return;
 		}
 	}
