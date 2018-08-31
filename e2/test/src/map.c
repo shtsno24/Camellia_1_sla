@@ -20,7 +20,7 @@ void init_Map(void) {
 	map.pos_x = 0;
 	map.pos_y = 0;
 	map.direction = 0;
-	map.goal_x = 6;
+	map.goal_x = 7;
 	map.goal_y = 0;
 	map.tar_x = map.goal_x;
 	map.tar_y = map.goal_y;

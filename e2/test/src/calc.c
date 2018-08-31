@@ -84,8 +84,8 @@ void calc_diff(void) {
 			}
 
 		}
-		if (fabs(vehicle.vel) < 450.0) {
-			spec.diff *= 0.3;
+		if (fabs(vehicle.vel) < 400.0) {
+			spec.diff *= 0.2;
 			return;
 		}
 	}
@@ -128,8 +128,8 @@ void calc_mot_vel() {
 	 * follow motor velocity to target value
 	 * */
 
-	spec.kp_l = vehicle.vel * 0.0008;
-	spec.kp_r = vehicle.vel * 0.0008;
+	spec.kp_l = vehicle.vel * 0.001;
+	spec.kp_r = vehicle.vel * 0.001;
 //	spec.kp_l = 0.5;
 //	spec.kp_r = 0.5;
 
