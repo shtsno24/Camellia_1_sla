@@ -27,6 +27,7 @@ void init_CMT(void) {	//CMT割込の設定
 	CMT0.CMCSR.BIT.CKS = 0;     //1/8
 	CMT0.CMCSR.BIT.CMF = 0;     //フラグをクリア
 	CMT0.CMCOR = 3125 - 1;  //割り込み周期(1ms)
+//	CMT0.CMCOR = 6250 - 1;  //割り込み周期(1ms)
 	INTC.IPRJ.BIT._CMT0 = 0xf;  //割り込み優先度(15)
 	CMT.CMSTR.BIT.STR0 = 1;		// ステータスレジスタ 1：カウント開始
 
@@ -34,6 +35,7 @@ void init_CMT(void) {	//CMT割込の設定
 	CMT1.CMCSR.BIT.CKS = 0;     //1/8
 	CMT1.CMCSR.BIT.CMF = 0;     //フラグをクリア
 	CMT1.CMCOR = 3125 - 1;  //割り込み周期(1ms)
+//	CMT1.CMCOR = 6250 - 1;  //割り込み周期(1ms)
 	INTC.IPRJ.BIT._CMT1 = 0xe;  //割り込み優先度(15)
 	CMT.CMSTR.BIT.STR1 = 1;		// ステータスレジスタ 1：カウント開始
 }

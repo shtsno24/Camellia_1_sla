@@ -33,6 +33,7 @@ void init_sci1(void){
 
 	SCI1.SCSMR.BYTE = tmp;		// ASYNC、8bit、Parity-NONE、Stop-1、Clk = tmp
 	tmp = (unsigned char)(25000000/divider/baud)-1;
+//	tmp = (unsigned char)(50000000/divider/baud)-1;
 	SCI1.SCBRR = tmp;			//ビットレート設定
 	SCI1.SCSCR.BIT.TE=1;		//送信許可
 	SCI1.SCSCR.BIT.RE=1;		//受信許可

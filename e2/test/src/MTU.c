@@ -112,7 +112,8 @@ void change_Duty_MTU20(void) {
 	 * write this function to interrupt_handlers.c
 	 * */
 
-	r_motor.duty = (int) (spec.step_dist / r_motor.vel * 25e+6);
+	r_motor.duty = (int) (spec.step_dist / r_motor.vel * 25000000);
+//	r_motor.duty = (int) (spec.step_dist / r_motor.vel * 50000000);
 	if (r_motor.duty < 0) {
 		PE.DRL.BIT.B1 = 1; //R_CW/CCW(0 : forward, 1 : backward)
 		r_motor.cnt--;
@@ -143,7 +144,8 @@ void change_Duty_MTU21(void) {
 	 * this function operates L_motor
 	 * write this function to interrupt_handlers.c
 	 */
-	l_motor.duty = (int) (spec.step_dist / l_motor.vel * 25e+6);
+	l_motor.duty = (int) (spec.step_dist / l_motor.vel * 25000000);
+//	l_motor.duty = (int) (spec.step_dist / l_motor.vel * 50000000);
 	if (l_motor.duty < 0) {
 		PE.DRL.BIT.B5 = 0; //L_CW/CCW(1 : forward, 0 : backward)
 		l_motor.cnt--;

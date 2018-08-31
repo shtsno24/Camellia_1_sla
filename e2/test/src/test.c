@@ -497,23 +497,23 @@ int main(void) {
 					"l_motor.tar_vel, r_motor.tar_vel, vehicle.ang, vehicle.tar_ang, vehicle.rot_vel, vehicle.tar_rot_vel");
 			spec.sta_LED_flag = 0;
 			wait_ms(1000);
-//			move_half_450(off);
-//			for (i = 0; i < 4; i++) {
-//				move_Right();
-//			}
-//			move_half_450(on);
-
-			drv_Status_LED(Rst_status_LED, off);
 			move_half_450(off);
-			drv_Status_LED(Red, on);
-			move_Forward_450();
-			drv_Status_LED(Green, on);
-			move_Left_450();
-			move_Forward_450();
-			drv_Status_LED(Red, on);
+			for (i = 0; i < 4; i++) {
+				move_Right();
+			}
 			move_half_450(on);
-			drv_Status_LED(Green, on);
-			wait_ms(300);
+
+//			drv_Status_LED(Rst_status_LED, off);
+//			move_half_450(off);
+//			drv_Status_LED(Red, on);
+//			move_Forward_450();
+//			drv_Status_LED(Green, on);
+//			move_Left_450();
+//			move_Forward_450();
+//			drv_Status_LED(Red, on);
+//			move_half_450(on);
+//			drv_Status_LED(Green, on);
+//			wait_ms(300);
 
 //			while (PB.DR.BIT.B5 != 0)
 //				;
