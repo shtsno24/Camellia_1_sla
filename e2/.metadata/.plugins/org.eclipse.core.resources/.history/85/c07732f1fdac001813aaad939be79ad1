@@ -1,0 +1,114 @@
+/*
+ * sensor.c
+ *
+ *  Created on: 2018/04/13
+ *      Author: shts
+ */
+#include "iodefine.h"
+#include "sensor.h"
+
+SEN r_sen, cr_sen, l_sen, cl_sen;
+
+void init_Sensor(void) {
+	int i;
+	r_sen.non_threshold = 130;
+	cr_sen.non_threshold = 130;
+	cl_sen.non_threshold = 130;
+	l_sen.non_threshold = 130;
+
+	r_sen.diff_threshold = 5;
+	cr_sen.diff_threshold = 250;
+	cl_sen.diff_threshold = 250;
+	l_sen.diff_threshold = 4;
+
+	r_sen.ref_wall = 334;
+	l_sen.ref_wall = 334;
+	cr_sen.ref_wall = 802 - 400;
+	cl_sen.ref_wall = 948 - 400;
+
+	for (i = 0; i < 9; i++) {
+		r_sen.old[i] = 0;
+		cr_sen.old[i] = 0;
+		l_sen.old[i] = 0;
+		cl_sen.old[i] = 0;
+	}
+}
+
+void init_ADC(void){
+
+		/*
+		ch0 :  	AD0.ADCSR.BIT.CH = 0;
+		ch1 : 	AD0.ADCSR.BIT.CH = 1;
+		ch2 :	AD0.ADCSR.BIT.CH = 2;
+		ch3 :	AD0.ADCSR.BIT.CH = 3;
+
+		ch4 :  	AD1.ADCSR.BIT.CH = 0;
+		ch5 : 	AD1.ADCSR.BIT.CH = 1;
+		ch6 :	AD1.ADCSR.BIT.CH = 2;
+		ch7 :	AD1.ADCSR.BIT.CH = 3;
+		 */
+
+		STB.CR4.BIT._AD0 = 0;		//AD0のスタンバイを解除
+		STB.CR4.BIT._AD1 = 0;		//AD1のスタンバイを解除
+
+		AD0.ADCR.BIT.ADST = 0;		//AD停止
+		AD0.ADCSR.BIT.ADCS = 0;		//サイクルスキャンしない
+		AD0.ADCSR.BIT.TRGE = 0;		//トリガーイネーブル無効
+		AD0.ADCSR.BIT.CKSL = 0;		//周辺回路動作クロック
+		AD0.ADCSR.BIT.ADIE = 0;		//割込み禁止
+		AD0.ADCSR.BIT.ADM = 0;		//シングルスキャン
+		AD0.ADCSR.BIT.CH = 0;		//ch0選択
+
+		AD1.ADCR.BIT.ADST = 0;		//AD停止
+		AD1.ADCSR.BIT.ADCS = 0;		//サイクルスキャンしない
+		AD1.ADCSR.BIT.TRGE = 0;		//トリガイネーブル無効
+		AD1.ADCSR.BIT.CKSL = 0;		//周辺動作クロック
+		AD1.ADCSR.BIT.ADIE = 0;		//割込み禁止
+		AD1.ADCSR.BIT.ADM = 0;		//シングルスキャン
+		AD1.ADCSR.BIT.CH = 0;		//ch4選択
+}
+
+int get_Sensor(int ch, int ad_c) {
+
+	switch (ad_c) {
+	case ad_0:
+		AD0.ADCR.BIT.ADST = 0;		//AD停止
+		AD0.ADCSR.BIT.CH = ch;		//チャンネル選択
+		AD0.ADCR.BIT.ADST = 1;		//AD再開
+		while (AD0.ADCSR.BIT.ADF == 0)
+			;
+		AD0.ADCSR.BIT.ADF = 0;
+		if (ch == CR_sen) {
+			return AD0.ADDR0 >> 6;
+		} else if (ch == R_sen) {
+			return AD0.ADDR1 >> 6;
+		} else if (ch == CL_sen) {
+			return AD0.ADDR2 >> 6;
+		} else if (ch == L_sen) {
+			return AD0.ADDR3 >> 6;
+		} else {
+			return -1;
+		}
+		break;
+
+	case ad_1:
+		AD1.ADCR.BIT.ADST = 0;		//AD停止
+		AD1.ADCSR.BIT.CH = ch;		//チャンネル選択
+		AD1.ADCR.BIT.ADST = 1;		//AD再開
+		while (AD1.ADCSR.BIT.ADF == 0)
+			;
+		AD1.ADCSR.BIT.ADF = 0;
+		if (ch == 0) {
+			return AD1.ADDR4 >> 6;
+		} else if (ch == 1) {
+			return AD1.ADDR5 >> 6;
+		} else if (ch == 2) {
+			return AD1.ADDR6 >> 6;
+		} else if (ch == 3) {
+			return AD1.ADDR7 >> 6;
+		} else {
+			return -1;
+		}
+		break;
+	}
+}
