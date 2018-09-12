@@ -499,7 +499,7 @@ int main(void) {
 			wait_ms(1000);
 			move_half_450(off);
 			for (i = 0; i < 4; i++) {
-				move_Right();
+				move_Forward();
 			}
 			move_half_450(on);
 

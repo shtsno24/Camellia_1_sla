@@ -48,7 +48,7 @@ void init_Spec() {
 	spec.r_distance = (int) ((90.0 / 180 * 3.141592) * (spec.tread / 2) - 2.6);
 	spec.l_distance = (int) ((90.0 / 180 * 3.141592) * (spec.tread / 2) - 2.6);
 	spec.full_block = 213.0;
-	spec.half_block = 90.3;
+	spec.half_block = 90.1;
 
 	spec.kp_l = 0.6;
 	spec.kp_r = 0.6;
