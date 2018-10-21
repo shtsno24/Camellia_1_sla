@@ -3,7 +3,8 @@ src/test.obj src/test.d: ../src/test.c ../src/typedefine.h \
  ../src/LED.h ../src/CMT.h ../src/sensor.h ../src/MTU.h ../src/motor.h \
  ../src/map.h \
  C:\PROGRA~2\Renesas\Hew\Tools\Renesas\Sh\9_4_3/include/math.h \
- C:\PROGRA~2\Renesas\Hew\Tools\Renesas\Sh\9_4_3/include/builtin.h
+ C:\PROGRA~2\Renesas\Hew\Tools\Renesas\Sh\9_4_3/include/builtin.h \
+ ../src/logger.h
 
 ../src/typedefine.h:
 
@@ -30,3 +31,5 @@ src/test.obj src/test.d: ../src/test.c ../src/typedefine.h \
 C:\PROGRA~2\Renesas\Hew\Tools\Renesas\Sh\9_4_3/include/math.h:
 
 C:\PROGRA~2\Renesas\Hew\Tools\Renesas\Sh\9_4_3/include/builtin.h:
+
+../src/logger.h:

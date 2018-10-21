@@ -12,9 +12,11 @@
 #include "util.h"
 #include "calc.h"
 #include "math.h"
+#include "logger.h"
 
 extern SPC spec;
 extern SEN r_sen, cr_sen, l_sen, cl_sen;
+extern LOG logger;
 CMT_01 tim;
 
 void init_CMT(void) {	//CMT割込の設定
@@ -24,19 +26,19 @@ void init_CMT(void) {	//CMT割込の設定
 	CMT.CMSTR.BIT.STR1 = 0;
 	//  (2)コンペアマッチタイマコントロール／ステータスレジスタ（CMCSR）
 	CMT0.CMCSR.BIT.CMIE = 1;    //割り込みイネーブル許可
-	CMT0.CMCSR.BIT.CKS = 0;     //1/8
+	CMT0.CMCSR.BIT.CKS = 0;     //1/8(25Mhz時に3.125MHz)
 	CMT0.CMCSR.BIT.CMF = 0;     //フラグをクリア
 	CMT0.CMCOR = 3125 - 1;  //割り込み周期(1ms)
-//	CMT0.CMCOR = 6250 - 1;  //割り込み周期(1ms)
-	INTC.IPRJ.BIT._CMT0 = 0xf;  //割り込み優先度(15)
+//	CMT0.CMCOR = 6250 - 1;  //割り込み周期(2ms@Pφ=25MHz)
+	INTC.IPRJ.BIT._CMT0 = 0xA;  //割り込み優先度(15)
 	CMT.CMSTR.BIT.STR0 = 1;		// ステータスレジスタ 1：カウント開始
 
 	CMT1.CMCSR.BIT.CMIE = 1;    //割り込みイネーブル許可
-	CMT1.CMCSR.BIT.CKS = 0;     //1/8
+	CMT1.CMCSR.BIT.CKS = 0;     //1/8(25Mhz時に3.125MHz)
 	CMT1.CMCSR.BIT.CMF = 0;     //フラグをクリア
 	CMT1.CMCOR = 3125 - 1;  //割り込み周期(1ms)
-//	CMT1.CMCOR = 6250 - 1;  //割り込み周期(1ms)
-	INTC.IPRJ.BIT._CMT1 = 0xe;  //割り込み優先度(15)
+//	CMT1.CMCOR = 6250 - 1;  //割り込み周期(2ms@Pφ=25MHz)
+	INTC.IPRJ.BIT._CMT1 = 0xB;  //割り込み優先度(15)
 	CMT.CMSTR.BIT.STR1 = 1;		// ステータスレジスタ 1：カウント開始
 }
 
@@ -59,34 +61,36 @@ void wait_ms(int t) {
 		;
 }
 
+void wait_ms_test(int t) {
+	tim.count_cmt_1 = 0;
+//	CMT0.CMCNT = 0;
+	while (tim.count_cmt_1 < t)
+		;
+}
+
+
 void sen_cmt1(void) {
-	unsigned int i;
+	int i;
 // write this function to interrupt_handlers.c
 	CMT1.CMCSR.BIT.CMF = 0;
 	CMT1.CMCNT = 0;
+	tim.count_cmt_1 += 1;
+	tim_Logger();
+	write_Logger();
 
 	drv_Sensor_LED(R_LED, on);
-	for (i = 0; i < 309; i++)
-		;
-	r_sen.sen = get_Sensor(R_sen, ad_0); //R sensor
-	drv_Sensor_LED(R_LED, off);
-
 	drv_Sensor_LED(CR_LED, on);
-	for (i = 0; i < 309; i++)
-		;
-	cr_sen.sen = get_Sensor(CR_sen, ad_0);		//CR sensor
-	drv_Sensor_LED(CR_LED, off);
-
 	drv_Sensor_LED(CL_LED, on);
-	for (i = 0; i < 309; i++)
-		;
-	cl_sen.sen = get_Sensor(CL_sen, ad_0);		//CL sensor
-	drv_Sensor_LED(CL_LED, off);
-
 	drv_Sensor_LED(L_LED, on);
 	for (i = 0; i < 309; i++)
 		;
-	l_sen.sen = get_Sensor(L_sen, ad_0);		//L sensor
+	r_sen.sen = get_Sensor(R_sen, ad_0); //R sensor
+	cr_sen.sen = get_Sensor(CR_sen, ad_0);		//CR sensor
+	cl_sen.sen = get_Sensor(CL_sen, ad_0);		//CR sensor
+	l_sen.sen = get_Sensor(L_sen, ad_0);		//CR sensor
+	drv_Sensor_LED(R_LED, off);
+	drv_Sensor_LED(CR_LED, off);
+	drv_Sensor_LED(CL_LED, off);
 	drv_Sensor_LED(L_LED, off);
 
 	for (i = 0; i < 450; i++)
@@ -116,5 +120,4 @@ void sen_cmt1(void) {
 	calc_diff();
 	calc_vel();
 	end_signal();
-//	calc_2vel();
 }

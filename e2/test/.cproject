@@ -76,7 +76,7 @@
 								<option id="com.renesas.cdt.renesas.StandardLibrary.option.math.1739713674" name="math.h: 数値計算用ライブラリー" superClass="com.renesas.cdt.renesas.StandardLibrary.option.math" value="true" valueType="boolean"/>
 								<option id="com.renesas.cdt.renesas.StandardLibrary.option.mathf.1953842750" name="mathf.h:  数値計算用ライブラリー ( float 型関数 )" superClass="com.renesas.cdt.renesas.StandardLibrary.option.mathf" value="true" valueType="boolean"/>
 								<option id="com.renesas.cdt.renesas.StandardLibrary.option.stdarg.168572494" name="stdarg.h: 可変個の実引数アクセス用ライブラリー" superClass="com.renesas.cdt.renesas.StandardLibrary.option.stdarg" value="true" valueType="boolean"/>
-								<option id="com.renesas.cdt.renesas.StandardLibrary.option.mode.1690020807" name="モード" superClass="com.renesas.cdt.renesas.StandardLibrary.option.mode" value="com.renesas.cdt.renesas.StandardLibrary.option.buildOnlyWhenOptionsChanged" valueType="enumerated"/>
+								<option id="com.renesas.cdt.renesas.StandardLibrary.option.mode.1690020807" name="モード" superClass="com.renesas.cdt.renesas.StandardLibrary.option.mode" value="com.renesas.cdt.renesas.StandardLibrary.option.mode.buildOnlyWhenOptionsChanged" valueType="enumerated"/>
 								<option id="com.renesas.cdt.renesas.StandardLibrary.option.optimization.2074569202" name="最適化" superClass="com.renesas.cdt.renesas.StandardLibrary.option.optimization" value="false" valueType="boolean"/>
 								<option id="com.renesas.cdt.renesas.StandardLibrary.option.ctype.923608330" name="ctype.h: 文字操作用ライブラリー" superClass="com.renesas.cdt.renesas.StandardLibrary.option.ctype" value="true" valueType="boolean"/>
 								<option id="com.renesas.cdt.renesas.StandardLibrary.option.enableAll.1826874947" name="すべて使用可能" superClass="com.renesas.cdt.renesas.StandardLibrary.option.enableAll" value="false" valueType="boolean"/>
@@ -89,6 +89,8 @@
 								<option id="com.renesas.cdt.renesas.StandardLibrary.option.rxciosCPP.1068012702" name="ios (EC++):  入出力ストリーム用クラスライブラリー" superClass="com.renesas.cdt.renesas.StandardLibrary.option.rxciosCPP" value="true" valueType="boolean"/>
 								<option id="com.renesas.cdt.renesas.StandardLibrary.option.rxccomplexCPP.1942246717" name="complex.h (EC++): 複素数計算用クラスライブラリー" superClass="com.renesas.cdt.renesas.StandardLibrary.option.rxccomplexCPP" value="true" valueType="boolean"/>
 								<option id="com.renesas.cdt.renesas.StandardLibrary.option.rxcstringCPP.256201080" name="string (EC++): 文字列操作用ライブラリー" superClass="com.renesas.cdt.renesas.StandardLibrary.option.rxcstringCPP" value="true" valueType="boolean"/>
+								<option id="com.renesas.cdt.renesas.StandardLibrary.option.userSpecifiedLibrary.466545981" name="ユーザー指定のライブラリー・ファイル" superClass="com.renesas.cdt.renesas.StandardLibrary.option.userSpecifiedLibrary" value="C:\D\mice\CAMELL~3\Camellia_1_v0.1\e2\test\Release\test.lib" valueType="string"/>
+								<option id="com.renesas.cdt.renesas.StandardLibrary.option.string.1134084463" name="string.h: 文字列操作用ライブラリー" superClass="com.renesas.cdt.renesas.StandardLibrary.option.string" value="false" valueType="boolean"/>
 							</tool>
 							<tool id="com.renesas.cdt.shc.release.win32.tool.convertor.Id.648438420" name="Converter" superClass="com.renesas.cdt.shc.release.win32.tool.convertor.Id"/>
 						</toolChain>

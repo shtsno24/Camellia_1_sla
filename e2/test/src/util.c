@@ -38,17 +38,17 @@ void init_Vehicle() {
 }
 
 void init_Spec() {
-	spec.tread = 91.0;//[mm]
-	spec.tire_dim = 51.6;//[mm]
+	spec.tread = 84.4;//[mm]
+	spec.tire_dim = 51.74;//[mm]
 	spec.step_angle = 0.9; //[deg]
-	spec.step_dist = spec.tire_dim * 3.1415926 * (spec.step_angle / 360);//[mm]
+	spec.step_dist = spec.tire_dim * 3.1415926 * (spec.step_angle / 360.0);//[mm]
 
 	spec.pwm_base_clock = 6250 - 1; //(interrupt duty : 1ms(@6.25MHz))
 	spec.pwm_half_clock = round((6250 - 1) / 2);
 	spec.r_distance = (int) ((90.0 / 180 * 3.141592) * (spec.tread / 2) - 2.6);
 	spec.l_distance = (int) ((90.0 / 180 * 3.141592) * (spec.tread / 2) - 2.6);
-	spec.full_block = 213.0;
-	spec.half_block = 90.1;
+	spec.full_block = 180.0;
+	spec.half_block = 90.0;
 
 	spec.kp_l = 0.6;
 	spec.kp_r = 0.6;
@@ -93,8 +93,8 @@ void init_IO(void) {
 }
 
 void init_CPU(void) {
-	CPG.FRQCR.BIT.IFC = 1;                //Iφ / 2 = 50Mhz(初期値/4)
-	CPG.FRQCR.BIT.BFC = 3;        // Bφ / 4 = 25MHz
+	CPG.FRQCR.BIT.IFC = 1;     //Iφ / 2 = 50Mhz(初期値/4)
+	CPG.FRQCR.BIT.BFC = 3;     // Bφ / 4 = 25MHz
 	CPG.FRQCR.BIT._PFC = 3;    // Pφ / 4 = 25MHz
 	CPG.FRQCR.BIT.MPFC = 3;    // MPφ / 4 = 25MHz
 }

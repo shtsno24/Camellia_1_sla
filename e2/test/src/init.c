@@ -14,6 +14,7 @@
 #include "motor.h"
 #include "map.h"
 #include "LED.h"
+#include "logger.h"
 #define round(A)((int)(A + 0.5))
 
 
@@ -24,6 +25,7 @@ extern MAP map;
 
 
 void init_ALL(void) {
+	init_Logger();
 	init_CPU();
 	init_IO();
 	init_Spec();

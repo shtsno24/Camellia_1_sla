@@ -6,11 +6,11 @@
  */
 #include "iodefine.h"
 #include "motor.h"
-#include "math.h"
 #include "serial.h"
 #include "util.h"
 #include "MTU.h"
 #include "LED.h"
+#include "logger.h"
 
 MOT r_motor, l_motor;
 extern VEH vehicle;
@@ -22,10 +22,10 @@ void init_Motor(void) {
 	 r_motor.max_acc = 1500;
 	 l_motor.max_acc = 1500;*/
 
-	spec.motor_max_acc = 2500;
+	spec.motor_max_acc = 10000;
 	spec.motor_max_vel = 1800;
 	spec.motor_min_acc = 0;
-	spec.motor_min_vel = 250;
+	spec.motor_min_vel = 160;
 	r_motor.acc = 0.0;
 	l_motor.acc = 0.0;
 	/*
@@ -71,9 +71,9 @@ void switch_Motor(char sw) {
 	}
 }
 
-void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
-		float rot_acc, float mot_acc, unsigned char stop_flag,
-		unsigned char direction) {
+void drv_Motor2(float dist, float vel, float ang, float rot_vel, float mot_acc,
+		unsigned char stop_flag, unsigned char direction,
+		unsigned char cst_stop) {
 	/*
 	 * direction : straight, back, left or right (enum)
 	 * each parameters must be absolute value
@@ -86,7 +86,6 @@ void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
 //	convert deg2rad
 	ang = ang / 180.0 * 3.141592;
 	rot_vel = rot_vel / 180.0 * 3.141592;
-	rot_acc = rot_acc / 180.0 * 3.141592;
 
 //上下限設定
 	if (mot_acc > spec.motor_max_acc) {
@@ -117,10 +116,8 @@ void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
 		l_motor.acc = mot_acc;
 		vehicle.tar_dist = dist;
 		vehicle.tar_vel = vel;
-		vehicle.tar_acc = acc;
 		vehicle.tar_ang = ang;
 		vehicle.tar_rot_vel = rot_vel;
-		vehicle.tar_rot_acc = rot_acc;
 		vehicle.dist = 0;
 		vehicle.ang = 0;
 
@@ -131,20 +128,16 @@ void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
 			if (vehicle.end_flag > 0) {
 				break;
 			}
-			myprintf("%f,%f,%f,%f,%f,%f\n", l_motor.tar_vel, r_motor.tar_vel,
-					vehicle.ang / 3.141592 * 180.0,
-					vehicle.tar_ang / 3.141592 * 180.0,
-					vehicle.buff_rot_vel / 3.141592 * 180.0,
-					vehicle.tar_rot_vel / 3.141592 * 180.0);
+			write_Logger();
 		}
 
 		break;
 	case on:
 		if (vehicle.select_flag == sla_off) {
 			deceleration = (vel * vel - spec.motor_min_vel * spec.motor_min_vel)
-					/ (2.0 * acc);
+					/ (2.0 * mot_acc);
 			if (deceleration > dist) {
-				deceleration = dist / 2.0;
+				deceleration = dist / 2;
 			}
 			acceleration = dist - deceleration;
 			if (direction == back) {
@@ -154,7 +147,7 @@ void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
 			}
 		} else {
 			deceleration = (1 * 1 - 0.01 * 0.01) * rot_vel * rot_vel
-					/ (2.0 * rot_acc);
+					/ (2.0 * mot_acc);
 			if (deceleration > ang / 1.9) {
 				deceleration = ang / 1.9;
 			}
@@ -171,18 +164,16 @@ void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
 			vehicle.end_flag = 0;
 			vehicle.tar_dist = acceleration;
 			vehicle.tar_vel = vel;
-			vehicle.tar_acc = acc;
 			vehicle.tar_ang = ang;
 			vehicle.tar_rot_vel = rot_vel;
-			vehicle.tar_rot_acc = rot_acc;
 		} else {
 			vehicle.end_flag = 0;
 			vehicle.tar_dist = dist;
 			vehicle.tar_vel = vel;
-			vehicle.tar_acc = acc;
+
 			vehicle.tar_ang = acceleration;
 			vehicle.tar_rot_vel = rot_vel;
-			vehicle.tar_rot_acc = rot_acc;
+
 		}
 
 		r_motor.acc = mot_acc;
@@ -192,17 +183,11 @@ void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
 
 		start_MTU(cst0);
 		start_MTU(cst1);
-//		myprintf("%s\n",
-//				"l_motor.tar_vel, r_motor.tar_vel, vehicle.ang, vehicle.tar_ang, vehicle.rot_vel, vehicle.tar_rot_vel");
 		while (1) {
 			if (vehicle.end_flag > 0) {
 				break;
 			}
-			myprintf("%f,%f,%f,%f,%f,%f\n", l_motor.tar_vel, r_motor.tar_vel,
-					vehicle.ang / 3.141592 * 180.0,
-					vehicle.tar_ang / 3.141592 * 180.0,
-					vehicle.buff_rot_vel / 3.141592 * 180.0,
-					vehicle.tar_rot_vel / 3.141592 * 180.0);
+			write_Logger();
 		}
 
 		//代入(減速フェーズ)
@@ -210,24 +195,27 @@ void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
 			vehicle.end_flag = 0;
 			vehicle.tar_dist = deceleration;
 			vehicle.tar_vel = spec.motor_min_vel;
+			if (stop_flag == on && cst_stop == off) {
+				vehicle.tar_vel = 500;
+			}
 			if (direction == back) {
 				vehicle.tar_vel *= -1.0;
 			}
-			vehicle.tar_acc = acc;
+
 			vehicle.tar_ang = ang;
 			vehicle.tar_rot_vel = rot_vel;
-			vehicle.tar_rot_acc = rot_acc;
+
 		} else {
 			vehicle.end_flag = 0;
 			vehicle.tar_dist = dist;
 			vehicle.tar_vel = vel;
-			vehicle.tar_acc = acc;
+
 			vehicle.tar_ang = deceleration;
 			vehicle.tar_rot_vel = 0.01 * rot_vel;
 			if (direction == left) {
 				vehicle.tar_rot_vel *= 1.0;
 			}
-			vehicle.tar_rot_acc = rot_acc;
+
 		}
 
 		r_motor.acc = mot_acc;
@@ -239,11 +227,7 @@ void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
 			if (vehicle.end_flag > 0) {
 				break;
 			}
-			myprintf("%f,%f,%f,%f,%f,%f\n", l_motor.tar_vel, r_motor.tar_vel,
-					vehicle.ang / 3.141592 * 180.0,
-					vehicle.tar_ang / 3.141592 * 180.0,
-					vehicle.buff_rot_vel / 3.141592 * 180.0,
-					vehicle.tar_rot_vel / 3.141592 * 180.0);
+			write_Logger();
 		}
 		vehicle.tar_vel = 0.0;
 		vehicle.tar_rot_vel = 0.0;
@@ -252,360 +236,347 @@ void drv_Motor(float dist, float vel, float acc, float ang, float rot_vel,
 		r_motor.vel = 0.0;
 		l_motor.vel = 0.0;
 
-		stop_MTU(cst0);
-		stop_MTU(cst1);
+		if (cst_stop == 1) {
+			stop_MTU(cst0);
+			stop_MTU(cst1);
+		}
 		break;
 	}
 }
 
-void mot_app(float dist, float t_vel, int t_acc, char move_flag, char end_flag) {
+void drv_Motor(float dist, float max_vel, float end_vel, float ang,
+		float max_rot_vel, float end_rot_vel, float mot_acc,
+		unsigned char direction, unsigned char stop_flag) {
+	/*
+	 * direction : straight, back, left or right (enum)
+	 * each parameters must be absolute value
+	 * ang[deg], rot_vel[deg/s], rot_acc[deg/s^2]
+	 * select_flag : sla_on or sla_off (enum)
+	 * stop_flag : on or off (enum)
+	 * */
+	float deceleration, acceleration, vel = vehicle.vel, rot_vel =
+			vehicle.rot_vel;
 
-	int decel_dist;
-	decel_dist = (t_vel * t_vel - spec.motor_min_vel * spec.motor_min_vel)
-			/ (2 * t_acc);
-	if (move_flag == straight) {
-		spec.cnt_ctl = 0;
+	//	convert deg2rad
+	ang = ang / 180.0 * 3.141592;
+	max_rot_vel = max_rot_vel / 180.0 * 3.141592;
+	end_rot_vel = end_rot_vel / 180.0 * 3.141592;
+
+	//上下限設定
+	if (mot_acc > spec.motor_max_acc) {
+		mot_acc = spec.motor_max_acc;
+	}
+	//直進判定
+	if (ang == 0.0) {
+		vehicle.select_flag = sla_off;
 	} else {
-		spec.cnt_ctl = 1;
+		vehicle.select_flag = sla_on;
 	}
 
-	start_MTU(cst0);
-	start_MTU(cst1);
+	switch (vehicle.select_flag) {
+	case sla_on: //スラローム
+		//角度計算
 
-	if (dist >= decel_dist) {
-//		drv_Motor(dist - decel_dist, t_vel, t_acc, move_flag & 1, end_flag,
-//				R_motor);
-//		drv_Motor(dist - decel_dist, t_vel, t_acc, (move_flag & 2) >> 1,
-//				end_flag, L_motor);
-//		while (1) {
-//			if (l_motor.stop_flag == 1 || r_motor.stop_flag == 1) {
-//				break;
-//			}
-//		}
-//
-//		drv_Motor(decel_dist, spec.motor_min_vel, t_acc, move_flag & 1, end_flag,
-//				R_motor);
-//		drv_Motor(decel_dist, spec.motor_min_vel, t_acc, (move_flag & 2) >> 1,
-//				end_flag, L_motor);
+//		mot_acc = mot_acc / 180.0 * 3.141592;
 
+		deceleration = (max_rot_vel * max_rot_vel - end_rot_vel * end_rot_vel)
+				/ (2.0 * mot_acc);
+		acceleration = (max_rot_vel * max_rot_vel - rot_vel * rot_vel)
+				/ (2.0 * mot_acc);
+
+		if (deceleration + acceleration > ang) {
+			deceleration = ang / 2.0
+					+ (rot_vel * rot_vel - end_rot_vel * end_rot_vel)
+							/ (4.0 * mot_acc);
+		}
+
+		acceleration = ang - deceleration;
+
+		if (direction == left) {
+			deceleration *= -1;
+			acceleration *= -1;
+			max_rot_vel *= -1;
+		}
+
+		//加速フェーズ
+		vehicle.tar_dist = dist;
+		vehicle.tar_vel = max_vel;
+		vehicle.tar_ang = acceleration;
+		vehicle.tar_rot_vel = max_rot_vel;
+
+		vehicle.end_flag = 0;
+		r_motor.acc = mot_acc;
+		l_motor.acc = mot_acc;
+		vehicle.dist = 0;
+		vehicle.ang = 0;
+
+		start_MTU(cst0);
+		start_MTU(cst1);
 		while (1) {
-			if (l_motor.stop_flag == 1 || r_motor.stop_flag == 1) {
+			if (vehicle.end_flag > 0) {
 				break;
 			}
+			write_Logger();
+//			/*TODO*/myprintf("%f,%f,%f,%f,%f,%f\n", l_motor.vel, r_motor.vel,
+//					vehicle.rot_vel, vehicle.tar_rot_vel, vehicle.tar_ang,
+//					vehicle.ang);
 		}
-	} else {
-//		drv_Motor(dist, spec.motor_min_vel, t_acc, move_flag & 1, end_flag,
-//				R_motor);
-//		drv_Motor(dist, spec.motor_min_vel, t_acc, (move_flag & 2) >> 1, end_flag,
-//				L_motor);
+
+		//減速フェーズ
+		vehicle.tar_dist = dist;
+		vehicle.tar_vel = max_vel;
+
+		vehicle.tar_ang = deceleration;
+		vehicle.tar_rot_vel = end_rot_vel;
+		if (direction == left) {
+			vehicle.tar_rot_vel *= -1.0;
+		}
+
+		vehicle.end_flag = 0;
+		vehicle.dist = 0;
+		vehicle.ang = 0;
 
 		while (1) {
-			if (l_motor.stop_flag == 1 || r_motor.stop_flag == 1) {
+			if (vehicle.end_flag > 0) {
 				break;
 			}
+			write_Logger();
+//			/*TODO*/myprintf("%f,%f,%f,%f,%f,%f\n", l_motor.vel, r_motor.vel,
+//					vehicle.rot_vel, vehicle.tar_rot_vel, vehicle.tar_ang,
+//					vehicle.ang);
 		}
-	}
-	stop_MTU(cst0);
-	stop_MTU(cst1);
+		//停止判定
+		if (stop_flag == 1) {
+			stop_MTU(cst0);
+			stop_MTU(cst1);
+			vehicle.tar_vel = 0.0;
+			vehicle.tar_rot_vel = 0.0;
+			r_motor.tar_vel = 0.0;
+			l_motor.tar_vel = 0.0;
+			r_motor.vel = 0.0;
+			l_motor.vel = 0.0;
 
-	spec.cnt_ctl = 0;
+		}
+		break;
+
+	case sla_off:		//直進
+		//距離計算
+		deceleration = (max_vel * max_vel - end_vel * end_vel)
+				/ (2.0 * mot_acc);
+		acceleration = (max_vel * max_vel - vel * vel) / (2.0 * mot_acc);
+
+		if (deceleration + acceleration > dist) {
+			deceleration = dist / 2.0
+					+ (vel * vel - end_vel * end_vel) / (4.0 * mot_acc);
+		}
+
+		acceleration = dist - deceleration;
+
+		if (direction == back) {
+			acceleration *= -1;
+			deceleration *= -1;
+			max_vel *= -1;
+		}
+		//加速フェーズ
+		vehicle.tar_dist = acceleration;
+		vehicle.tar_vel = max_vel;
+		vehicle.tar_ang = ang;
+		vehicle.tar_rot_vel = max_rot_vel;
+
+		vehicle.end_flag = 0;
+		r_motor.acc = mot_acc;
+		l_motor.acc = mot_acc;
+		vehicle.dist = 0;
+		vehicle.ang = 0;
+
+		start_MTU(cst0);
+		start_MTU(cst1);
+		while (1) {
+			if (vehicle.end_flag > 0) {
+				break;
+			}
+			write_Logger();
+//TODO			myprintf("%f,%f,%f,%f,%f,%f\n", l_motor.vel, r_motor.vel,
+//					vehicle.vel, vehicle.tar_vel, vehicle.tar_dist,
+//					vehicle.dist);
+		}
+		//減速フェーズ
+		vehicle.tar_dist = deceleration;
+		vehicle.tar_vel = end_vel;
+		if (direction == back) {
+			vehicle.tar_vel *= -1.0;
+		}
+		vehicle.tar_ang = ang;
+		vehicle.tar_rot_vel = max_rot_vel;
+
+		vehicle.end_flag = 0;
+		vehicle.dist = 0;
+		vehicle.ang = 0;
+
+		while (1) {
+			if (vehicle.end_flag > 0) {
+				break;
+			}
+			write_Logger();
+//TODO			myprintf("%f,%f,%f,%f,%f,%f\n", l_motor.vel, r_motor.vel,
+//					vehicle.vel, vehicle.tar_vel, vehicle.tar_dist,
+//					vehicle.dist);
+		}
+		//停止判定
+		if (stop_flag == 1) {
+			stop_MTU(cst0);
+			stop_MTU(cst1);
+			vehicle.tar_vel = 0.0;
+			vehicle.tar_rot_vel = 0.0;
+			r_motor.tar_vel = 0.0;
+			l_motor.tar_vel = 0.0;
+			r_motor.vel = 0.0;
+			l_motor.vel = 0.0;
+		}
+		break;
+	}
+
 }
 
-void mot_app2(float dist, float t_vel, int t_acc, char move_flag, char end_flag) {
-
-	if (move_flag == straight) {
-		spec.cnt_ctl = 0;
+void move_half_400(char flag) {
+	if (flag == on) {
+		drv_Motor(spec.half_block, 400.0, spec.motor_min_vel, 0.0, 0.0, 0.0,
+				1200.0, straight, flag);
 	} else {
-		spec.cnt_ctl = 1;
+		drv_Motor(spec.half_block, 400.0, 400.0, 0.0, 0.0, 0.0, 1200.0,
+				straight, flag);
 	}
-
-	start_MTU(cst0);
-	start_MTU(cst1);
-
-//	drv_Motor(dist, t_vel, t_acc, move_flag & 1, end_flag, R_motor);
-//	drv_Motor(dist, t_vel, t_acc, (move_flag & 2) >> 1, end_flag, L_motor);
-
-	while (1) {
-		if (l_motor.stop_flag == 1 || r_motor.stop_flag == 1) {
-			break;
-		}
-	}
-	spec.cnt_ctl = 0;
 }
 
-void move_Left_410() {
+void move_Forward_400() {
+	drv_Motor(spec.full_block, 400.0, 400.0, 0.0, 0.0, 0.0, 1200.0, straight,
+			off);
+}
+
+void move_Left_400() {
 	drv_Status_LED(Rst_status_LED, off);
-	drv_Motor(23.0, 410.0, 1000.0, 0.0, 0.0, 10.0, 1000.0, off, straight);
+	drv_Motor(23.5, 400.0, 400.0, 0.0, 0.0, 0.0, 10000.0, straight, off);
 	drv_Status_LED(Yerrow, on);
-	drv_Motor(0.0, 410.0, 1000.0, 100.0, 400.0, 9000.0, 5000.0, off, left);
-	drv_Status_LED(Red, on);
-	drv_Motor(0.0, 410.0, 1000.0, 8.7, 5.0, 9000.0, 5000.0, off, left);
+	drv_Motor(0.0, 400.0, 400.0, 85.0, 375.0, 0.0, 15000.0, left, off);
 	drv_Status_LED(Green, on);
-	drv_Motor(30.0, 410.0, 1000.0, 0.0, 0.0, 10.0, 1000.0, off, straight);
+	drv_Motor(23.5, 400.0, 400.0, 0.0, 0.0, 0.0, 10000.0, straight, off);
 	drv_Status_LED(Rst_status_LED, off);
 }
 
-void move_Forward_410() {
-	drv_Motor(spec.full_block, 410.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, off,
-			straight);
-}
-
-void move_Right_410() {
+void move_Right_400() {
 	drv_Status_LED(Rst_status_LED, off);
-	drv_Motor(23.0, 410.0, 1000.0, 0.0, 0.0, 10.0, 1000.0, off, straight);
+	drv_Motor(23.5, 400.0, 400.0, 0.0, 0.0, 0.0, 10000.0, straight, off);
 	drv_Status_LED(Yerrow, on);
-	drv_Motor(0.0, 410.0, 1000.0, 100.0, 400.0, 9000.0, 5000.0, off, right);
-	drv_Status_LED(Red, on);
-	drv_Motor(0.0, 410.0, 1000.0, 8.7, 5.0, 9000.0, 5000.0, off, right);
+	drv_Motor(0.0, 400.0, 400.0, 85.0, 375.0, 0.0, 15000.0, right, off);
 	drv_Status_LED(Green, on);
-	drv_Motor(30.0, 410.0, 1000.0, 0.0, 0.0, 10.0, 1000.0, off, straight);
+	drv_Motor(23.5, 400.0, 400.0, 0.0, 0.0, 0.0, 10000.0, straight, off);
 	drv_Status_LED(Rst_status_LED, off);
+
 }
 
 void move_half_450(char flag) {
-	float dist = spec.half_block;
 	if (flag == on) {
-		dist -= 3.0;
+		drv_Motor(spec.half_block, 500.0, spec.motor_min_vel, 0.0, 0.0, 0.0,
+				1200.0, straight, flag);
+	} else {
+		drv_Motor(spec.half_block, 500.0, 400.0, 0.0, 0.0, 0.0, 1200.0,
+				straight, flag);
 	}
-	drv_Motor(dist, 500.0, 1200.0, 0.0, 0.0, 10.0, 1200.0, flag, straight);
+}
+
+void move_Forward_450() {
+	drv_Motor(spec.full_block, 500.0, 500.0, 0.0, 0.0, 0.0, 1200.0, straight,
+			off);
 }
 
 void move_Left_450() {
 	drv_Status_LED(Rst_status_LED, off);
-//	drv_Motor(15.0, 480.0, 1500.0, 0.0, 0.0, 10.0, 1500.0, off, straight);
+	drv_Motor(26.7, 600.0, 600.0, 0.0, 0.0, 0.0, 12000.0, straight, off);
 	drv_Status_LED(Yerrow, on);
-	drv_Motor(0.0, 500.0, 100.0, 105.0, 410.0, 9000.0, 9000.0, off, left);
-	drv_Status_LED(Red, on);
-	drv_Motor(0.0, 500.0, 100.0, 10.0, 1.0, 7000.0, 7000.0, off, left);
+	drv_Motor(0.0, 600.0, 600.0, 80.0, 500.0, 0.0, 15000.0, left, off);
 	drv_Status_LED(Green, on);
-	drv_Motor(5.0, 500.0, 1500.0, 0.0, 0.0, 10.0, 1500.0, off, straight);
+	drv_Motor(26.7, 600.0, 600.0, 0.0, 0.0, 0.0, 12000.0, straight, off);
 	drv_Status_LED(Rst_status_LED, off);
-}
-
-void move_Forward_450() {
-	drv_Motor(spec.full_block, 500.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, off,
-			straight);
 }
 
 void move_Right_450() {
 	drv_Status_LED(Rst_status_LED, off);
-//	drv_Motor(15.0, 480.0, 1500.0, 0.0, 0.0, 10.0, 1500.0, off, straight);
+	drv_Motor(26.7, 600.0, 600.0, 0.0, 0.0, 0.0, 12000.0, straight, off);
 	drv_Status_LED(Yerrow, on);
-	drv_Motor(0.0, 500.0, 100.0, 110.0, 410.0, 9000.0, 9000.0, off, right);
-	drv_Status_LED(Red, on);
-	drv_Motor(0.0, 500.0, 100.0, 12.0, 1.0, 7000.0, 7000.0, off, right);
+	drv_Motor(0.0, 600.0, 600.0, 80.0, 500.0, 0.0, 15000.0, right, off);
 	drv_Status_LED(Green, on);
-	drv_Motor(5.0, 500.0, 1500.0, 0.0, 0.0, 10.0, 1500.0, off, straight);
+	drv_Motor(26.7, 600.0, 600.0, 0.0, 0.0, 0.0, 12000.0, straight, off);
 	drv_Status_LED(Rst_status_LED, off);
 }
 
 void move_Left() {
-	move_half_450(on);
+	move_half_400(on);
 	drv_Status_LED(Red, on);
-	wait_ms(500);
-	drv_Motor(0.0, 0.0, 0.0, 76.0, 300.0, 3000.0, 2000.0, off, left);
+	wait_ms(50);
+	drv_Motor(0.0, 0.0, 0.0, 90.0, 330.0, 0.0, 750.0, left, on);
 	drv_Status_LED(Green, on);
-	drv_Motor(0.0, 0.0, 0.0, 3.5, 300.0, 3000.0, 2000.0, on, left);
-	drv_Status_LED(Yerrow, on);
-	wait_ms(500);
-	move_half_450(off);
+	wait_ms(50);
+	move_half_400(off);
 	drv_Status_LED(Rst_status_LED, off);
 }
 
 void move_Right() {
-	move_half_450(on);
+	move_half_400(on);
 	drv_Status_LED(Red, on);
-	wait_ms(500);
-	drv_Motor(0.0, 0.0, 0.0, 74.0, 300.0, 3000.0, 2000.0, off, right);
+	wait_ms(50);
+	drv_Motor(0.0, 0.0, 0.0, 90.0, 330.0, 0.0, 750.0, right, on);
 	drv_Status_LED(Green, on);
-	drv_Motor(0.0, 0.0, 0.0, 5.5, 300.0, 3000.0, 2000.0, on, right);
-	drv_Status_LED(Yerrow, on);
-	wait_ms(500);
-	move_half_450(off);
+	wait_ms(50);
+	move_half_400(off);
 	drv_Status_LED(Rst_status_LED, off);
 }
 
 void move_Forward() {
-	drv_Motor(spec.full_block, 500.0, 1000.0, 0.0, 0.0, 200.0, 1000.0, off,
-			straight);
+	drv_Motor(spec.full_block, 400.0, 400.0, 0.0, 0.0, 0.0, 1200.0, straight,
+			off);
 }
 
 void move_Backward() {
 	drv_Status_LED(Rst_status_LED, off);
-	move_half_450(on);
-	wait_ms(500);
+	move_half_400(on);
+	wait_ms(50);
 	drv_Status_LED(Red, on);
-	drv_Motor(0.0, 0.0, 0.0, 175.0, 300.0, 3000.0, 2000.0, off, left);
+	drv_Motor(0.0, 0.0, 0.0, 180.0, 330.0, 0.0, 1000.0, right, on);
 	drv_Status_LED(Green, on);
-	drv_Motor(0.0, 0.0, 0.0, 5.5, 300.0, 3000.0, 2000.0, on, right);
 	drv_Status_LED(Rst_status_LED, off);
-	wait_ms(500);
+	wait_ms(50);
 	drv_Status_LED(Red, on);
-	drv_Motor(spec.half_block + 30.0, 200.0, 1000.0, 0.0, 0.0, 10.0, 1000.0, on,
-			back);
+	drv_Motor(spec.full_block - 30, 200.0, spec.motor_min_vel, 0.0, 0.0, 0.0,
+			1200.0, back, on);
 	drv_Status_LED(Green, on);
-	wait_ms(500);
-	drv_Motor(10.0, 300.0, 1000.0, 0.0, 0.0, 10.0, 1000.0, off, straight);
-	move_half_450(off);
+	wait_ms(50);
+	drv_Motor(spec.half_block + 15.0, 400.0, 400.0, 0.0, 0.0, 0.0, 1200.0,
+			straight, off);
 	drv_Status_LED(Rst_status_LED, off);
 }
 
 void move_Backward_2() {
 	drv_Status_LED(Rst_status_LED, off);
-	move_half_450(on);
-	wait_ms(500);
+	move_half_400(on);
+	wait_ms(50);
 	drv_Status_LED(Red, on);
-	drv_Motor(0.0, 0.0, 0.0, 170.0, 300.0, 3000.0, 2000.0, off, left);
-	drv_Status_LED(Green, on);
-	drv_Motor(0.0, 0.0, 0.0, 5.5, 300.0, 3000.0, 2000.0, on, right);
+	drv_Motor(0.0, 0.0, 0.0, 180.0, 330.0, 0.0, 1000.0, right, on);
 	drv_Status_LED(Rst_status_LED, off);
-	wait_ms(500);
+	wait_ms(50);
 	drv_Status_LED(Red, on);
-	move_half_450(off);
+	move_half_400(off);
 	drv_Status_LED(Rst_status_LED, off);
 }
 
 void move_Backward_break() {
 	drv_Status_LED(Rst_status_LED, off);
-	move_half_450(on);
-	wait_ms(500);
+	move_half_400(on);
+	wait_ms(50);
 	drv_Status_LED(Red, on);
-	drv_Motor(0.0, 0.0, 0.0, 170.0, 300.0, 3000.0, 2000.0, off, left);
-	drv_Status_LED(Green, on);
-	drv_Motor(0.0, 0.0, 0.0, 5.5, 300.0, 3000.0, 2000.0, on, right);
+	drv_Motor(0.0, 0.0, 0.0, 180.0, 330.0, 0.0, 1000.0, right, on);
 	drv_Status_LED(Rst_status_LED, off);
-	wait_ms(500);
+	wait_ms(50);
 	drv_Status_LED(Red, on);
-	move_half_450(on);
+	move_half_400(on);
 	drv_Status_LED(Rst_status_LED, off);
 }
-
-//void move_Left() {
-//	spec.kp_r -= 0.1;
-//	spec.kp_l -= 0.1;
-//	mot_app(spec.half_block, 330, 1700, straight, on);
-//	wait_ms(100);
-//	switch_Motor(off);
-//	wait_ms(200);
-//	switch_Motor(on);
-//	wait_ms(100);
-//	mot_app(spec.l_distance, 250, 1700, left, on);
-//	wait_ms(100);
-//	switch_Motor(off);
-//	wait_ms(200);
-//	switch_Motor(on);
-//	wait_ms(100);
-//	mot_app2(spec.half_block, 330, 1700, straight, on);
-//	spec.kp_r += 0.1;
-//	spec.kp_l += 0.1;
-//}
-//
-//void move_Right() {
-//	spec.kp_r -= 0.1;
-//	spec.kp_l -= 0.1;
-//	mot_app(spec.half_block, 330, 1700, straight, on);
-//	wait_ms(100);
-//	switch_Motor(off);
-//	wait_ms(200);
-//	switch_Motor(on);
-//	wait_ms(100);
-//	mot_app(spec.r_distance, 250, 1700, right, on);
-//	wait_ms(10);
-//	switch_Motor(off);
-//	wait_ms(200);
-//	switch_Motor(on);
-//	wait_ms(100);
-//	mot_app2(spec.half_block, 330, 1700, straight, on);
-//	spec.kp_r += 0.1;
-//	spec.kp_l += 0.1;
-//}
-//
-//void move_Forward() {
-//	spec.kp_r += 0.1;
-//	spec.kp_l += 0.1;
-//	mot_app2(spec.full_block, 330, 1700, straight, on);
-//	spec.kp_r -= 0.1;
-//	spec.kp_l -= 0.1;
-//}
-//
-//void move_Backward() {
-//	mot_app(spec.half_block, 330, 1700, straight, on);
-//	wait_ms(100);
-//	switch_Motor(off);
-//	wait_ms(290);
-//	switch_Motor(on);
-//	wait_ms(100);
-//	mot_app(spec.r_distance * 2, 250, 1700, right, on);
-//	wait_ms(10);
-//	switch_Motor(off);
-//	wait_ms(200);
-//	switch_Motor(on);
-//	wait_ms(100);
-//	mot_app(spec.half_block, 250, 1700, back, on);
-//	wait_ms(100);
-//	switch_Motor(off);
-//	wait_ms(200);
-//	switch_Motor(on);
-//	wait_ms(200);
-//	mot_app2(30 + spec.half_block, 330, 1500, straight, on);
-//}
-//
-//void move_Backward_2() {
-//	mot_app(spec.half_block, 330, 1700, straight, on);
-//	wait_ms(100);
-//	switch_Motor(off);
-//	wait_ms(200);
-//	switch_Motor(on);
-//	wait_ms(100);
-//	mot_app(spec.r_distance * 2, 250, 1700, right, on);
-//	wait_ms(100);
-//	switch_Motor(off);
-//	wait_ms(200);
-//	switch_Motor(on);
-//	wait_ms(100);
-//	mot_app2(spec.half_block, 330, 1700, straight, on);
-//}
-
-// void drv_Motor(float dist, float t_vel, int t_acc, char rot_dir_flag,
-// char end_flag, char ch) {
-//
-// //	 rot_dir
-// //	 1 : forward
-// //	 0 : backward
-//
-//
-// if (t_acc > spec.motor_max_acc) {
-// t_acc = spec.motor_max_acc;
-// } else if (t_acc < spec.motor_min_acc) {
-// t_acc = spec.motor_min_acc;
-// }
-//
-// if (t_vel > spec.motor_max_vel) {
-// t_vel = spec.motor_max_vel;
-// } else if (t_vel < spec.motor_min_vel) {
-// t_vel = spec.motor_min_vel;
-// }
-//
-// PE.DRL.BIT.B2 = 1; //reset(0 : off, 1 : on)
-// switch (ch) {
-// case R_motor:
-// r_motor.cnt = dist / spec.step_dist;
-// r_motor.tar_vel = t_vel;
-// r_motor.acc = t_acc;
-// r_motor.rot_dir_flag = !rot_dir_flag; //R_CW/CCW(0 : forward, 1 : backward)
-// PE.DRL.BIT.B1 = r_motor.rot_dir_flag;
-// r_motor.end_flag = end_flag;
-// r_motor.stop_flag = 0;
-// break;
-// case L_motor:
-// l_motor.cnt = dist / spec.step_dist;
-// l_motor.tar_vel = t_vel;
-// l_motor.acc = t_acc;
-// l_motor.rot_dir_flag = rot_dir_flag; //L_CW/CCW(1 : forward, 0 : backward)
-// PE.DRL.BIT.B5 = l_motor.rot_dir_flag;
-// l_motor.end_flag = end_flag;
-// l_motor.stop_flag = 0;
-// break;
-// }
-// PE.DRL.BIT.B2 = 0; //reset(0 : off, 1 : on)
-// }

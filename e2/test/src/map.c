@@ -12,7 +12,7 @@
 
 MAP map;
 
-extern SEN r_sen,l_sen,cr_sen,cl_sen;
+extern SEN r_sen, l_sen, cr_sen, cl_sen;
 
 void init_Map(void) {
 	int i, j;
@@ -20,8 +20,8 @@ void init_Map(void) {
 	map.pos_x = 0;
 	map.pos_y = 0;
 	map.direction = 0;
-	map.goal_x = 7;
-	map.goal_y = 7;
+	map.goal_x = 1;
+	map.goal_y = 0;
 	map.tar_x = map.goal_x;
 	map.tar_y = map.goal_y;
 	map.map_size = mp_size;
@@ -43,8 +43,13 @@ void init_Map(void) {
 			map.dist_map[i][j] = 255;
 		}
 	}
-	map.a_dist_map[map.tar_x][map.tar_y] = 0;
-	map.dist_map[map.tar_x][map.tar_y] = 0;
+
+	for (i = 0; i < 2; i++) {
+		for (j = 0; j < 2; j++) {
+			map.a_dist_map[map.tar_x + i][map.tar_y + j] = 0;
+			map.dist_map[map.tar_x + i][map.tar_y + j] = 0;
+		}
+	}
 }
 
 void detect_Direction() {
@@ -179,7 +184,6 @@ void print_Wall_map() {
 	}
 	myprintf("\n\n");
 }
-
 
 char read_Wall_map(char x, char y) {
 
@@ -437,8 +441,8 @@ char generate_A_path() {
 	 * 		 3 West
 	 * =================
 	 * */
-	char x = map.pos_x, y = map.pos_y, dir = map.direction, rel_dir, wall, dist, min_dist,
-			pri_flag;
+	char x = map.pos_x, y = map.pos_y, dir = map.direction, rel_dir, wall, dist,
+			min_dist, pri_flag;
 	int i = 0;
 
 	wall = read_Wall_map(x, y);
@@ -494,10 +498,10 @@ char generate_A_path() {
 	}
 
 	if (pri_flag != 4) {
-		min_dist = pri_flag;
+		min_dist = pri_flag; //keep forward if some distance takes minimum distance
 	}
 
-	rel_dir = min_dist - dir;
+	rel_dir = min_dist - dir; //convert absolute direction to relative direction
 	if (rel_dir < 0) {
 		rel_dir += 4;
 	}
@@ -512,7 +516,17 @@ void init_A_dist_map() {
 			map.a_dist_map[i][j] = 255;
 		}
 	}
-	map.a_dist_map[map.tar_x][map.tar_y] = 0;
+
+	if (map.tar_x == 0 && map.tar_y == 0) {
+		map.a_dist_map[map.tar_x][map.tar_y] = 0;
+	} else {
+		for (i = 0; i < 2; i++) {
+			for (j = 0; j < 2; j++) {
+				map.a_dist_map[map.tar_x + i][map.tar_y + j] = 0;
+			}
+		}
+	}
+
 }
 
 void init_Dist_map() {
@@ -523,7 +537,16 @@ void init_Dist_map() {
 			map.dist_map[i][j] = 255;
 		}
 	}
-	map.dist_map[map.tar_x][map.tar_y] = 0;
+
+	if (map.tar_x == 0 && map.tar_y == 0) {
+		map.dist_map[map.tar_x][map.tar_y] = 0;
+	} else {
+		for (i = 0; i < 2; i++) {
+			for (j = 0; j < 2; j++) {
+				map.dist_map[map.tar_x + i][map.tar_y + j] = 0;
+			}
+		}
+	}
 
 }
 
@@ -547,7 +570,7 @@ void update_Dist_map() {
 	unsigned char buff_x = 0, buff_y = 0, wall, dist = 0;
 	int i, j, k;
 	mix_Map();
-	print_Mixed_map();
+//TODO	print_Mixed_map();
 	while (map.dist_map[0][0] == 255) {
 		for (i = 0; i < map.map_size; i++) {
 			for (j = 0; j < map.map_size; j++) {
@@ -589,11 +612,10 @@ void update_Dist_map() {
 				}
 			}
 		}
-		print_Dist_map();
+//TODO print_Dist_map();
 		dist += 1;
 	}
 }
-
 
 void generate_Path() {
 	/*
@@ -616,9 +638,9 @@ void generate_Path() {
 	 * */
 	char x = 0, y = 0, dir = map.direction, rel_dir = map.direction, wall, dist,
 			min_dist, pri_flag;
-	int i = 0;
+	int i = 0, j = 0;
 
-	myprintf("=======\n");
+//TODO	myprintf("=======\n");
 
 	while (map.dist_map[x][y] != 0) {
 		wall = read_Mixed_map(x, y);
@@ -676,7 +698,7 @@ void generate_Path() {
 
 		if (pri_flag != 4) {
 			min_dist = pri_flag;
-			myprintf("====\n");
+//TODO			myprintf("====\n");
 		}
 
 		if (min_dist == 0) {
@@ -695,17 +717,47 @@ void generate_Path() {
 		}
 
 		dir = min_dist;
-		myprintf("(%d,%d)\n", x, y);
-		myprintf("%d\n", rel_dir);
-		map.path[i] = rel_dir;
 
-		i++;
+//TODO		myprintf("%d\n", rel_dir);
+//		map.path[i] = rel_dir;
+
+		if (map.path_test[i - 1].index == rel_dir && i > 0 && rel_dir == 0) {
+			map.path_test[i - 1].block_num += 1;
+		} else {
+			map.path_test[i].index = rel_dir;
+			map.path_test[i].block_num = 1;
+			i += 1;
+		}
+//TODO
+		myprintf("(%d,%d) %d\n", map.path_test[i - 1].index,
+				map.path_test[i - 1].block_num, i - 1);
 	}
+	map.path_test[0].block_num -= 1;
 }
 
 void init_Path() {
 	int i;
 	for (i = 0; i < map.map_size * map.map_size; i++) {
-		map.path[i] = 4;
+//		map.path[i] = 4;
+		map.path_test[i].block_num = 0;
+		map.path_test[i].index = 4;
 	}
+}
+
+unsigned char check_pos() {
+	char i, j, lim;
+	if (map.tar_x == 0 && map.tar_y == 0) {
+		lim = 1;
+	} else {
+		lim = 2;
+	}
+
+	for (i = 0; i < lim; i++) {
+		for (j = 0; j < lim; j++) {
+			if (map.pos_x == map.tar_x + i && map.pos_y == map.tar_y + j) {
+				return 1;
+			}
+		}
+	}
+	return 0;
 }

@@ -1,4 +1,4 @@
-Optimizing Linkage Editor (V.10.02.01.000)        01-Sep-2018 13:23:32
+Optimizing Linkage Editor (V.10.02.01.000)        22-Oct-2018 08:32:41
 
 *** Options ***
 
@@ -9,8 +9,10 @@ Optimizing Linkage Editor (V.10.02.01.000)        01-Sep-2018 13:23:32
 -input="./src/MTU.obj"
 -input="./src/calc.obj"
 -input="./src/dbsct.obj"
+-input="./src/fixfloat.obj"
 -input="./src/init.obj"
 -input="./src/interrupt_handlers.obj"
+-input="./src/logger.obj"
 -input="./src/map.obj"
 -input="./src/motor.obj"
 -input="./src/reset_program.obj"
@@ -46,18 +48,18 @@ PIntPRG
 PResetPRG
                                   00000800  0000082f        30   4
 P
-                                  00001000  0000e45b      d45c   4
+                                  00001000  0000e51f      d520   4
 C
-                                  0000e45c  0000e8b7       45c   4
+                                  0000e520  0000e903       3e4   4
 C$BSEC
-                                  0000e8b8  0000e8bf         8   4
+                                  0000e904  0000e90b         8   4
 C$DSEC
-                                  0000e8c0  0000e8cb         c   4
+                                  0000e90c  0000e917         c   4
 D
-                                  0000e8cc  0000e8cf         4   4
+                                  0000e918  0000e91b         4   4
 B
-                                  ffffa000  ffffaa23       a24   4
+                                  ffffa000  ffffac83       c84   4
 R
-                                  ffffaa24  ffffaa27         4   4
+                                  ffffac84  ffffac87         4   4
 S
                                   ffffbc00  ffffbfff       400   4

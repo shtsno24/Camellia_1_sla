@@ -22,6 +22,7 @@
 #include "motor.h"
 #include "map.h"
 #include "math.h"
+#include "logger.h"
 
 #define round(A)((int)(A + 0.5))
 
@@ -34,6 +35,7 @@ extern VEH vehicle;
 extern SW Switch;
 extern CMT_01 tim;
 extern MAP map;
+extern LOG logger;
 
 enum mode {
 	astar_sla = 0, astar = 1, show_map = 2, test = 3, run = 4
@@ -107,211 +109,206 @@ int main(void) {
 			spec.sta_LED_flag = 0;
 			map.pos_x = 0;
 			map.pos_y = 1;
-			map.tar_x = map.goal_x;
-			map.tar_y = map.goal_y;
 			map.direction = 0;
 			spec.run_interruption = 0;
 			UX_effect(alart);
+			route_index = 0;
 
 			switch_Motor(on);
-			wait_ms(100);
-			move_half_450(off);
+			wait_ms(1000);
+			move_half_400(off);
 
-			while (spec.run_interruption != 1) {
-				update_Wall_map();
-				update_A_dist_map();
-				map.tmp_path = generate_A_path();
-				init_A_dist_map();
+			while (map.path_test[route_index].index != 4) {
 
-				if (map.tmp_path == 1) {
+				if (map.path_test[route_index].index == 1) {
 					map.direction += 1;
-					move_Right_450();
-				} else if (map.tmp_path == 3) {
+					move_Right_400();
+
+				} else if (map.path_test[route_index].index == 3) {
 					map.direction += 3;
-					move_Left_450();
-				} else if (map.tmp_path == 0) {
+					move_Left_400();
+				} else if (map.path_test[route_index].index == 0) {
 					map.direction += 0;
-					move_Forward_450();
-				} else if (map.tmp_path == 2) {
+					drv_Motor(
+							(spec.full_block + 5)
+									* map.path_test[route_index].block_num,
+							650.0, 400.0, 0.0, 0.0, 0.0, 1200.0, straight, off);
+				} else {
 					map.direction += 2;
-					if (map.wall == 7 || map.wall == 11 || map.wall == 13
-							|| map.wall == 14) {
-						move_Backward();
-					} else {
-						move_Backward_2();
-					}
+					move_Backward_2();
 				}
 				map.direction %= 4;
 
 				detect_Direction();
-				if (map.pos_x == map.tar_x & map.pos_y == map.tar_y) {
-					spec.run_interruption = 1;
-				}
+				route_index += 1;
 			}
 			update_Wall_map();
-			move_Backward_break();
-			map.direction += 2;
-			map.direction %= 4;
-			detect_Direction();
-
-			map.tar_x = 0;
-			map.tar_y = 0;
-			init_Path();
-			init_Dist_map();
-			update_Dist_map();
-			generate_Path();
-
-			spec.run_interruption = 0;
+			move_half_400(on);
 
 			wait_ms(300);
-
-			UX_effect(alart);
-//			move_half_450(off);
-
-			while (spec.run_interruption != 1) {
-				update_Wall_map();
-				update_A_dist_map();
-				map.tmp_path = generate_A_path();
-				init_A_dist_map();
-
-				if (map.tmp_path == 1) {
-					map.direction += 1;
-					move_Right_450();
-				} else if (map.tmp_path == 3) {
-					map.direction += 3;
-					move_Left_450();
-				} else if (map.tmp_path == 0) {
-					map.direction += 0;
-					move_Forward_450();
-				} else if (map.tmp_path == 2) {
-					map.direction += 2;
-					if (map.wall == 7 || map.wall == 11 || map.wall == 13
-							|| map.wall == 14) {
-						move_Backward();
-					} else {
-						move_Backward_2();
-					}
-				}
-				map.direction %= 4;
-
-				detect_Direction();
-				if (map.pos_x == map.tar_x & map.pos_y == map.tar_y) {
-					spec.run_interruption = 1;
-				}
-			}
-			update_Wall_map();
-			move_half_450(on);
-			wait_ms(300);
-			drv_Motor(0.0, 0.0, 0.0, 159.0, 400.0, 3000.0, 2000.0, off, left);
-			drv_Status_LED(Green, on);
-			drv_Motor(0.0, 0.0, 0.0, 25.0, 1.0, 3000.0, 2000.0, on, left);
-			wait_ms(300);
-			drv_Motor(spec.half_block + 30.0, 200.0, 1000.0, 0.0, 0.0, 10.0,
-					1000.0, on, back);
-			wait_ms(300);
-
 			switch_Motor(off);
 			spec.sta_LED_flag = 0;
 			map.pos_x = 0;
 			map.pos_y = 0;
-			init_Path();
-			init_Dist_map();
-			update_Dist_map();
-			generate_Path();
 			break;
-
-		case run:
 //			spec.sta_LED_flag = 0;
 //			map.pos_x = 0;
 //			map.pos_y = 1;
+//			map.tar_x = map.goal_x;
+//			map.tar_y = map.goal_y;
 //			map.direction = 0;
 //			spec.run_interruption = 0;
 //			UX_effect(alart);
-//			route_index = 1;
-
+//
 //			switch_Motor(on);
-//			mot_app2(spec.half_block, 330, 2000, straight, on);
+//			wait_ms(1000);
+//			move_half_450(off);
 //
-//			while (map.path[route_index] != 4) {
+//			while (spec.run_interruption != 1) {
+//				init_A_dist_map();
 //				update_Wall_map();
+//				update_A_dist_map();
+//				map.tmp_path = generate_A_path();
 //
-//				if (map.path[route_index] == 1) {
+//				if (map.tmp_path == 1) {
 //					map.direction += 1;
-//					move_Right();
-//
-//				} else if (map.path[route_index] == 3) {
+//					move_Right_400();
+//				} else if (map.tmp_path == 3) {
 //					map.direction += 3;
-//					move_Left();
-//				} else if (map.path[route_index] == 0) {
+//					move_Left_400();
+//				} else if (map.tmp_path == 0) {
 //					map.direction += 0;
-//					move_Forward();
-//				} else {
+//					move_Forward_400();
+//				} else if (map.tmp_path == 2) {
 //					map.direction += 2;
-//					move_Backward_2();
+//					if (map.wall == 7 || map.wall == 11 || map.wall == 13
+//							|| map.wall == 14) {
+//						move_Backward();
+//					} else {
+//						move_Backward_2();
+//					}
 //				}
 //				map.direction %= 4;
 //
 //				detect_Direction();
-//				route_index += 1;
+//				if (map.pos_x == map.tar_x & map.pos_y == map.tar_y) {
+//					spec.run_interruption = 1;
+//				}
 //			}
 //			update_Wall_map();
-//			mot_app(spec.half_block, 310, 2000, straight, on);
+//			move_Backward_break();
+//			map.direction += 2;
+//			map.direction %= 4;
+//			detect_Direction();
+//
+//			map.tar_x = 0;
+//			map.tar_y = 0;
+//			update_Wall_map();
+//			update_A_dist_map();
+//			init_Path();
+//			init_Dist_map();
+//			update_Dist_map();
+//			generate_Path();
+//
+//			spec.run_interruption = 0;
+//
+//			wait_ms(300);
+//
+//			UX_effect(alart);
+//
+//			while (spec.run_interruption != 1) {
+//				init_A_dist_map();
+//				update_Wall_map();
+//				update_A_dist_map();
+//				map.tmp_path = generate_A_path();
+//
+//				if (map.tmp_path == 1) {
+//					map.direction += 1;
+//					move_Right_400();
+//				} else if (map.tmp_path == 3) {
+//					map.direction += 3;
+//					move_Left_400();
+//				} else if (map.tmp_path == 0) {
+//					map.direction += 0;
+//					move_Forward_400();
+//				} else if (map.tmp_path == 2) {
+//					map.direction += 2;
+//					if (map.wall == 7 || map.wall == 11 || map.wall == 13
+//							|| map.wall == 14) {
+//						move_Backward();
+//					} else {
+//						move_Backward_2();
+//					}
+//				}
+//				map.direction %= 4;
+//
+//				detect_Direction();
+//				if (map.pos_x == map.tar_x && map.pos_y == map.tar_y) {
+//					spec.run_interruption = 1;
+//				}
+//			}
+//			update_Wall_map();
+//			move_half_400(on);
+//			wait_ms(300);
+//			drv_Motor(0.0, 0.0, 180.0, 400.0, 2000.0, on, left, on);
+//			wait_ms(300);
+//			drv_Motor(spec.half_block + 30.0, 200.0, 0.0, 0.0, 1000.0, on, back,
+//					on);
+//			wait_ms(300);
+//
+//			switch_Motor(off);
+//			spec.sta_LED_flag = 0;
+//			map.pos_x = 0;
+//			map.pos_y = 0;
+//			init_Path();
+//			init_Dist_map();
+//			update_Dist_map();
+//			generate_Path();
+//			break;
+
+		case run:
 			spec.sta_LED_flag = 0;
 			map.pos_x = 0;
 			map.pos_y = 1;
-			map.tar_x = map.goal_x;
-			map.tar_y = map.goal_y;
 			map.direction = 0;
 			spec.run_interruption = 0;
 			UX_effect(alart);
+			route_index = 0;
 
 			switch_Motor(on);
-			wait_ms(100);
-			move_half_450(off);
+			wait_ms(1000);
+			move_half_400(off);
 
-			while (spec.run_interruption != 1) {
-				update_Wall_map();
-				update_A_dist_map();
-				map.tmp_path = generate_A_path();
-				init_A_dist_map();
-
-				if (map.tmp_path == 1) {
+			while (map.path_test[route_index].index != 4) {
+				if (map.path_test[route_index].index == 1) {
 					map.direction += 1;
-					move_Right();
-				} else if (map.tmp_path == 3) {
+					move_Right_450();
+				} else if (map.path_test[route_index].index == 3) {
 					map.direction += 3;
-					move_Left();
-				} else if (map.tmp_path == 0) {
+					move_Left_450();
+				} else if (map.path_test[route_index].index == 0) {
 					map.direction += 0;
-					move_Forward_450();
-				} else if (map.tmp_path == 2) {
+					drv_Motor(
+							(spec.full_block + 7)
+									* map.path_test[route_index].block_num,
+							650.0, 550.0, 0.0, 0.0, 0.0, 2000.0, straight, off);
+				} else {
 					map.direction += 2;
-					if (map.wall == 7 || map.wall == 11 || map.wall == 13
-							|| map.wall == 14) {
-						move_Backward();
-					} else {
-						move_Backward_2();
-					}
+					move_Backward_2();
 				}
 				map.direction %= 4;
 
 				detect_Direction();
-				if (map.pos_x == map.tar_x & map.pos_y == map.tar_y) {
-					spec.run_interruption = 1;
-				}
+				route_index += 1;
 			}
 			update_Wall_map();
-			move_Backward_break();
+			move_half_400(on);
 
 			wait_ms(300);
 			switch_Motor(off);
 			spec.sta_LED_flag = 0;
 			map.pos_x = 0;
 			map.pos_y = 0;
-			init_Path();
-			init_Dist_map();
-			update_Dist_map();
-			generate_Path();
 			break;
 
 		case astar:
@@ -325,14 +322,14 @@ int main(void) {
 			UX_effect(alart);
 
 			switch_Motor(on);
-			wait_ms(100);
-			move_half_450(off);
+			wait_ms(1000);
+			move_half_400(off);
 
 			while (spec.run_interruption != 1) {
+				init_A_dist_map();
 				update_Wall_map();
 				update_A_dist_map();
 				map.tmp_path = generate_A_path();
-				init_A_dist_map();
 
 				if (map.tmp_path == 1) {
 					map.direction += 1;
@@ -342,7 +339,7 @@ int main(void) {
 					move_Left();
 				} else if (map.tmp_path == 0) {
 					map.direction += 0;
-					move_Forward_450();
+					move_Forward_400();
 				} else if (map.tmp_path == 2) {
 					map.direction += 2;
 					if (map.wall == 7 || map.wall == 11 || map.wall == 13
@@ -353,78 +350,33 @@ int main(void) {
 					}
 				}
 				map.direction %= 4;
-
 				detect_Direction();
-				if (map.pos_x == map.tar_x & map.pos_y == map.tar_y) {
-					spec.run_interruption = 1;
-				}
-			}
-			update_Wall_map();
-			move_Backward_break();
-			map.direction += 2;
-			map.direction %= 4;
-			detect_Direction();
-
-			map.tar_x = 0;
-			map.tar_y = 0;
-			init_Path();
-			init_Dist_map();
-			update_Dist_map();
-			generate_Path();
-
-			spec.run_interruption = 0;
-
-			wait_ms(300);
-
-			UX_effect(alart);
-			//			move_half_450(off);
-
-			while (spec.run_interruption != 1) {
-				update_Wall_map();
-				update_A_dist_map();
-				map.tmp_path = generate_A_path();
-				init_A_dist_map();
-
-				if (map.tmp_path == 1) {
-					map.direction += 1;
-					move_Right();
-				} else if (map.tmp_path == 3) {
-					map.direction += 3;
-					move_Left();
-				} else if (map.tmp_path == 0) {
-					map.direction += 0;
-					move_Forward_450();
-				} else if (map.tmp_path == 2) {
-					map.direction += 2;
-					if (map.wall == 7 || map.wall == 11 || map.wall == 13
-							|| map.wall == 14) {
-						move_Backward();
+				if (check_pos() == 1) {
+					if (map.pos_x == 0 && map.pos_y == 0) {
+						spec.run_interruption = 1;
 					} else {
-						move_Backward_2();
+						map.tar_x = 0;
+						map.tar_y = 0;
 					}
 				}
-				map.direction %= 4;
-
-				detect_Direction();
-				if (map.pos_x == map.tar_x & map.pos_y == map.tar_y) {
-					spec.run_interruption = 1;
-				}
 			}
 			update_Wall_map();
-			move_half_450(on);
+			move_half_400(on);
 			wait_ms(300);
-			drv_Motor(0.0, 0.0, 0.0, 159.0, 400.0, 3000.0, 2000.0, off, left);
+			drv_Motor(0.0, 0.0, 0.0, 180.0, 330.0, 0.0, 1000.0, right, on);
 			drv_Status_LED(Green, on);
-			drv_Motor(0.0, 0.0, 0.0, 25.0, 1.0, 3000.0, 2000.0, on, left);
-			wait_ms(300);
-			drv_Motor(spec.half_block + 30.0, 200.0, 1000.0, 0.0, 0.0, 10.0,
-					1000.0, on, back);
-			wait_ms(300);
+			wait_ms(50);
+			drv_Motor(spec.full_block - 30, 200.0, spec.motor_min_vel, 0.0, 0.0,
+					0.0, 1200.0, back, on);
 
+			wait_ms(300);
 			switch_Motor(off);
 			spec.sta_LED_flag = 0;
 			map.pos_x = 0;
 			map.pos_y = 0;
+			map.tar_x = map.goal_x;
+			map.tar_y = map.goal_y;
+			map.direction = 0;
 			init_Path();
 			init_Dist_map();
 			update_Dist_map();
@@ -437,9 +389,11 @@ int main(void) {
 			spec.sta_LED_flag = 0;
 			map.direction = 0;
 			UX_effect(alart);
+			dump_Logger();
 			print_Wall_map();
 			print_Searched_map();
 			init_Path();
+			init_Dist_map();
 			update_Dist_map();
 			generate_Path();
 			break;
@@ -493,27 +447,33 @@ int main(void) {
 
 			UX_effect(alart);
 			switch_Motor(on);
-			myprintf("%s\n",
-					"l_motor.tar_vel, r_motor.tar_vel, vehicle.ang, vehicle.tar_ang, vehicle.rot_vel, vehicle.tar_rot_vel");
 			spec.sta_LED_flag = 0;
-			wait_ms(1000);
-			move_half_450(off);
-			for (i = 0; i < 4; i++) {
-				move_Forward();
-			}
-			move_half_450(on);
+			wait_ms(300);
+			logger.run = 1; //standby logger
+
+//			move_half_400(off);
+//			move_Forward_400();
+//			move_Forward_400();
+//			move_half_400(on);
+
+//			move_half_400(off);
+//			for (i = 0; i < 5; i++) {
+//				move_Forward_400();
+//				drv_Motor_test(spec.full_block, 400.0, 400.0, 0.0, 0.0, 0.0, 1000.0, off, straight);
+//			}
+//			drv_Motor(0.0, 0.0, 90.0*4, 300.0, 1000.0, on, right);
+//			move_half_400(on);
 
 //			drv_Status_LED(Rst_status_LED, off);
-//			move_half_450(off);
+//			move_half_400(off);
 //			drv_Status_LED(Red, on);
-//			move_Forward_450();
+//			move_Forward_400();
 //			drv_Status_LED(Green, on);
-//			move_Left_450();
-//			move_Forward_450();
+//			move_Right_400();
+//			move_Forward_400();
 //			drv_Status_LED(Red, on);
-//			move_half_450(on);
+//			move_half_400(on);
 //			drv_Status_LED(Green, on);
-//			wait_ms(300);
 
 //			while (PB.DR.BIT.B5 != 0)
 //				;
@@ -522,17 +482,14 @@ int main(void) {
 
 //			move_half_450(off);
 //			drv_Status_LED(Red, on);
-//			for (i = 0; i < 2; i++) {
+//			for (i = 0; i < 0; i++) {
 //				move_Forward_450();
 //			}
 //			move_Backward();
-//			for (i = 0; i < 2; i++) {
+//			for (i = 0; i < 0; i++) {
 //				move_Forward_450();
 //			}
 //			move_half_450(on);
-//
-//			wait_ms(300);
-//			switch_Motor(off);
 
 //			move_Right();
 //			move_Right();
@@ -540,10 +497,14 @@ int main(void) {
 //					straight);
 //			drv_Motor(1500.0, 1300.0, 1000.0, 0.0, 0.0, 0.0, 1500.0, on,
 //					straight);
-			wait_ms(300);
+
+			drv_Status_LED(Red, on);
+			wait_ms_test(10000);
+
+
 			drv_Status_LED(Red, off);
 			drv_Status_LED(Green, off);
-
+			logger.run = 0; //stop logger
 			spec.sta_LED_flag = 0;
 
 			break;

@@ -12,19 +12,11 @@ void calc_diff();
 
 void calc_vel();
 
-void calc_veh_vel();
-
-void calc_veh_rot_vel();
-
 void calc_2mot();
 
 void calc_2vel();
 
 void calc_mot_vel();
-
-void calc_dist_end();
-
-void calc_ang_end();
 
 void calc_vel();
 

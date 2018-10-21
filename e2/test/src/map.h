@@ -10,6 +10,11 @@
 
 #define mp_size 16
 
+typedef struct path {
+	unsigned char index :4;
+	unsigned char block_num :4;
+} PATH;
+
 typedef struct map {
 	unsigned char tar_x;
 	unsigned char tar_y;
@@ -21,7 +26,8 @@ typedef struct map {
 	unsigned char wall;
 	unsigned char tmp_path;
 	unsigned char map_size;
-	unsigned char path[mp_size * mp_size];
+//	unsigned char path[mp_size * mp_size];
+	PATH path_test[mp_size * mp_size];
 	unsigned char dist_map[mp_size][mp_size];
 	unsigned char a_dist_map[mp_size][mp_size];
 	unsigned int wall_map_x[mp_size - 1];
@@ -77,5 +83,7 @@ void update_Dist_map();
 void generate_Path();
 
 void init_Path();
+
+unsigned char check_pos();
 
 #endif /* MAP_H_ */

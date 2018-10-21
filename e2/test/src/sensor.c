@@ -11,18 +11,22 @@ SEN r_sen, cr_sen, l_sen, cl_sen;
 
 void init_Sensor(void) {
 	int i;
-	r_sen.non_threshold = 110;
-	cr_sen.non_threshold = 110;
-	cl_sen.non_threshold = 110;
-	l_sen.non_threshold = 110;
+	r_sen.non_threshold = 130;
+	cr_sen.non_threshold = 130;
+	cl_sen.non_threshold = 130;
+	l_sen.non_threshold = 130;
 
-	r_sen.diff_threshold = 5;
+	r_sen.diff_threshold = 3;
 	cr_sen.diff_threshold = 220;
 	cl_sen.diff_threshold = 220;
-	l_sen.diff_threshold = 4;
+	l_sen.diff_threshold = 3;
 
-	r_sen.ref_wall = 334;
-	l_sen.ref_wall = 334;
+//	r_sen.ref_wall = 357;
+//	l_sen.ref_wall = 357;
+
+	r_sen.ref_wall = 311;
+	l_sen.ref_wall = 377;
+
 	cr_sen.ref_wall = 802 - 400;
 	cl_sen.ref_wall = 948 - 400;
 
@@ -54,7 +58,7 @@ void init_ADC(void){
 		AD0.ADCR.BIT.ADST = 0;		//AD停止
 		AD0.ADCSR.BIT.ADCS = 0;		//サイクルスキャンしない
 		AD0.ADCSR.BIT.TRGE = 0;		//トリガーイネーブル無効
-		AD0.ADCSR.BIT.CKSL = 0;		//周辺回路動作クロック
+		AD0.ADCSR.BIT.CKSL = 3;		//周辺回路動作クロック(3:Pφ,2:Pφ/2)
 		AD0.ADCSR.BIT.ADIE = 0;		//割込み禁止
 		AD0.ADCSR.BIT.ADM = 0;		//シングルスキャン
 		AD0.ADCSR.BIT.CH = 0;		//ch0選択
@@ -62,7 +66,7 @@ void init_ADC(void){
 		AD1.ADCR.BIT.ADST = 0;		//AD停止
 		AD1.ADCSR.BIT.ADCS = 0;		//サイクルスキャンしない
 		AD1.ADCSR.BIT.TRGE = 0;		//トリガイネーブル無効
-		AD1.ADCSR.BIT.CKSL = 0;		//周辺動作クロック
+		AD1.ADCSR.BIT.CKSL = 3;		//周辺回路動作クロック(3:Pφ,2:Pφ/2)
 		AD1.ADCSR.BIT.ADIE = 0;		//割込み禁止
 		AD1.ADCSR.BIT.ADM = 0;		//シングルスキャン
 		AD1.ADCSR.BIT.CH = 0;		//ch4選択

@@ -122,7 +122,7 @@ test.abs: $(OBJS) $(LIBRARY_GENERATOR_OUTPUTTYPE_OUTPUTS) $(ALL_ASMS)
 
 test.lib:  
 	@echo 'Invoking: Standard Library'
-	lbgsh -head=runtime,new,ctype,math,mathf,stdarg,stdio,stdlib,string -optimize=0 -gbr=auto -cpu=sh2 -output="test.lib"
+	lbgsh -head=runtime,new,ctype,math,mathf,stdarg,stdio,stdlib -optimize=0 -gbr=auto -cpu=sh2 -output="test.lib"
 	@echo 'Finished building:'
 	@echo.
 
@@ -138,7 +138,7 @@ post-build:
 	-C:\Renesas\E2_STU~1\DEBUGC~1\SH\SH_CON~1.EXE test.abs test.x
 	@echo.
 
-.PHONY: all clean dependents
+.PHONY: all clean dependents $(LINKER_OUTPUT_OUTPUTS)
 .SECONDARY: post-build
 
 -include ../makefile.targets

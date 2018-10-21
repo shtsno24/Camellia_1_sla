@@ -24,11 +24,11 @@ void init_MTU(void) {
 	MTU20.TIER.BIT.TGIEA = 1; //enable interrupt
 	MTU21.TIER.BIT.TGIEA = 1; //enable interrupt
 
-	INTC.IPRD.BIT._MTU20G = 0xC; //set interrupt priority
-	INTC.IPRD.BIT._MTU21G = 0xB; //set interrupt priority
+	INTC.IPRD.BIT._MTU20G = 0xF; //set interrupt priority
+	INTC.IPRD.BIT._MTU21G = 0xE; //set interrupt priority
 
-	MTU20.TCR.BIT.TPSC = 0; //set clock 25/1=25MHz(0.16us)
-	MTU21.TCR.BIT.TPSC = 0; //set clock 25/1=25MHz(0.16us)
+	MTU20.TCR.BIT.TPSC = 1; //set clock 25/4=6.25MHz
+	MTU21.TCR.BIT.TPSC = 1; //set clock 25/4=6.25MHz
 
 	MTU20.TCNT = 0;	// reset counter
 	MTU21.TCNT = 0;
@@ -112,8 +112,13 @@ void change_Duty_MTU20(void) {
 	 * write this function to interrupt_handlers.c
 	 * */
 
-	r_motor.duty = (int) (spec.step_dist / r_motor.vel * 25000000);
-//	r_motor.duty = (int) (spec.step_dist / r_motor.vel * 50000000);
+//	stop_MTU(cst0);
+//	r_motor.duty = (int) (spec.step_dist / r_motor.vel * 12500000);
+//	r_motor.duty = (int) (spec.step_dist / r_motor.vel * 25000000);
+	if (r_motor.vel == 0.0) {
+		r_motor.vel += 0.001;
+	}
+	r_motor.duty = (int) (spec.step_dist / r_motor.vel * 6250000);
 	if (r_motor.duty < 0) {
 		PE.DRL.BIT.B1 = 1; //R_CW/CCW(0 : forward, 1 : backward)
 		r_motor.cnt--;
@@ -133,9 +138,7 @@ void change_Duty_MTU20(void) {
 	MTU20.TGRB = abs(round(r_motor.duty / 2)); //(1/v)*(step_distance / MTU_clock_duty)
 	MTU20.TSR.BIT.TGFA = 0; //reset flag
 
-	if (r_motor.cnt < 0 && r_motor.end_flag == 1) {
-		r_motor.stop_flag = 1;
-	}
+//	start_MTU(cst0);
 
 }
 
@@ -144,8 +147,13 @@ void change_Duty_MTU21(void) {
 	 * this function operates L_motor
 	 * write this function to interrupt_handlers.c
 	 */
-	l_motor.duty = (int) (spec.step_dist / l_motor.vel * 25000000);
-//	l_motor.duty = (int) (spec.step_dist / l_motor.vel * 50000000);
+//	stop_MTU(cst1);
+//	l_motor.duty = (int) (spec.step_dist / l_motor.vel * 12500000);
+//	l_motor.duty = (int) (spec.step_dist / l_motor.vel * 25000000);
+	if (l_motor.vel == 0.0) {
+		l_motor.vel += 0.001;
+	}
+	l_motor.duty = (int) (spec.step_dist / l_motor.vel * 6250000);
 	if (l_motor.duty < 0) {
 		PE.DRL.BIT.B5 = 0; //L_CW/CCW(1 : forward, 0 : backward)
 		l_motor.cnt--;
@@ -164,8 +172,5 @@ void change_Duty_MTU21(void) {
 	MTU21.TGRB = abs(round(l_motor.duty / 2));
 	MTU21.TSR.BIT.TGFA = 0; //reset flag
 
-	l_motor.stop_flag = 0;
-	if (l_motor.cnt < 0 && l_motor.end_flag == 1) {
-		l_motor.stop_flag = 1;
-	}
+//	start_MTU(cst1);
 }
