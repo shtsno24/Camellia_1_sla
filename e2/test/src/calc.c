@@ -37,9 +37,12 @@ void calc_diff(void) {
 		spec.diff = 0.0;
 		return;
 	} else if (cr_sen.sen > cr_sen.diff_threshold) {
-		spec.diff *= 0.3;
+		spec.diff *= 0.1;
 		return;
 	} else if (vehicle.tar_vel < 0) {
+		spec.diff = 0.0;
+		return;
+	} else if (r_motor.acc > 8000) {
 		spec.diff = 0.0;
 		return;
 	} else {
@@ -123,11 +126,10 @@ void calc_mot_vel() {
 	 * follow motor velocity to target value
 	 * */
 
-	spec.kp_l = vehicle.vel * 0.00057;
-	spec.kp_r = vehicle.vel * 0.00057;
-
 //	spec.kp_l = vehicle.vel * 0.00057;
 //	spec.kp_r = vehicle.vel * 0.00057;
+	spec.kp_l = 0.2;
+	spec.kp_r = 0.2;
 
 	if (l_motor.tar_vel + spec.kp_l * spec.diff > l_motor.vel) {
 		l_motor.vel += (l_motor.acc * 0.001);

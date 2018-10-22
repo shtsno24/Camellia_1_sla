@@ -22,16 +22,16 @@ CMT_01 tim;
 void init_CMT(void) {	//CMT割込の設定
 	STB.CR4.BIT._CMT = 0;		//CMTスタンバイ解除
 	//  (1)コンペアマッチタイマスタートレジスタ（CMSTR）
-	CMT.CMSTR.BIT.STR0 = 0;		// ステータスレジスタ　0：カウント停止, 1：カウント開始
+//	CMT.CMSTR.BIT.STR0 = 0;		// ステータスレジスタ　0：カウント停止, 1：カウント開始
 	CMT.CMSTR.BIT.STR1 = 0;
 	//  (2)コンペアマッチタイマコントロール／ステータスレジスタ（CMCSR）
-	CMT0.CMCSR.BIT.CMIE = 1;    //割り込みイネーブル許可
-	CMT0.CMCSR.BIT.CKS = 0;     //1/8(25Mhz時に3.125MHz)
-	CMT0.CMCSR.BIT.CMF = 0;     //フラグをクリア
-	CMT0.CMCOR = 3125 - 1;  //割り込み周期(1ms)
+//	CMT0.CMCSR.BIT.CMIE = 1;    //割り込みイネーブル許可
+//	CMT0.CMCSR.BIT.CKS = 0;     //1/8(25Mhz時に3.125MHz)
+//	CMT0.CMCSR.BIT.CMF = 0;     //フラグをクリア
+//	CMT0.CMCOR = 3125 - 1;  //割り込み周期(1ms)
 //	CMT0.CMCOR = 6250 - 1;  //割り込み周期(2ms@Pφ=25MHz)
-	INTC.IPRJ.BIT._CMT0 = 0xA;  //割り込み優先度(15)
-	CMT.CMSTR.BIT.STR0 = 1;		// ステータスレジスタ 1：カウント開始
+//	INTC.IPRJ.BIT._CMT0 = 0xA;  //割り込み優先度(15)
+//	CMT.CMSTR.BIT.STR0 = 1;		// ステータスレジスタ 1：カウント開始
 
 	CMT1.CMCSR.BIT.CMIE = 1;    //割り込みイネーブル許可
 	CMT1.CMCSR.BIT.CKS = 0;     //1/8(25Mhz時に3.125MHz)
@@ -44,30 +44,27 @@ void init_CMT(void) {	//CMT割込の設定
 
 void interrupt_cmt0() {
 // write this function to interrupt_handlers.c
-	CMT0.CMCSR.BIT.CMF = 0;
-	tim.count_cmt_0 += 1;
-}
-
-void interrupt_cmt1() {
-// write this function to interrupt_handlers.c
-	CMT1.CMCSR.BIT.CMF = 0;
-	tim.count_cmt_1 += 1;
+//	CMT0.CMCSR.BIT.CMF = 0;
+//	tim.count_cmt_0 += 1;
 }
 
 void wait_ms(int t) {
-	tim.count_cmt_0 = 0;
-	CMT0.CMCNT = 0;
-	while (tim.count_cmt_0 < t)
+//	tim.count_cmt_0 = 0;
+//	CMT0.CMCNT = 0;
+//	while (tim.count_cmt_0 < t)
+//		;
+	tim.count_cmt_1 = 0;
+	CMT1.CMCNT = 0;
+	while (tim.count_cmt_1 < t)
 		;
 }
 
 void wait_ms_test(int t) {
 	tim.count_cmt_1 = 0;
-//	CMT0.CMCNT = 0;
+	CMT1.CMCNT = 0;
 	while (tim.count_cmt_1 < t)
 		;
 }
-
 
 void sen_cmt1(void) {
 	int i;

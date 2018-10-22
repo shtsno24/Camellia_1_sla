@@ -27,6 +27,7 @@
 #define round(A)((int)(A + 0.5))
 
 int route_index, i;
+float vel;
 
 extern SPC spec;
 extern SEN r_sen, cr_sen, l_sen, cl_sen;
@@ -129,10 +130,15 @@ int main(void) {
 					move_Left_400();
 				} else if (map.path_test[route_index].index == 0) {
 					map.direction += 0;
+					if(map.path_test[route_index].block_num==1){
+						vel = 550;
+					}else{
+						vel = 700;
+					}
 					drv_Motor(
-							(spec.full_block + 5)
+							(spec.full_block + 0)
 									* map.path_test[route_index].block_num,
-							650.0, 400.0, 0.0, 0.0, 0.0, 1200.0, straight, off);
+							vel, 450.0, 0.0, 0.0, 0.0, 1000.0, straight, off);
 				} else {
 					map.direction += 2;
 					move_Backward_2();
@@ -289,7 +295,7 @@ int main(void) {
 				} else if (map.path_test[route_index].index == 0) {
 					map.direction += 0;
 					drv_Motor(
-							(spec.full_block + 7)
+							(spec.full_block + 0)
 									* map.path_test[route_index].block_num,
 							650.0, 550.0, 0.0, 0.0, 0.0, 2000.0, straight, off);
 				} else {
@@ -457,23 +463,23 @@ int main(void) {
 //			move_half_400(on);
 
 //			move_half_400(off);
-//			for (i = 0; i < 5; i++) {
+//			for (i = 0; i < 12; i++) {
 //				move_Forward_400();
-//				drv_Motor_test(spec.full_block, 400.0, 400.0, 0.0, 0.0, 0.0, 1000.0, off, straight);
+//			drv_Motor(0.0, 0.0, 0.0, 90.0 * 12, 330.0, 0.0, 750.0, left, on);
 //			}
 //			drv_Motor(0.0, 0.0, 90.0*4, 300.0, 1000.0, on, right);
 //			move_half_400(on);
 
-//			drv_Status_LED(Rst_status_LED, off);
-//			move_half_400(off);
-//			drv_Status_LED(Red, on);
-//			move_Forward_400();
-//			drv_Status_LED(Green, on);
-//			move_Right_400();
-//			move_Forward_400();
-//			drv_Status_LED(Red, on);
-//			move_half_400(on);
-//			drv_Status_LED(Green, on);
+			drv_Status_LED(Rst_status_LED, off);
+			move_half_400(off);
+			drv_Status_LED(Red, on);
+			move_Forward_400();
+			drv_Status_LED(Green, on);
+			move_Left_400();
+			move_Forward_400();
+			drv_Status_LED(Red, on);
+			move_half_400(on);
+			drv_Status_LED(Green, on);
 
 //			while (PB.DR.BIT.B5 != 0)
 //				;
@@ -498,10 +504,7 @@ int main(void) {
 //			drv_Motor(1500.0, 1300.0, 1000.0, 0.0, 0.0, 0.0, 1500.0, on,
 //					straight);
 
-			drv_Status_LED(Red, on);
-			wait_ms_test(10000);
-
-
+			wait_ms(300);
 			drv_Status_LED(Red, off);
 			drv_Status_LED(Green, off);
 			logger.run = 0; //stop logger

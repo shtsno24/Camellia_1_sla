@@ -1,4 +1,4 @@
-Optimizing Linkage Editor (V.10.02.01.000)        22-Oct-2018 08:32:41
+Optimizing Linkage Editor (V.10.02.01.000)        22-Oct-2018 22:01:26
 
 *** Options ***
 
@@ -44,22 +44,22 @@ DVECTTBL
 DINTTBL
                                   00000010  000003ff       3f0   4
 PIntPRG
-                                  00000400  0000061b       21c   4
+                                  00000400  000005ef       1f0   4
 PResetPRG
                                   00000800  0000082f        30   4
 P
-                                  00001000  0000e51f      d520   4
+                                  00001000  0000e49b      d49c   4
 C
-                                  0000e520  0000e903       3e4   4
+                                  0000e49c  0000e87f       3e4   4
 C$BSEC
-                                  0000e904  0000e90b         8   4
+                                  0000e880  0000e887         8   4
 C$DSEC
-                                  0000e90c  0000e917         c   4
+                                  0000e888  0000e893         c   4
 D
-                                  0000e918  0000e91b         4   4
+                                  0000e894  0000e897         4   4
 B
-                                  ffffa000  ffffac83       c84   4
+                                  ffffa000  ffffac87       c88   4
 R
-                                  ffffac84  ffffac87         4   4
+                                  ffffac88  ffffac8b         4   4
 S
                                   ffffbc00  ffffbfff       400   4
