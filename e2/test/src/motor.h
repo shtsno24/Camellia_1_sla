@@ -39,9 +39,7 @@ typedef struct mot {
 
 void init_Motor(void);
 
-//void drv_Motor(float, float, float, float, float, float, unsigned char);
-
-void drv_Motor2(float, float, float, float, float, unsigned char, unsigned char, unsigned char);
+//void drv_Motor2(float, float, float, float, float, unsigned char, unsigned char, unsigned char);
 void drv_Motor(float, float, float, float, float, float, float, unsigned char, unsigned char);
 
 void switch_Motor(char);

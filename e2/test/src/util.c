@@ -38,8 +38,8 @@ void init_Vehicle() {
 }
 
 void init_Spec() {
-	spec.tread = 86.4;//[mm]
-	spec.tire_dim = 51.9;//[mm]
+	spec.tread = 84.4;//[mm]
+	spec.tire_dim = 51.5;//[mm]
 	spec.step_angle = 0.9; //[deg]
 	spec.step_dist = spec.tire_dim * 3.1415926 * (spec.step_angle / 360.0);//[mm]
 
