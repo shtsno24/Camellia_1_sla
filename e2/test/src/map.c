@@ -456,6 +456,8 @@ char generate_A_path() {
 				min_dist = 2;
 				if (min_dist == dir) {
 					pri_flag = dir;
+				} else if (pri_flag != 4) {
+					pri_flag = min_dist;
 				}
 			}
 		}
@@ -468,6 +470,8 @@ char generate_A_path() {
 				min_dist = 1;
 				if (min_dist == dir) {
 					pri_flag = dir;
+				} else if (pri_flag != 4) {
+					pri_flag = min_dist;
 				}
 			}
 		}
@@ -480,6 +484,8 @@ char generate_A_path() {
 				min_dist = 3;
 				if (min_dist == dir) {
 					pri_flag = dir;
+				} else if (pri_flag != 4) {
+					pri_flag = min_dist;
 				}
 			}
 		}
@@ -492,6 +498,8 @@ char generate_A_path() {
 				min_dist = 0;
 				if (min_dist == dir) {
 					pri_flag = dir;
+				} else if (pri_flag != 4) {
+					pri_flag = min_dist;
 				}
 			}
 		}

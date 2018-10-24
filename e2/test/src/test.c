@@ -136,12 +136,14 @@ int main(void) {
 				} else if (map.path_test[route_index].index == 0) {
 					map.direction += 0;
 					if (map.path_test[route_index].block_num <= 4) {
-						vel = 450 + 100 * map.path_test[route_index].block_num;
+						vel = 460 + 100 * map.path_test[route_index].block_num;
+						i = 0;
 					} else {
 						vel = 900;
+						i = 2;
 					}
 					drv_Motor(
-							(spec.full_block + 2)
+							(spec.full_block + i)
 									* map.path_test[route_index].block_num, vel,
 							450.0, 0.0, 0.0, 0.0, 1800.0, straight, off);
 				} else {
