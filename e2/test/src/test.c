@@ -136,14 +136,14 @@ int main(void) {
 				} else if (map.path_test[route_index].index == 0) {
 					map.direction += 0;
 					if (map.path_test[route_index].block_num <= 4) {
-						vel = 450 + 50 * map.path_test[route_index].block_num;
+						vel = 450 + 100 * map.path_test[route_index].block_num;
 					} else {
-						vel = 750;
+						vel = 900;
 					}
 					drv_Motor(
-							(spec.full_block + 0)
+							(spec.full_block + 2)
 									* map.path_test[route_index].block_num, vel,
-							450.0, 0.0, 0.0, 0.0, 1300.0, straight, off);
+							450.0, 0.0, 0.0, 0.0, 1800.0, straight, off);
 				} else {
 					map.direction += 2;
 					move_Backward_2();
@@ -306,14 +306,16 @@ int main(void) {
 					map.direction += 0;
 					map.direction += 0;
 					if (map.path_test[route_index].block_num <= 8) {
-						vel = 500 + 80 * map.path_test[route_index].block_num;
+						vel = 550 + 100 * map.path_test[route_index].block_num;
+						i = 0;
 					} else {
-						vel = 1400;
+						vel = 1500;
+						i = 5;
 					}
 					drv_Motor(
-							(spec.full_block + 2)
+							(spec.full_block + i)
 									* map.path_test[route_index].block_num, vel,
-							550.0, 0.0, 0.0, 0.0, 1500.0, straight, off);
+							550.0, 0.0, 0.0, 0.0, 2000.0, straight, off);
 				} else {
 					map.direction += 2;
 					move_Backward_2();
