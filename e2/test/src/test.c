@@ -398,6 +398,7 @@ int main(void) {
 					if (map.pos_x == 0 && map.pos_y == 0) {
 						spec.run_interruption = 1;
 					} else {
+
 						map.tar_x = 0;
 						map.tar_y = 0;
 					}
@@ -439,6 +440,7 @@ int main(void) {
 			init_Dist_map();
 			update_Dist_map();
 			generate_Path();
+			print_Path();
 			break;
 
 		case test:

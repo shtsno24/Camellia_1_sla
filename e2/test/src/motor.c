@@ -550,7 +550,7 @@ void move_Backward() {
 			1200.0, back, on);
 	drv_Status_LED(Green, on);
 	wait_ms(50);
-	drv_Motor(spec.half_block + 15.0, 450.0, 450.0, 0.0, 0.0, 0.0, 1200.0,
+	drv_Motor(spec.half_block + 13.0, 450.0, 450.0, 0.0, 0.0, 0.0, 1200.0,
 			straight, off);
 	drv_Status_LED(Rst_status_LED, off);
 }

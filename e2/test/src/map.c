@@ -735,20 +735,23 @@ void generate_Path() {
 
 		if (map.path_test[i - 1].index == rel_dir && i > 0 && rel_dir == 0) {
 			map.path_test[i - 1].block_num += 1;
-		}
-//		else if(rel_dir == 0 && map.path_test[i - 1].index == 1 && map.path_test[i - 2].index == 1 && map.path_test[i - 3].index == 0){
-//			i -= 2;
-//			map.path_test[i - 1].block_num -= 1;
-//			map.path_test[i].block_num = 1;
-//			map.path_test[i].index = 5;
-//		}
-//		else if(rel_dir == 0 && map.path_test[i - 1].index == 1 && map.path_test[i - 2].index == 1 && map.path_test[i - 3].index == 0){
-//			i -= 2;
-//			map.path_test[i - 1].block_num -= 1;
-//			map.path_test[i].block_num = 1;
-//			map.path_test[i].index = 6;
-//		}
-		else {
+		} else if (rel_dir == 0 && map.path_test[i - 1].index == 1
+				&& map.path_test[i - 2].index == 1
+				&& map.path_test[i - 3].index == 0) {
+			i -= 2;
+			map.path_test[i - 1].block_num -= 1;
+			map.path_test[i].block_num = 1;
+			map.path_test[i].index = 5;
+			i += 1;
+		} else if (rel_dir == 0 && map.path_test[i - 1].index == 3
+				&& map.path_test[i - 2].index == 3
+				&& map.path_test[i - 3].index == 0) {
+			i -= 2;
+			map.path_test[i - 1].block_num -= 1;
+			map.path_test[i].block_num = 1;
+			map.path_test[i].index = 6;
+			i += 1;
+		} else {
 			map.path_test[i].index = rel_dir;
 			map.path_test[i].block_num = 1;
 			i += 1;
@@ -758,6 +761,8 @@ void generate_Path() {
 				map.path_test[i - 1].block_num, i - 1);
 	}
 	map.path_test[0].block_num -= 1;
+	map.path_test[i].index = 0;
+	map.path_test[i].block_num = 1;
 }
 
 void init_Path() {
@@ -766,6 +771,15 @@ void init_Path() {
 //		map.path[i] = 4;
 		map.path_test[i].block_num = 0;
 		map.path_test[i].index = 4;
+	}
+}
+
+void print_Path() {
+	int i = 0;
+	while (map.path_test[i].index != 4) {
+		myprintf("(%d,%d)\n", map.path_test[i].index,
+				map.path_test[i].block_num);
+		i += 1;
 	}
 }
 

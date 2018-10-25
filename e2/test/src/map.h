@@ -84,6 +84,8 @@ void generate_Path();
 
 void init_Path();
 
+void print_Path();
+
 unsigned char check_pos();
 
 #endif /* MAP_H_ */
