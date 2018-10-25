@@ -635,6 +635,11 @@ void generate_Path() {
 	 * 3:left
 	 * 4:goal
 	 * 5:right180
+	 * 				block = 3 : full turn in, full turn out
+	 * 				block = 2 : half turn in, full turn out
+	 * 				block = 1 : full turn in, half turn out
+	 * 				block = 0 : half turn in, half turn out
+	 *
 	 * 6:left180
 	 * 7:right90
 	 * 8:left90
@@ -740,17 +745,33 @@ void generate_Path() {
 				&& map.path_test[i - 3].index == 0) {
 			i -= 2;
 			map.path_test[i - 1].block_num -= 1;
-			map.path_test[i].block_num = 1;
+			map.path_test[i].block_num = 3;
 			map.path_test[i].index = 5;
 			i += 1;
+//			if(map.path_test[i - 1].index == 5 || map.path_test[i - 1].index == 6){
+//				map.path_test[i-1].block_num &= 1;
+//				map.path_test[i].block_num = 2;
+//			} else {
+//				map.path_test[i].block_num = 3;
+//			}
+//			map.path_test[i].index = 5;
+//			i += 1;
 		} else if (rel_dir == 0 && map.path_test[i - 1].index == 3
 				&& map.path_test[i - 2].index == 3
 				&& map.path_test[i - 3].index == 0) {
 			i -= 2;
 			map.path_test[i - 1].block_num -= 1;
-			map.path_test[i].block_num = 1;
+			map.path_test[i].block_num = 3;
 			map.path_test[i].index = 6;
 			i += 1;
+//			if(map.path_test[i - 1].index == 5 || map.path_test[i - 1].index == 6){
+//				map.path_test[i-1].block_num &= 1;
+//				map.path_test[i].block_num = 2;
+//			} else {
+//				map.path_test[i].block_num = 3;
+//			}
+//			map.path_test[i].index = 6;
+//			i += 1;
 		} else {
 			map.path_test[i].index = rel_dir;
 			map.path_test[i].block_num = 1;
