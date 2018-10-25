@@ -133,6 +133,18 @@ int main(void) {
 				} else if (map.path_test[route_index].index == 3) {
 					map.direction += 3;
 					move_Left_400();
+				} else if (map.path_test[route_index].index == 5) {
+					map.direction += 2;
+					move_Forward_400();
+					move_Right_400();
+					move_Right_400();
+					move_Forward_400();
+				} else if (map.path_test[route_index].index == 6) {
+					map.direction += 2;
+					move_Forward_400();
+					move_Left_400();
+					move_Left_400();
+					move_Forward_400();
 				} else if (map.path_test[route_index].index == 0) {
 					map.direction += 0;
 					if (map.path_test[route_index].block_num <= 4) {
