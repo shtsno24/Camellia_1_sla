@@ -135,11 +135,6 @@ int main(void) {
 					move_Left_400();
 				} else if (map.path_test[route_index].index == 5) {
 					map.direction += 2;
-//					move_Forward_400();
-//					move_Right_400();
-//					move_Right_400();
-//					move_Forward_400();
-
 					drv_Motor((spec.half_block)*(1 + (map.path_test[route_index].block_num & 1)), 450.0, 450.0, 0.0, 0.0, 0.0, 1200.0, straight,
 					off);
 					move_Right_400();
@@ -149,11 +144,6 @@ int main(void) {
 
 				} else if (map.path_test[route_index].index == 6) {
 					map.direction += 2;
-//					move_Forward_400();
-//					move_Left_400();
-//					move_Left_400();
-//					move_Forward_400();
-
 					drv_Motor((spec.half_block)*(1 + (map.path_test[route_index].block_num & 1)), 450.0, 450.0, 0.0, 0.0, 0.0, 1200.0, straight,
 					off);
 					move_Left_400();
@@ -334,16 +324,20 @@ int main(void) {
 					move_Left_450();
 				} else if (map.path_test[route_index].index == 5) {
 					map.direction += 2;
-					move_Forward_450();
+					drv_Motor((spec.half_block)*(1 + (map.path_test[route_index].block_num & 1)), 600.0, 600.0, 0.0, 0.0, 0.0, 1200.0, straight,
+										off);
 					move_Right_450();
 					move_Right_450();
-					move_Forward_450();
+					drv_Motor((spec.half_block)*(1 + ((map.path_test[route_index].block_num & 2) >> 1)), 600.0, 600.0, 0.0, 0.0, 0.0, 1200.0, straight,
+										off);
 				} else if (map.path_test[route_index].index == 6) {
 					map.direction += 2;
-					move_Forward_450();
+					drv_Motor((spec.half_block)*(1 + (map.path_test[route_index].block_num & 1)), 600.0, 600.0, 0.0, 0.0, 0.0, 1200.0, straight,
+															off);
 					move_Left_450();
 					move_Left_450();
-					move_Forward_450();
+					drv_Motor((spec.half_block)*(1 + ((map.path_test[route_index].block_num & 2) >> 1)), 600.0, 600.0, 0.0, 0.0, 0.0, 1200.0, straight,
+															off);
 				} else if (map.path_test[route_index].index == 0) {
 					map.direction += 0;
 					map.direction += 0;
