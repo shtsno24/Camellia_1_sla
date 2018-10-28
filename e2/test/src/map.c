@@ -741,27 +741,33 @@ void generate_Path() {
 		if (map.path_test[i - 1].index == rel_dir && i > 0 && rel_dir == 0) {
 			map.path_test[i - 1].block_num += 1;
 		} else if (rel_dir == 0 && map.path_test[i - 1].index == 1
-				&& map.path_test[i - 2].index == 1){
+				&& map.path_test[i - 2].index == 1
+				&& map.path_test[i - 3].index != 1
+				&& map.path_test[i - 3].index != 3) {
 			i -= 2;
-			if(map.path_test[i - 1].index == 5 || map.path_test[i - 1].index == 6){
-				map.path_test[i-1].block_num &= 1;
+			if (map.path_test[i - 1].index == 5
+					|| map.path_test[i - 1].index == 6) {
+				map.path_test[i - 1].block_num &= 1;
 				map.path_test[i].block_num = 2;
 			} else {
 				map.path_test[i].block_num = 3;
-				map.path_test[i-1].block_num -= 1;
+				map.path_test[i - 1].block_num -= 1;
 			}
 			map.path_test[i].index = 5;
 			i += 1;
 		} else if (rel_dir == 0 && map.path_test[i - 1].index == 3
-				&& map.path_test[i - 2].index == 3){
+				&& map.path_test[i - 2].index == 3
+				&& map.path_test[i - 3].index != 1
+				&& map.path_test[i - 3].index != 3) {
 			i -= 2;
 
-			if(map.path_test[i - 1].index == 5 || map.path_test[i - 1].index == 6){
-				map.path_test[i-1].block_num &= 1;
+			if (map.path_test[i - 1].index == 5
+					|| map.path_test[i - 1].index == 6) {
+				map.path_test[i - 1].block_num &= 1;
 				map.path_test[i].block_num = 2;
 			} else {
 				map.path_test[i].block_num = 3;
-				map.path_test[i-1].block_num -= 1;
+				map.path_test[i - 1].block_num -= 1;
 			}
 			map.path_test[i].index = 6;
 			i += 1;
