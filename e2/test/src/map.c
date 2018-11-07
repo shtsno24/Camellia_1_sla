@@ -20,8 +20,8 @@ void init_Map(void) {
 	map.pos_x = 0;
 	map.pos_y = 0;
 	map.direction = 0;
-	map.goal_x = 1;
-	map.goal_y = 0;
+	map.goal_x = 2;
+	map.goal_y = 1;
 	map.tar_x = map.goal_x;
 	map.tar_y = map.goal_y;
 	map.map_size = mp_size;
@@ -451,12 +451,13 @@ char generate_A_path() {
 
 	if ((wall & 4) == 0) {
 		if (y - 1 >= 0) {
-			if (map.a_dist_map[x][y - 1] <= dist) {
+			if (map.a_dist_map[x][y - 1] < dist) {
 				dist = map.a_dist_map[x][y - 1];
 				min_dist = 2;
+				pri_flag = 4;
+			} else if (map.a_dist_map[x][y - 1] == dist) {
+				min_dist = 2;
 				if (min_dist == dir) {
-					pri_flag = dir;
-				} else if (pri_flag != 4) {
 					pri_flag = min_dist;
 				}
 			}
@@ -465,12 +466,13 @@ char generate_A_path() {
 
 	if ((wall & 2) == 0) {
 		if (x + 1 < map.map_size) {
-			if (map.a_dist_map[x + 1][y] <= dist) {
+			if (map.a_dist_map[x + 1][y] < dist) {
 				dist = map.a_dist_map[x + 1][y];
 				min_dist = 1;
+				pri_flag = 4;
+			} else if (map.a_dist_map[x + 1][y] == dist) {
+				min_dist = 1;
 				if (min_dist == dir) {
-					pri_flag = dir;
-				} else if (pri_flag != 4) {
 					pri_flag = min_dist;
 				}
 			}
@@ -479,12 +481,13 @@ char generate_A_path() {
 
 	if ((wall & 8) == 0) {
 		if (x - 1 >= 0) {
-			if (map.a_dist_map[x - 1][y] <= dist) {
+			if (map.a_dist_map[x - 1][y] < dist) {
 				dist = map.a_dist_map[x - 1][y];
 				min_dist = 3;
+				pri_flag = 4;
+			} else if (map.a_dist_map[x - 1][y] == dist) {
+				min_dist = 3;
 				if (min_dist == dir) {
-					pri_flag = dir;
-				} else if (pri_flag != 4) {
 					pri_flag = min_dist;
 				}
 			}
@@ -493,12 +496,13 @@ char generate_A_path() {
 
 	if ((wall & 1) == 0) {
 		if (y + 1 < map.map_size) {
-			if (map.a_dist_map[x][y + 1] <= dist) {
+			if (map.a_dist_map[x][y + 1] < dist) {
 				dist = map.a_dist_map[x][y + 1];
 				min_dist = 0;
+				pri_flag = 4;
+			} else if (map.a_dist_map[x][y + 1] == dist) {
+				min_dist = 0;
 				if (min_dist == dir) {
-					pri_flag = dir;
-				} else if (pri_flag != 4) {
 					pri_flag = min_dist;
 				}
 			}
@@ -664,6 +668,7 @@ void generate_Path() {
 		dist = map.dist_map[x][y];
 		pri_flag = 4;
 
+		myprintf("(%d,%d,%d,%d)\n",x,y,dir,rel_dir);
 		if ((wall & 1) == 0) {
 			if (y + 1 < map.map_size) {
 				if (map.dist_map[x][y + 1] <= dist) {
