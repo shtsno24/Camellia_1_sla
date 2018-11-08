@@ -668,7 +668,7 @@ void generate_Path() {
 		dist = map.dist_map[x][y];
 		pri_flag = 4;
 
-		myprintf("(%d,%d,%d,%d)\n",x,y,dir,rel_dir);
+		myprintf("(%d,%d,%d,%d)\n", x, y, dir, rel_dir);
 		if ((wall & 1) == 0) {
 			if (y + 1 < map.map_size) {
 				if (map.dist_map[x][y + 1] <= dist) {
@@ -743,38 +743,39 @@ void generate_Path() {
 //TODO		myprintf("%d\n", rel_dir);
 //		map.path[i] = rel_dir;
 
-		if (map.path_test[i - 1].index == rel_dir && i > 0 && rel_dir == 0) {
+		if (map.path_test[i - 1].index == rel_dir && i > 0
+				&& rel_dir == Forward) {
 			map.path_test[i - 1].block_num += 1;
-		} else if (rel_dir == 0 && map.path_test[i - 1].index == 1
-				&& map.path_test[i - 2].index == 1
-				&& map.path_test[i - 3].index != 1
-				&& map.path_test[i - 3].index != 3) {
+		} else if (rel_dir == Forward && map.path_test[i - 1].index == R_small
+				&& map.path_test[i - 2].index == R_small
+				&& map.path_test[i - 3].index != R_small
+				&& map.path_test[i - 3].index != L_small) {
 			i -= 2;
-			if (map.path_test[i - 1].index == 5
-					|| map.path_test[i - 1].index == 6) {
+			if (map.path_test[i - 1].index == R_180
+					|| map.path_test[i - 1].index == L_180) {
 				map.path_test[i - 1].block_num &= 1;
 				map.path_test[i].block_num = 2;
 			} else {
 				map.path_test[i].block_num = 3;
 				map.path_test[i - 1].block_num -= 1;
 			}
-			map.path_test[i].index = 5;
+			map.path_test[i].index = R_180;
 			i += 1;
-		} else if (rel_dir == 0 && map.path_test[i - 1].index == 3
-				&& map.path_test[i - 2].index == 3
-				&& map.path_test[i - 3].index != 1
-				&& map.path_test[i - 3].index != 3) {
+		} else if (rel_dir == 0 && map.path_test[i - 1].index == L_small
+				&& map.path_test[i - 2].index == L_small
+				&& map.path_test[i - 3].index != R_small
+				&& map.path_test[i - 3].index != L_small) {
 			i -= 2;
 
-			if (map.path_test[i - 1].index == 5
-					|| map.path_test[i - 1].index == 6) {
+			if (map.path_test[i - 1].index == R_180
+					|| map.path_test[i - 1].index == L_180) {
 				map.path_test[i - 1].block_num &= 1;
 				map.path_test[i].block_num = 2;
 			} else {
 				map.path_test[i].block_num = 3;
 				map.path_test[i - 1].block_num -= 1;
 			}
-			map.path_test[i].index = 6;
+			map.path_test[i].index = L_180;
 			i += 1;
 		} else {
 			map.path_test[i].index = rel_dir;
@@ -782,11 +783,11 @@ void generate_Path() {
 			i += 1;
 		}
 //TODO
-		myprintf("(%d,%d) %d\n", map.path_test[i - 1].index,
-				map.path_test[i - 1].block_num, i - 1);
+//		myprintf("(%d,%d) %d\n", map.path_test[i - 1].index,
+//				map.path_test[i - 1].block_num, i - 1);
 	}
 	map.path_test[0].block_num -= 1;
-	map.path_test[i].index = 0;
+	map.path_test[i].index = Forward;
 	map.path_test[i].block_num = 1;
 }
 

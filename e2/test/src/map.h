@@ -10,6 +10,16 @@
 
 #define mp_size 16
 
+enum move{
+	Forward = 0,
+	R_small = 1,
+	Backward = 2,
+	L_small = 3,
+	End = 4,
+	R_180 = 5,
+	L_180 = 6
+};
+
 typedef struct path {
 	unsigned char index :4;
 	unsigned char block_num :4;
