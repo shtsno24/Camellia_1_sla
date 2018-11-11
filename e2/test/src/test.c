@@ -131,20 +131,36 @@ int main(void) {
 				} else if (map.path_test[route_index].index == L_small) {
 					move_Left_400();
 				} else if (map.path_test[route_index].index == R_180) {
-					drv_Motor((spec.half_block)*(1 + (map.path_test[route_index].block_num & 1)), 450.0, 450.0, 0.0, 0.0, 0.0, 1200.0, straight,
-					off);
+					drv_Motor(
+							(spec.half_block)
+									* (1
+											+ (map.path_test[route_index].block_num
+													& 1)), 450.0, 450.0, 0.0,
+							0.0, 0.0, 1200.0, straight, off);
 					move_Right_400();
 					move_Right_400();
-					drv_Motor((spec.half_block)*(1 + ((map.path_test[route_index].block_num & 2) >> 1)), 450.0, 450.0, 0.0, 0.0, 0.0, 1200.0, straight,
-					off);
+					drv_Motor(
+							(spec.half_block)
+									* (1
+											+ ((map.path_test[route_index].block_num
+													& 2) >> 1)), 450.0, 450.0,
+							0.0, 0.0, 0.0, 1200.0, straight, off);
 
 				} else if (map.path_test[route_index].index == L_180) {
-					drv_Motor((spec.half_block)*(1 + (map.path_test[route_index].block_num & 1)), 450.0, 450.0, 0.0, 0.0, 0.0, 1200.0, straight,
-					off);
+					drv_Motor(
+							(spec.half_block)
+									* (1
+											+ (map.path_test[route_index].block_num
+													& 1)), 450.0, 450.0, 0.0,
+							0.0, 0.0, 1200.0, straight, off);
 					move_Left_400();
 					move_Left_400();
-					drv_Motor((spec.half_block)*(1 + ((map.path_test[route_index].block_num & 2) >> 1)), 450.0, 450.0, 0.0, 0.0, 0.0, 1200.0, straight,
-					off);
+					drv_Motor(
+							(spec.half_block)
+									* (1
+											+ ((map.path_test[route_index].block_num
+													& 2) >> 1)), 450.0, 450.0,
+							0.0, 0.0, 0.0, 1200.0, straight, off);
 
 				} else if (map.path_test[route_index].index == Forward) {
 					if (map.path_test[route_index].block_num <= 4) {
@@ -310,19 +326,35 @@ int main(void) {
 				} else if (map.path_test[route_index].index == L_small) {
 					move_Left_450();
 				} else if (map.path_test[route_index].index == R_180) {
-					drv_Motor((spec.half_block)*(1 + (map.path_test[route_index].block_num & 1)), 600.0, 600.0, 0.0, 0.0, 0.0, 1200.0, straight,
-										off);
+					drv_Motor(
+							(spec.half_block)
+									* (1
+											+ (map.path_test[route_index].block_num
+													& 1)), 600.0, 600.0, 0.0,
+							0.0, 0.0, 1200.0, straight, off);
 					move_Right_450();
 					move_Right_450();
-					drv_Motor((spec.half_block)*(1 + ((map.path_test[route_index].block_num & 2) >> 1)), 600.0, 600.0, 0.0, 0.0, 0.0, 1200.0, straight,
-										off);
+					drv_Motor(
+							(spec.half_block)
+									* (1
+											+ ((map.path_test[route_index].block_num
+													& 2) >> 1)), 600.0, 600.0,
+							0.0, 0.0, 0.0, 1200.0, straight, off);
 				} else if (map.path_test[route_index].index == L_180) {
-					drv_Motor((spec.half_block)*(1 + (map.path_test[route_index].block_num & 1)), 600.0, 600.0, 0.0, 0.0, 0.0, 1200.0, straight,
-															off);
+					drv_Motor(
+							(spec.half_block)
+									* (1
+											+ (map.path_test[route_index].block_num
+													& 1)), 600.0, 600.0, 0.0,
+							0.0, 0.0, 1200.0, straight, off);
 					move_Left_450();
 					move_Left_450();
-					drv_Motor((spec.half_block)*(1 + ((map.path_test[route_index].block_num & 2) >> 1)), 600.0, 600.0, 0.0, 0.0, 0.0, 1200.0, straight,
-															off);
+					drv_Motor(
+							(spec.half_block)
+									* (1
+											+ ((map.path_test[route_index].block_num
+													& 2) >> 1)), 600.0, 600.0,
+							0.0, 0.0, 0.0, 1200.0, straight, off);
 				} else if (map.path_test[route_index].index == Forward) {
 					if (map.path_test[route_index].block_num <= 8) {
 						vel = 550 + 100 * map.path_test[route_index].block_num;
@@ -494,7 +526,7 @@ int main(void) {
 			switch_Motor(on);
 			spec.sta_LED_flag = 0;
 			wait_ms(300);
-			logger.run = 1; //standby logger
+//			logger.run = 1; //standby logger
 
 //			move_half_400(off);
 //			move_Forward_400();
@@ -513,17 +545,17 @@ int main(void) {
 
 //			drv_Motor(0.0, 0.0, 0.0, 90.0 * 12, 330.0, 0.0, 750.0, right, on);
 
-			drv_Status_LED(Rst_status_LED, off);
-			move_half_400(off);
-			move_Forward_450();
-			for (i = 0; i < 8; i++) {
-				drv_Status_LED(Red, on);
-				move_Left_450();
-				move_Forward_450();
-				drv_Status_LED(Rst_status_LED, off);
-			}
-			move_half_450(on);
-			drv_Status_LED(Green, on);
+//			drv_Status_LED(Rst_status_LED, off);
+//			move_half_400(off);
+//			move_Forward_450();
+//			for (i = 0; i < 8; i++) {
+//				drv_Status_LED(Red, on);
+//				move_Left_450();
+//				move_Forward_450();
+//				drv_Status_LED(Rst_status_LED, off);
+//			}
+//			move_half_450(on);
+//			drv_Status_LED(Green, on);
 
 //			while (PB.DR.BIT.B5 != 0)
 //				;
@@ -547,6 +579,26 @@ int main(void) {
 //					straight);
 //			drv_Motor(1500.0, 1300.0, 1000.0, 0.0, 0.0, 0.0, 1500.0, on,
 //					straight);
+
+			spec.tire_dim = 50.5; //[mm]
+			drv_Status_LED(Rst_status_LED, off);
+			drv_Motor(spec.full_block, 800.0, 800.0, 0.0, 0.0, 0.0, 1200.0,
+								straight, off);
+			drv_Status_LED(Red, on);
+
+			drv_Motor(60, 800.0, 800.0, 0.0, 0.0, 0.0, 1200.0,
+					straight, off);
+			drv_Status_LED(Green, on);
+			drv_Motor(0.0, 830.0, 830.0, 165.5, 515.0, 0.0, 15000.0, left, off);
+			drv_Status_LED(Red, off);
+			drv_Status_LED(Green, off);
+			drv_Motor(60, 800.0, 800.0, 0.0, 0.0, 0.0, 12000.0,
+					straight, off);
+			drv_Status_LED(Red, on);
+
+			drv_Motor(spec.full_block, 800.0, spec.motor_min_vel, 0.0, 0.0, 0.0, 1200.0,
+											straight, on);
+			drv_Status_LED(Green, on);
 
 			wait_ms(300);
 			drv_Status_LED(Red, off);
