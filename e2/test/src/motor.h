@@ -58,6 +58,14 @@ void move_Forward_400(void);
 
 void move_Right_400(void);
 
+void move_Left_180_s(unsigned char flag);
+
+void move_Right_180_s(unsigned char flag);
+
+void move_Left_180(unsigned char flag);
+
+void move_Right_180(unsigned char flag);
+
 void move_Left_450(void);
 
 void move_Forward_450(void);

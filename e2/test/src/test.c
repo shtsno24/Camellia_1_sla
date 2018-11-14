@@ -367,7 +367,7 @@ int main(void) {
 					}
 					if (map.path_test[route_index + 1].index == R_180
 							|| map.path_test[route_index + 1].index == L_180) {
-						m_vel = 850;
+						m_vel = 840;
 						if (vel < m_vel) {
 							vel = m_vel;
 						}
@@ -594,12 +594,12 @@ int main(void) {
 
 			spec.tire_dim = 50.5; //[mm]
 			drv_Status_LED(Rst_status_LED, off);
-			drv_Motor(spec.full_block, 800.0, 800.0, 0.0, 0.0, 0.0, 1200.0,
+			drv_Motor(spec.full_block, 840.0, 840.0, 0.0, 0.0, 0.0, 1200.0,
 					straight, off);
 
 			move_Left_180(3);
 
-			drv_Motor(spec.full_block, 800.0, spec.motor_min_vel, 0.0, 0.0, 0.0,
+			drv_Motor(spec.full_block, 840.0, spec.motor_min_vel, 0.0, 0.0, 0.0,
 					1200.0, straight, on);
 
 			wait_ms(300);

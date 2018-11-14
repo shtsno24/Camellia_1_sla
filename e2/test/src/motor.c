@@ -471,8 +471,25 @@ void move_Right_400() {
 	drv_Status_LED(Green, on);
 	drv_Motor(30.5, 450.0, 450.0, 0.0, 0.0, 0.0, 12000.0, straight, off);
 	drv_Status_LED(Rst_status_LED, off);
-
 }
+
+void move_Left_180_s(unsigned char flag) {
+	drv_Motor(spec.half_block * (flag & 1) + 80, 600.0, 600.0, 0.0, 0.0, 0.0,
+			1200.0, straight, off);
+	drv_Motor(0.0, 600.0, 600.0, 164, 520.0, 0.0, 9000.0, left, off);
+	drv_Motor(spec.half_block * ((flag & 2) >> 1) + 80, 600.0, 600.0, 0.0, 0.0,
+			0.0, 12000.0, straight, off);
+}
+
+void move_Right_180_s(unsigned char flag) {
+	drv_Motor(spec.half_block * (flag & 1) + 80, 600.0, 600.0, 0.0, 0.0, 0.0,
+			1200.0, straight, off);
+	drv_Motor(0.0, 600.0, 600.0, 164, 520.0, 0.0, 9000.0, right, off);
+	drv_Motor(spec.half_block * ((flag & 2) >> 1) + 80, 600.0, 600.0, 0.0, 0.0,
+			0.0, 12000.0, straight, off);
+}
+
+
 
 void move_half_450(char flag) {
 	if (flag == on) {
@@ -503,25 +520,25 @@ void move_Right_450() {
 	drv_Status_LED(Rst_status_LED, off);
 	drv_Motor(30.0, 600.0, 600.0, 0.0, 0.0, 0.0, 1200.0, straight, off);
 	drv_Status_LED(Yerrow, on);
-	drv_Motor(0.0, 600.0, 600.0, 80.9, 500.0, 0.0, 12000.0, right, off);
+	drv_Motor(0.0, 600.0, 600.0, 80.9, 500.0, 0.0, 15000.0, right, off);
 	drv_Status_LED(Green, on);
 	drv_Motor(20.0, 600.0, 600.0, 0.0, 0.0, 0.0, 12000.0, straight, off);
 	drv_Status_LED(Rst_status_LED, off);
 }
 
 void move_Left_180(unsigned char flag) {
-	drv_Motor(spec.half_block * (flag & 1) + 80, 850.0, 850.0, 0.0, 0.0, 0.0,
+	drv_Motor(spec.half_block * (flag & 1) + 70, 840.0, 840.0, 0.0, 0.0, 0.0,
 			1200.0, straight, off);
-	drv_Motor(0.0, 850.0, 850.0, 164.5, 502.0, 0.0, 10000.0, left, off);
-	drv_Motor(spec.half_block * ((flag & 2) >> 1) + 80, 850.0, 850.0, 0.0, 0.0,
+	drv_Motor(0.0, 840.0, 840.0, 163, 500.0, 0.0, 8000.0, left, off);
+	drv_Motor(spec.half_block * ((flag & 2) >> 1) + 110, 840.0, 840.0, 0.0, 0.0,
 			0.0, 12000.0, straight, off);
 }
 
 void move_Right_180(unsigned char flag) {
-	drv_Motor(spec.half_block * (flag & 1) + 80, 850.0, 850.0, 0.0, 0.0, 0.0,
+	drv_Motor(spec.half_block * (flag & 1) + 70, 840.0, 840.0, 0.0, 0.0, 0.0,
 			1200.0, straight, off);
-	drv_Motor(0.0, 850.0, 850.0, 164.5, 502.0, 0.0, 10000.0, right, off);
-	drv_Motor(spec.half_block * ((flag & 2) >> 1) + 80, 850.0, 850.0, 0.0, 0.0,
+	drv_Motor(0.0, 840.0, 840.0, 163, 500.0, 0.0, 8000.0, right, off);
+	drv_Motor(spec.half_block * ((flag & 2) >> 1) + 110, 840.0, 840.0, 0.0, 0.0,
 			0.0, 12000.0, straight, off);
 }
 
