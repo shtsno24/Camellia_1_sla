@@ -12,7 +12,7 @@
 #include "LED.h"
 #include "logger.h"
 
-PRM params[3];
+PRM params[4];
 
 MOT r_motor, l_motor;
 extern VEH vehicle;
@@ -509,16 +509,16 @@ void drv_Motor(float dist, float max_vel, float end_vel, float ang,
 
 void move_half_400(char flag) {
 	if (flag == on) {
-		drv_Motor(spec.half_block, 450.0, spec.motor_min_vel, 0.0, 0.0, 0.0,
-				1500.0, straight, flag);
+		drv_Motor(spec.half_block, 400.0, spec.motor_min_vel, 0.0, 0.0, 0.0,
+				2000.0, straight, flag);
 	} else {
-		drv_Motor(spec.half_block, 450.0, 450.0, 0.0, 0.0, 0.0, 1500.0,
+		drv_Motor(spec.half_block, 400.0, 400.0, 0.0, 0.0, 0.0, 2000.0,
 				straight, flag);
 	}
 }
 
 void move_Forward_400() {
-	drv_Motor(spec.full_block, 600.0, 600.0, 0.0, 0.0, 0.0, 1500.0, straight,
+	drv_Motor(spec.full_block, 700.0, 700.0, 0.0, 0.0, 0.0, 2000.0, straight,
 			off);
 }
 

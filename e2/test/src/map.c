@@ -751,10 +751,6 @@ void generate_Path() {
 				&& map.path_test[i - 3].index != R_small
 				&& map.path_test[i - 3].index != L_small) {
 			i -= 2;
-			if (map.path_test[i - 1].index == Forward
-					&& map.path_test[i - 1].block_num == 1) {
-				i -= 1;
-			}
 			if (map.path_test[i - 1].index == R_180
 					|| map.path_test[i - 1].index == L_180) {
 				map.path_test[i - 1].block_num &= 1;
@@ -764,16 +760,21 @@ void generate_Path() {
 				map.path_test[i - 1].block_num -= 1;
 			}
 			map.path_test[i].index = R_180;
+
+			if (map.path_test[i - 1].index == Forward
+					&& map.path_test[i - 1].block_num == 0) {
+				map.path_test[i - 1].index = map.path_test[i].index;
+				map.path_test[i - 1].block_num = map.path_test[i].block_num;
+				i -= 1;
+			}
+
 			i += 1;
 		} else if (rel_dir == 0 && map.path_test[i - 1].index == L_small
 				&& map.path_test[i - 2].index == L_small
 				&& map.path_test[i - 3].index != R_small
 				&& map.path_test[i - 3].index != L_small) {
+
 			i -= 2;
-			if (map.path_test[i - 1].index == Forward
-					&& map.path_test[i - 1].block_num == 1) {
-				i -= 1;
-			}
 			if (map.path_test[i - 1].index == R_180
 					|| map.path_test[i - 1].index == L_180) {
 				map.path_test[i - 1].block_num &= 1;
@@ -783,6 +784,14 @@ void generate_Path() {
 				map.path_test[i - 1].block_num -= 1;
 			}
 			map.path_test[i].index = L_180;
+
+			if (map.path_test[i - 1].index == Forward
+					&& map.path_test[i - 1].block_num == 0) {
+				map.path_test[i - 1].index = map.path_test[i].index;
+				map.path_test[i - 1].block_num = map.path_test[i].block_num;
+				i -= 1;
+			}
+
 			i += 1;
 		} else {
 			map.path_test[i].index = rel_dir;

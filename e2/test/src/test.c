@@ -38,7 +38,7 @@ extern SW Switch;
 extern CMT_01 tim;
 extern MAP map;
 extern LOG logger;
-extern PRM params[3];
+extern PRM params[4];
 
 enum mode {
 	astar_sla = 0, astar = 1, show_map = 2, test = 3, run = 4
@@ -113,7 +113,7 @@ int main(void) {
 			wait_ms(1000);
 			while (PB.DR.BIT.B5 != 0) {
 				myprintf("params : %d\n", Switch.rot_sw);
-				select_Params(3);
+				select_Params(4);
 				wait_ms(200);
 			}
 			wait_ms(100);
@@ -451,7 +451,7 @@ int main(void) {
 			drv_Motor(0.0, 0.0, 0.0, 180.0, 330.0, 0.0, 1000.0, right, on);
 			drv_Status_LED(Green, on);
 			wait_ms(50);
-			drv_Motor(spec.full_block - 30, 200.0, spec.motor_min_vel, 0.0, 0.0,
+			drv_Motor(spec.full_block - 40, 180.0, spec.motor_min_vel, 0.0, 0.0,
 					0.0, 1200.0, back, on);
 
 			wait_ms(300);
