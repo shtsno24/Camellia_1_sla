@@ -12,7 +12,7 @@
 #include "LED.h"
 #include "logger.h"
 
-PRM params[2];
+PRM params[3];
 
 MOT r_motor, l_motor;
 extern VEH vehicle;
@@ -34,21 +34,54 @@ void init_Params() {
 	params[0].pow_turn_180.vel = params[0].straight.mid_vel;
 	params[0].pow_turn_180.offset_dist_in = 70;
 	params[0].pow_turn_180.offset_dist_out = 90;
+	//=====================================
+	params[1].straight.max_vel = 1300;
+	params[1].straight.mid_vel = 650;
+	params[1].straight.min_vel = 450;
 
-	params[1].straight.max_vel = 1500;
-	params[1].straight.min_vel = 600;
-
-	params[1].pow_turn.angle = 80.9;
-	params[1].pow_turn.max_rot_vel = 500.0;
+	params[1].pow_turn.angle = 82.6;
+	params[1].pow_turn.max_rot_vel = 450.0;
 	params[1].pow_turn.vel = params[1].straight.min_vel;
-	params[1].pow_turn.offset_dist_in = 30;
-	params[1].pow_turn.offset_dist_out = 20;
+	params[1].pow_turn.offset_dist_in = 30.5;
+	params[1].pow_turn.offset_dist_out = 30.5;
 
-	params[1].pow_turn_180.angle = 163.0;
-	params[1].pow_turn_180.max_rot_vel = 500.0;
-	params[1].pow_turn_180.vel = 840.0;
+	params[1].pow_turn_180.angle = 173.0;
+	params[1].pow_turn_180.max_rot_vel = 400.0;
+	params[1].pow_turn_180.vel = params[1].straight.mid_vel;
 	params[1].pow_turn_180.offset_dist_in = 70;
-	params[1].pow_turn_180.offset_dist_out = 110;
+	params[1].pow_turn_180.offset_dist_out = 90;
+	//=====================================
+	params[2].straight.max_vel = 900;
+	params[2].straight.mid_vel = 840;
+	params[2].straight.min_vel = 600;
+
+	params[2].pow_turn.angle = 80.9;
+	params[2].pow_turn.max_rot_vel = 500.0;
+	params[2].pow_turn.vel = params[2].straight.min_vel;
+	params[2].pow_turn.offset_dist_in = 30;
+	params[2].pow_turn.offset_dist_out = 20;
+
+	params[2].pow_turn_180.angle = 163.0;
+	params[2].pow_turn_180.max_rot_vel = 500.0;
+	params[2].pow_turn_180.vel = params[2].straight.mid_vel;
+	params[2].pow_turn_180.offset_dist_in = 70;
+	params[2].pow_turn_180.offset_dist_out = 110;
+	//=====================================
+	params[3].straight.max_vel = 1500;
+	params[3].straight.mid_vel = 840;
+	params[3].straight.min_vel = 600;
+
+	params[3].pow_turn.angle = 80.9;
+	params[3].pow_turn.max_rot_vel = 500.0;
+	params[3].pow_turn.vel = params[3].straight.min_vel;
+	params[3].pow_turn.offset_dist_in = 30;
+	params[3].pow_turn.offset_dist_out = 20;
+
+	params[3].pow_turn_180.angle = 163.0;
+	params[3].pow_turn_180.max_rot_vel = 500.0;
+	params[3].pow_turn_180.vel = params[3].straight.mid_vel;
+	params[3].pow_turn_180.offset_dist_in = 70;
+	params[3].pow_turn_180.offset_dist_out = 110;
 
 }
 
@@ -477,15 +510,15 @@ void drv_Motor(float dist, float max_vel, float end_vel, float ang,
 void move_half_400(char flag) {
 	if (flag == on) {
 		drv_Motor(spec.half_block, 450.0, spec.motor_min_vel, 0.0, 0.0, 0.0,
-				1200.0, straight, flag);
+				1500.0, straight, flag);
 	} else {
-		drv_Motor(spec.half_block, 450.0, 450.0, 0.0, 0.0, 0.0, 1200.0,
+		drv_Motor(spec.half_block, 450.0, 450.0, 0.0, 0.0, 0.0, 1500.0,
 				straight, flag);
 	}
 }
 
 void move_Forward_400() {
-	drv_Motor(spec.full_block, 450.0, 450.0, 0.0, 0.0, 0.0, 1200.0, straight,
+	drv_Motor(spec.full_block, 600.0, 600.0, 0.0, 0.0, 0.0, 1500.0, straight,
 			off);
 }
 

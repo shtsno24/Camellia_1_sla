@@ -28,6 +28,7 @@
 
 int route_index, i;
 float vel, m_vel, OFFSET;
+PRM* p;
 
 extern SPC spec;
 extern SEN r_sen, cr_sen, l_sen, cl_sen;
@@ -37,7 +38,7 @@ extern SW Switch;
 extern CMT_01 tim;
 extern MAP map;
 extern LOG logger;
-extern PRM params[2];
+extern PRM params[3];
 
 enum mode {
 	astar_sla = 0, astar = 1, show_map = 2, test = 3, run = 4
@@ -103,11 +104,21 @@ int main(void) {
 			myprintf("mode : %d\n", Switch.rot_sw);
 			wait_ms(100);
 		}
+		UX_effect(click);
 		wait_ms(100);
 		drv_Status_LED(Rst_status_LED, off);
 		switch (Switch.rot_sw) {
 
 		case astar_sla:
+			wait_ms(1000);
+			while (PB.DR.BIT.B5 != 0) {
+				myprintf("params : %d\n", Switch.rot_sw);
+				select_Params(3);
+				wait_ms(200);
+			}
+			wait_ms(100);
+			drv_Status_LED(Rst_status_LED, off);
+
 			spec.sta_LED_flag = 0;
 			map.pos_x = 0;
 			map.pos_y = 1;
@@ -124,36 +135,37 @@ int main(void) {
 			switch_Motor(on);
 			wait_ms(1000);
 			move_half_400(off);
+			p = &params[Switch.rot_sw];
 
 			while (map.path_test[route_index].index != End) {
 
 				if (map.path_test[route_index].index == R_small) {
-					move_Right_400(&params[0]);
+					move_Right_400(p);
 				} else if (map.path_test[route_index].index == L_small) {
-					move_Left_400(&params[0]);
+					move_Left_400(p);
 				} else if (map.path_test[route_index].index == R_180) {
 					move_Right_180_s(map.path_test[route_index].block_num,
-							&params[0]);
+							p);
 				} else if (map.path_test[route_index].index == L_180) {
 					move_Left_180_s(map.path_test[route_index].block_num,
-							&params[0]);
+							p);
 				} else if (map.path_test[route_index].index == Forward) {
 					if (map.path_test[route_index].block_num <= 4) {
-						vel = params[0].straight.min_vel
+						vel = p->straight.min_vel
 								+ 100 * map.path_test[route_index].block_num;
 						i = 0;
 					} else {
-						vel = params[0].straight.max_vel;
+						vel = p->straight.max_vel;
 						i = 2;
 					}
 					if (map.path_test[route_index + 1].index == R_180
 							|| map.path_test[route_index + 1].index == L_180) {
-						m_vel = params[0].straight.mid_vel;
+						m_vel = p->straight.mid_vel;
 						if (vel < m_vel) {
 							vel = m_vel;
 						}
 					} else {
-						m_vel = params[0].straight.min_vel;
+						m_vel = p->straight.min_vel;
 					}
 
 					drv_Motor(

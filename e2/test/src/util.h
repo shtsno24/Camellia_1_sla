@@ -104,5 +104,7 @@ void detect_Rotate(void);
 
 void select_Mode(void);
 
+void select_Params(unsigned char);
+
 void get_Battery_Voltage(void);
 #endif /* UTIL_H_ */

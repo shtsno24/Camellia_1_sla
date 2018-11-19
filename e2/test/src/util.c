@@ -173,7 +173,25 @@ void detect_Rotate(void) {
 
 void select_Mode() {
 	detect_Rotate();
-	Switch.rot_sw = (char) (Switch.rot_sw % 5);
+	if (Switch.rot_sw > 4) {
+		Switch.rot_sw = 4;
+	}
+	if (Switch.rot_sw < 0) {
+		Switch.rot_sw = 0;
+	}
+	drv_Status_LED(Red, (Switch.rot_sw & 1));
+	drv_Status_LED(Yerrow, (Switch.rot_sw & 2) >> 1);
+	drv_Status_LED(Green, (Switch.rot_sw & 4) >> 2);
+}
+
+void select_Params(unsigned char size) {
+	detect_Rotate();
+	if (Switch.rot_sw > size-1) {
+		Switch.rot_sw = size-1;
+	}
+	if (Switch.rot_sw < 0) {
+		Switch.rot_sw = 0;
+	}
 	drv_Status_LED(Red, (Switch.rot_sw & 1));
 	drv_Status_LED(Yerrow, (Switch.rot_sw & 2) >> 1);
 	drv_Status_LED(Green, (Switch.rot_sw & 4) >> 2);
