@@ -27,7 +27,7 @@
 #define round(A)((int)(A + 0.5))
 
 int route_index, i;
-float vel, m_vel;
+float vel, m_vel, OFFSET;
 
 extern SPC spec;
 extern SEN r_sen, cr_sen, l_sen, cl_sen;
@@ -37,6 +37,7 @@ extern SW Switch;
 extern CMT_01 tim;
 extern MAP map;
 extern LOG logger;
+extern PRM params[2];
 
 enum mode {
 	astar_sla = 0, astar = 1, show_map = 2, test = 3, run = 4
@@ -127,53 +128,38 @@ int main(void) {
 			while (map.path_test[route_index].index != End) {
 
 				if (map.path_test[route_index].index == R_small) {
-					move_Right_400();
+					move_Right_400(&params[0]);
 				} else if (map.path_test[route_index].index == L_small) {
-					move_Left_400();
+					move_Left_400(&params[0]);
 				} else if (map.path_test[route_index].index == R_180) {
-					drv_Motor(
-							(spec.half_block)
-									* (1
-											+ (map.path_test[route_index].block_num
-													& 1)), 450.0, 450.0, 0.0,
-							0.0, 0.0, 1200.0, straight, off);
-					move_Right_400();
-					move_Right_400();
-					drv_Motor(
-							(spec.half_block)
-									* (1
-											+ ((map.path_test[route_index].block_num
-													& 2) >> 1)), 450.0, 450.0,
-							0.0, 0.0, 0.0, 1200.0, straight, off);
-
+					move_Right_180_s(map.path_test[route_index].block_num,
+							&params[0]);
 				} else if (map.path_test[route_index].index == L_180) {
-					drv_Motor(
-							(spec.half_block)
-									* (1
-											+ (map.path_test[route_index].block_num
-													& 1)), 450.0, 450.0, 0.0,
-							0.0, 0.0, 1200.0, straight, off);
-					move_Left_400();
-					move_Left_400();
-					drv_Motor(
-							(spec.half_block)
-									* (1
-											+ ((map.path_test[route_index].block_num
-													& 2) >> 1)), 450.0, 450.0,
-							0.0, 0.0, 0.0, 1200.0, straight, off);
-
+					move_Left_180_s(map.path_test[route_index].block_num,
+							&params[0]);
 				} else if (map.path_test[route_index].index == Forward) {
 					if (map.path_test[route_index].block_num <= 4) {
-						vel = 460 + 100 * map.path_test[route_index].block_num;
+						vel = params[0].straight.min_vel
+								+ 100 * map.path_test[route_index].block_num;
 						i = 0;
 					} else {
-						vel = 900;
+						vel = params[0].straight.max_vel;
 						i = 2;
 					}
+					if (map.path_test[route_index + 1].index == R_180
+							|| map.path_test[route_index + 1].index == L_180) {
+						m_vel = params[0].straight.mid_vel;
+						if (vel < m_vel) {
+							vel = m_vel;
+						}
+					} else {
+						m_vel = params[0].straight.min_vel;
+					}
+
 					drv_Motor(
 							(spec.full_block + i)
 									* map.path_test[route_index].block_num, vel,
-							450.0, 0.0, 0.0, 0.0, 1800.0, straight, off);
+							m_vel, 0.0, 0.0, 0.0, 1800.0, straight, off);
 				} else {
 					move_Backward_2();
 				}
@@ -372,7 +358,7 @@ int main(void) {
 							vel = m_vel;
 						}
 					} else {
-						m_vel = 550;
+						m_vel = 600;
 					}
 
 					drv_Motor(
@@ -411,11 +397,12 @@ int main(void) {
 			move_half_400(off);
 
 			while (spec.run_interruption != 1) {
+//				vehicle.dist = 0;
 				init_A_dist_map();
 				update_Wall_map();
 				update_A_dist_map();
 				map.tmp_path = generate_A_path();
-
+//				OFFSET = vehicle.dist;
 				if (map.tmp_path == R_small) {
 					map.direction += 1;
 					move_Right();
@@ -594,12 +581,13 @@ int main(void) {
 
 			spec.tire_dim = 50.5; //[mm]
 			drv_Status_LED(Rst_status_LED, off);
-			drv_Motor(spec.full_block, 840.0, 840.0, 0.0, 0.0, 0.0, 1200.0,
+			drv_Motor(spec.full_block, 650.0, 650.0, 0.0, 0.0, 0.0, 1200.0,
 					straight, off);
 
-			move_Left_180(3);
+//			move_Left_180_s(3);
+			move_Left_400(&params[0]);
 
-			drv_Motor(spec.full_block, 840.0, spec.motor_min_vel, 0.0, 0.0, 0.0,
+			drv_Motor(spec.full_block, 650.0, spec.motor_min_vel, 0.0, 0.0, 0.0,
 					1200.0, straight, on);
 
 			wait_ms(300);

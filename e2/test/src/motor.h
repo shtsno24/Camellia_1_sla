@@ -8,6 +8,30 @@
 #ifndef MOTOR_H_
 #define MOTOR_H_
 
+typedef struct prm {
+	struct {
+		float max_vel;
+		float mid_vel;
+		float min_vel;
+	} straight;
+	struct {
+		float offset_dist_in;
+		float offset_dist_out;
+
+		float angle;
+		float vel;
+		float max_rot_vel;
+	} pow_turn;
+	struct {
+		float offset_dist_in;
+		float offset_dist_out;
+
+		float angle;
+		float vel;
+		float max_rot_vel;
+	} pow_turn_180;
+} PRM;
+
 enum motor {
 	R_motor = 0, L_motor = 1
 };
@@ -23,11 +47,11 @@ typedef struct mot {
 	float vel; //現在の速度
 	float acc; //現在の設定加速度
 	/*
-	float max_vel; //最大設定速度
-	float min_vel; //最小設定速度
-	float max_acc; //最大設定加速度
-	float min_acc; //最小設定加速度
-	*/
+	 float max_vel; //最大設定速度
+	 float min_vel; //最小設定速度
+	 float max_acc; //最大設定加速度
+	 float min_acc; //最小設定加速度
+	 */
 	float tar_vel; //現在の設定速度
 	float dist; //距離
 
@@ -37,10 +61,13 @@ typedef struct mot {
 
 } MOT;
 
+void init_Params(void);
+
 void init_Motor(void);
 
 //void drv_Motor2(float, float, float, float, float, unsigned char, unsigned char, unsigned char);
-void drv_Motor(float, float, float, float, float, float, float, unsigned char, unsigned char);
+void drv_Motor(float, float, float, float, float, float, float, unsigned char,
+		unsigned char);
 
 void switch_Motor(char);
 
@@ -52,19 +79,19 @@ void mot_app2(float, float, int, char, char);
 
 void mot_sla_app(float, float, float, float, float, int, char);
 
-void move_Left_400(void);
+void move_Left_400(PRM*);
 
 void move_Forward_400(void);
 
-void move_Right_400(void);
+void move_Right_400(PRM*);
 
-void move_Left_180_s(unsigned char flag);
+void move_Left_180_s(unsigned char, PRM*);
 
-void move_Right_180_s(unsigned char flag);
+void move_Right_180_s(unsigned char, PRM*);
 
-void move_Left_180(unsigned char flag);
+void move_Left_180(unsigned char);
 
-void move_Right_180(unsigned char flag);
+void move_Right_180(unsigned char);
 
 void move_Left_450(void);
 

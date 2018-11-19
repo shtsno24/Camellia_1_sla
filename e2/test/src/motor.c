@@ -12,9 +12,45 @@
 #include "LED.h"
 #include "logger.h"
 
+PRM params[2];
+
 MOT r_motor, l_motor;
 extern VEH vehicle;
 extern SPC spec;
+
+void init_Params() {
+	params[0].straight.max_vel = 900;
+	params[0].straight.mid_vel = 650;
+	params[0].straight.min_vel = 450;
+
+	params[0].pow_turn.angle = 82.6;
+	params[0].pow_turn.max_rot_vel = 450.0;
+	params[0].pow_turn.vel = params[0].straight.min_vel;
+	params[0].pow_turn.offset_dist_in = 30.5;
+	params[0].pow_turn.offset_dist_out = 30.5;
+
+	params[0].pow_turn_180.angle = 173.0;
+	params[0].pow_turn_180.max_rot_vel = 400.0;
+	params[0].pow_turn_180.vel = params[0].straight.mid_vel;
+	params[0].pow_turn_180.offset_dist_in = 70;
+	params[0].pow_turn_180.offset_dist_out = 90;
+
+	params[1].straight.max_vel = 1500;
+	params[1].straight.min_vel = 600;
+
+	params[1].pow_turn.angle = 80.9;
+	params[1].pow_turn.max_rot_vel = 500.0;
+	params[1].pow_turn.vel = params[1].straight.min_vel;
+	params[1].pow_turn.offset_dist_in = 30;
+	params[1].pow_turn.offset_dist_out = 20;
+
+	params[1].pow_turn_180.angle = 163.0;
+	params[1].pow_turn_180.max_rot_vel = 500.0;
+	params[1].pow_turn_180.vel = 840.0;
+	params[1].pow_turn_180.offset_dist_in = 70;
+	params[1].pow_turn_180.offset_dist_out = 110;
+
+}
 
 void init_Motor(void) {
 	/*r_motor.min_acc = 0.0;
@@ -453,43 +489,57 @@ void move_Forward_400() {
 			off);
 }
 
-void move_Left_400() {
+void move_Left_400(PRM* prm) {
 	drv_Status_LED(Rst_status_LED, off);
-	drv_Motor(30.5, 450.0, 450.0, 0.0, 0.0, 0.0, 1200.0, straight, off);
+	drv_Motor(prm->pow_turn.offset_dist_in, prm->pow_turn.vel,
+			prm->pow_turn.vel, 0.0, 0.0, 0.0, 1200.0, straight, off);
 	drv_Status_LED(Yerrow, on);
-	drv_Motor(0.0, 450.0, 450.0, 82.6, 450.0, 0.0, 15000.0, left, off);
+	drv_Motor(0.0, prm->pow_turn.vel, prm->pow_turn.vel, prm->pow_turn.angle,
+			prm->pow_turn.max_rot_vel, 0.0, 15000.0, left, off);
 	drv_Status_LED(Green, on);
-	drv_Motor(30.5, 450.0, 450.0, 0.0, 0.0, 0.0, 12000.0, straight, off);
+	drv_Motor(prm->pow_turn.offset_dist_out, prm->pow_turn.vel,
+			prm->pow_turn.vel, 0.0, 0.0, 0.0, 12000.0, straight, off);
 	drv_Status_LED(Rst_status_LED, off);
 }
 
-void move_Right_400() {
+void move_Right_400(PRM* prm) {
 	drv_Status_LED(Rst_status_LED, off);
-	drv_Motor(30.5, 450.0, 450.0, 0.0, 0.0, 0.0, 1200.0, straight, off);
+	drv_Motor(prm->pow_turn.offset_dist_in, prm->pow_turn.vel,
+			prm->pow_turn.vel, 0.0, 0.0, 0.0, 1200.0, straight, off);
 	drv_Status_LED(Yerrow, on);
-	drv_Motor(0.0, 450.0, 450.0, 82.6, 450.0, 0.0, 15000.0, right, off);
+	drv_Motor(0.0, prm->pow_turn.vel, prm->pow_turn.vel, prm->pow_turn.angle,
+			prm->pow_turn.max_rot_vel, 0.0, 15000.0, right, off);
 	drv_Status_LED(Green, on);
-	drv_Motor(30.5, 450.0, 450.0, 0.0, 0.0, 0.0, 12000.0, straight, off);
+	drv_Motor(prm->pow_turn.offset_dist_out, prm->pow_turn.vel,
+			prm->pow_turn.vel, 0.0, 0.0, 0.0, 12000.0, straight, off);
 	drv_Status_LED(Rst_status_LED, off);
 }
 
-void move_Left_180_s(unsigned char flag) {
-	drv_Motor(spec.half_block * (flag & 1) + 80, 600.0, 600.0, 0.0, 0.0, 0.0,
-			1200.0, straight, off);
-	drv_Motor(0.0, 600.0, 600.0, 164, 520.0, 0.0, 9000.0, left, off);
-	drv_Motor(spec.half_block * ((flag & 2) >> 1) + 80, 600.0, 600.0, 0.0, 0.0,
-			0.0, 12000.0, straight, off);
+void move_Left_180_s(unsigned char flag, PRM* prm) {
+	drv_Motor(spec.half_block * (flag & 1) + prm->pow_turn_180.offset_dist_in,
+			prm->pow_turn_180.vel, prm->pow_turn_180.vel, 0.0, 0.0, 0.0, 1200.0,
+			straight, off);
+	drv_Motor(0.0, prm->pow_turn_180.vel, prm->pow_turn_180.vel,
+			prm->pow_turn_180.angle, prm->pow_turn_180.max_rot_vel, 0.0, 8000.0,
+			left, off);
+	drv_Motor(
+			spec.half_block * ((flag & 2) >> 1)
+					+ prm->pow_turn_180.offset_dist_out, prm->pow_turn_180.vel,
+			prm->pow_turn_180.vel, 0.0, 0.0, 0.0, 12000.0, straight, off);
 }
 
-void move_Right_180_s(unsigned char flag) {
-	drv_Motor(spec.half_block * (flag & 1) + 80, 600.0, 600.0, 0.0, 0.0, 0.0,
-			1200.0, straight, off);
-	drv_Motor(0.0, 600.0, 600.0, 164, 520.0, 0.0, 9000.0, right, off);
-	drv_Motor(spec.half_block * ((flag & 2) >> 1) + 80, 600.0, 600.0, 0.0, 0.0,
-			0.0, 12000.0, straight, off);
+void move_Right_180_s(unsigned char flag, PRM* prm) {
+	drv_Motor(spec.half_block * (flag & 1) + prm->pow_turn_180.offset_dist_in,
+			prm->pow_turn_180.vel, prm->pow_turn_180.vel, 0.0, 0.0, 0.0, 1200.0,
+			straight, off);
+	drv_Motor(0.0, prm->pow_turn_180.vel, prm->pow_turn_180.vel,
+			prm->pow_turn_180.angle, prm->pow_turn_180.max_rot_vel, 0.0, 8000.0,
+			right, off);
+	drv_Motor(
+			spec.half_block * ((flag & 2) >> 1)
+					+ prm->pow_turn_180.offset_dist_out, prm->pow_turn_180.vel,
+			prm->pow_turn_180.vel, 0.0, 0.0, 0.0, 12000.0, straight, off);
 }
-
-
 
 void move_half_450(char flag) {
 	if (flag == on) {

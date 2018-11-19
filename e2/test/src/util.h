@@ -20,28 +20,28 @@ enum ctl_flag {
 	wall = 0, rot = 1, none = 2
 };
 
-enum sla_flag{
+enum sla_flag {
 	sla_off = 0, sla_on = 1
 };
 
 typedef struct veh {
-	float dist;//現在距離
-	float tar_dist;//目標距離
-	float vel;//現在速度
-	float tar_vel;//目標速度
-	float tar_acc;//目標加速度
-	float buff_vel;//計算結果
+	float dist; //現在距離
+	float tar_dist; //目標距離
+	float vel; //現在速度
+	float tar_vel; //目標速度
+	float tar_acc; //目標加速度
+	float buff_vel; //計算結果
 
-	float ang;//[rad] 現在車体角
-	float tar_ang;//[rad/s] 目標角速度
-	float rot_vel;//[rad/s] 現在角速度
-	float tar_rot_vel;//[rad/s] 目標角速度
-	float tar_rot_acc;//[rad/s^2] 目標角加速度
-	float buff_rot_vel;//計算結果
+	float ang; //[rad] 現在車体角
+	float tar_ang; //[rad/s] 目標角速度
+	float rot_vel; //[rad/s] 現在角速度
+	float tar_rot_vel; //[rad/s] 目標角速度
+	float tar_rot_acc; //[rad/s^2] 目標角加速度
+	float buff_rot_vel; //計算結果
 
 	unsigned char end_flag; // 終了可否
-	unsigned char select_flag;//スラローム・直進選択
-}VEH;
+	unsigned char select_flag; //スラローム・直進選択
+} VEH;
 
 typedef struct spc {
 	float tread; //[mm]

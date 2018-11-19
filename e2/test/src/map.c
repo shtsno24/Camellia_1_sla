@@ -20,8 +20,8 @@ void init_Map(void) {
 	map.pos_x = 0;
 	map.pos_y = 0;
 	map.direction = 0;
-	map.goal_x = 2;
-	map.goal_y = 1;
+	map.goal_x = 1;
+	map.goal_y = 0;
 	map.tar_x = map.goal_x;
 	map.tar_y = map.goal_y;
 	map.map_size = mp_size;
@@ -668,7 +668,7 @@ void generate_Path() {
 		dist = map.dist_map[x][y];
 		pri_flag = 4;
 
-		myprintf("(%d,%d,%d,%d)\n", x, y, dir, rel_dir);
+//TODO		myprintf("(%d,%d,%d,%d)\n", x, y, dir, rel_dir);
 		if ((wall & 1) == 0) {
 			if (y + 1 < map.map_size) {
 				if (map.dist_map[x][y + 1] <= dist) {
