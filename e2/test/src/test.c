@@ -144,11 +144,9 @@ int main(void) {
 				} else if (map.path_test[route_index].index == L_small) {
 					move_Left_400(p);
 				} else if (map.path_test[route_index].index == R_180) {
-					move_Right_180_s(map.path_test[route_index].block_num,
-							p);
+					move_Right_180_s(map.path_test[route_index].block_num, p);
 				} else if (map.path_test[route_index].index == L_180) {
-					move_Left_180_s(map.path_test[route_index].block_num,
-							p);
+					move_Left_180_s(map.path_test[route_index].block_num, p);
 				} else if (map.path_test[route_index].index == Forward) {
 					if (map.path_test[route_index].block_num <= 4) {
 						vel = p->straight.min_vel
@@ -182,8 +180,6 @@ int main(void) {
 			wait_ms(300);
 			switch_Motor(off);
 			spec.sta_LED_flag = 0;
-//			map.pos_x = 0;
-//			map.pos_y = 0;
 			break;
 //			spec.sta_LED_flag = 0;
 //			map.pos_x = 0;
@@ -301,6 +297,15 @@ int main(void) {
 //			break;
 
 		case run:
+			wait_ms(1000);
+			while (PB.DR.BIT.B5 != 0) {
+				myprintf("params : %d\n", Switch.rot_sw);
+				select_Params(4);
+				wait_ms(200);
+			}
+			wait_ms(100);
+			drv_Status_LED(Rst_status_LED, off);
+
 			spec.sta_LED_flag = 0;
 			map.pos_x = 0;
 			map.pos_y = 1;
@@ -317,66 +322,41 @@ int main(void) {
 			switch_Motor(on);
 			wait_ms(1000);
 			move_half_400(off);
+			p = &params[Switch.rot_sw];
 
 			while (map.path_test[route_index].index != End) {
+
 				if (map.path_test[route_index].index == R_small) {
-					move_Right_450();
+					move_Right_400(p);
 				} else if (map.path_test[route_index].index == L_small) {
-					move_Left_450();
+					move_Left_400(p);
 				} else if (map.path_test[route_index].index == R_180) {
-//					drv_Motor(
-//							(spec.half_block)
-//									* (1
-//											+ (map.path_test[route_index].block_num
-//													& 1)), 600.0, 600.0, 0.0,
-//							0.0, 0.0, 1200.0, straight, off);
-//					move_Right_450();
-//					move_Right_450();
-//					drv_Motor(
-//							(spec.half_block)
-//									* (1
-//											+ ((map.path_test[route_index].block_num
-//													& 2) >> 1)), 600.0, 600.0,
-//							0.0, 0.0, 0.0, 1200.0, straight, off);
-					move_Right_180(map.path_test[route_index].block_num);
+					move_Right_180_s(map.path_test[route_index].block_num, p);
 				} else if (map.path_test[route_index].index == L_180) {
-//					drv_Motor(
-//							(spec.half_block)
-//									* (1
-//											+ (map.path_test[route_index].block_num
-//													& 1)), 600.0, 600.0, 0.0,
-//							0.0, 0.0, 1200.0, straight, off);
-//					move_Left_450();
-//					move_Left_450();
-//					drv_Motor(
-//							(spec.half_block)
-//									* (1
-//											+ ((map.path_test[route_index].block_num
-//													& 2) >> 1)), 600.0, 600.0,
-//							0.0, 0.0, 0.0, 1200.0, straight, off);
-					move_Left_180(map.path_test[route_index].block_num);
+					move_Left_180_s(map.path_test[route_index].block_num, p);
 				} else if (map.path_test[route_index].index == Forward) {
-					if (map.path_test[route_index].block_num <= 8) {
-						vel = 550 + 100 * map.path_test[route_index].block_num;
+					if (map.path_test[route_index].block_num <= 4) {
+						vel = p->straight.min_vel
+								+ 100 * map.path_test[route_index].block_num;
 						i = 0;
 					} else {
-						vel = 1500;
-						i = 5;
+						vel = p->straight.max_vel;
+						i = 2;
 					}
 					if (map.path_test[route_index + 1].index == R_180
 							|| map.path_test[route_index + 1].index == L_180) {
-						m_vel = 840;
+						m_vel = p->straight.mid_vel;
 						if (vel < m_vel) {
 							vel = m_vel;
 						}
 					} else {
-						m_vel = 600;
+						m_vel = p->straight.min_vel;
 					}
 
 					drv_Motor(
 							(spec.full_block + i)
 									* map.path_test[route_index].block_num, vel,
-							m_vel, 0.0, 0.0, 0.0, 2000.0, straight, off);
+							m_vel, 0.0, 0.0, 0.0, 1800.0, straight, off);
 				} else {
 					move_Backward_2();
 				}
@@ -390,12 +370,16 @@ int main(void) {
 			break;
 
 		case astar:
+//			unsigned char target_area[4][2] = {{mp_size-2,0},{map.goal_x,map.goal_y},{0,mp_size-2},{0,0}};//[point][i=0;pos_x,i=1;pos_y]
+//			i = 0;
 			spec.sta_LED_flag = 0;
 			map.pos_x = 0;
 			map.pos_y = 1;
 			map.direction = 0;
 			map.tar_x = map.goal_x;
 			map.tar_y = map.goal_y;
+//			map.tar_x = target_area[i][0];
+//			map.tar_y = target_area[i][1];
 			spec.run_interruption = 0;
 			spec.tire_dim = 51.5; //[mm]
 			spec.step_dist = spec.tire_dim * 3.1415926
@@ -441,9 +425,19 @@ int main(void) {
 					} else {
 						map.tar_x = 0;
 						map.tar_y = 0;
-//						spec.run_interruption = 1;
 					}
 				}
+
+//				if (check_pos() == 1) {
+//					if (map.pos_x == 0 && map.pos_y == 0) {
+//						spec.run_interruption = 1;
+//					} else {
+//						i += 1;
+//						map.tar_x = target_area[i][0];
+//						map.tar_y = target_area[i][1];
+//					}
+//				}
+
 			}
 			update_Wall_map();
 			move_half_400(on);
