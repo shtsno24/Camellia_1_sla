@@ -579,6 +579,17 @@ char read_Dist_map(char x, char y) {
 }
 
 void update_Dist_map() {
+	/* =================
+	 * wall : W-S-E-N
+	 * 		 MSB   LSB
+	 * =================
+	 * dir : 0 North
+	 * 		 1 East
+	 * 		 2 South
+	 * 		 3 West
+	 * =================
+	 * */
+
 	unsigned char buff_x = 0, buff_y = 0, wall, dist = 0;
 	int i, j, k;
 	mix_Map();

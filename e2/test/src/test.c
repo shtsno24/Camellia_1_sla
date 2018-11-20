@@ -371,6 +371,7 @@ int main(void) {
 
 		case astar:
 //			unsigned char target_area[4][2] = {{mp_size-2,0},{map.goal_x,map.goal_y},{0,mp_size-2},{0,0}};//[point][i=0;pos_x,i=1;pos_y]
+//			unsigned char target_area[2][2] = {{map.goal_x,map.goal_y},{0,0}};//[point][i=0;pos_x,i=1;pos_y]
 //			i = 0;
 			spec.sta_LED_flag = 0;
 			map.pos_x = 0;
