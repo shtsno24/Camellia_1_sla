@@ -40,7 +40,7 @@ void init_Vehicle() {
 
 void init_Spec() {
 	spec.tread = 84.4; //[mm]
-	spec.tire_dim = 51.5; //[mm]
+	spec.tire_dim = 50.5; //[mm]
 	spec.step_angle = 0.9; //[deg]
 	spec.step_dist = spec.tire_dim * 3.1415926 * (spec.step_angle / 360.0); //[mm]
 
@@ -53,8 +53,11 @@ void init_Spec() {
 
 	spec.kp_l = 0.6;
 	spec.kp_r = 0.6;
+	spec.kd_l = 0.1;
+	spec.kd_r = 0.1;
 	spec.cnt_ctl = 0;
 	spec.diff = 0.0;
+	spec.prev_diff = 0.0;
 	spec.sta_LED_flag = 0;
 }
 
@@ -186,8 +189,8 @@ void select_Mode() {
 
 void select_Params(unsigned char size) {
 	detect_Rotate();
-	if (Switch.rot_sw > size-1) {
-		Switch.rot_sw = size-1;
+	if (Switch.rot_sw > size - 1) {
+		Switch.rot_sw = size - 1;
 	}
 	if (Switch.rot_sw < 0) {
 		Switch.rot_sw = 0;

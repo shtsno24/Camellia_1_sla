@@ -35,15 +35,19 @@ void calc_diff(void) {
 
 	if (vehicle.select_flag == sla_on) {
 		spec.diff = 0.0;
+		spec.prev_diff = spec.diff;
 		return;
 	} else if (cr_sen.sen > cr_sen.diff_threshold) {
 		spec.diff = 0.0;
+		spec.prev_diff = spec.diff;
 		return;
 	} else if (vehicle.tar_vel < 130) {
 		spec.diff = 0.0;
+		spec.prev_diff = spec.diff;
 		return;
 	} else if (r_motor.acc > 7000) {
 		spec.diff = 0.0;
+		spec.prev_diff = spec.diff;
 		return;
 	} else {
 		if ((r_sen.sen >= r_sen.non_threshold + ref_boost_R)
@@ -132,22 +136,24 @@ void calc_mot_vel() {
 	 * follow motor velocity to target value
 	 * */
 
-//	spec.kp_l = vehicle.vel * 0.00057;
-//	spec.kp_r = vehicle.vel * 0.00057;
-	if (l_motor.tar_vel + spec.kp_l * spec.diff > l_motor.vel) {
+	if (l_motor.tar_vel + spec.kp_l * spec.diff
+			+ spec.kd_l * (spec.diff - spec.prev_diff) > l_motor.vel) {
 		l_motor.vel += (l_motor.acc * 0.001);
 
-	} else if (l_motor.tar_vel + spec.kp_l * spec.diff <= l_motor.vel) {
+	} else if (l_motor.tar_vel + spec.kp_l * spec.diff
+			+ spec.kd_l * (spec.diff - spec.prev_diff) <= l_motor.vel) {
 		l_motor.vel -= (l_motor.acc * 0.001);
 	}
 
-	if (r_motor.tar_vel - spec.kp_r * spec.diff > r_motor.vel) {
+	if (r_motor.tar_vel - spec.kp_r * spec.diff
+			- spec.kd_r * (spec.diff - spec.prev_diff) > r_motor.vel) {
 		r_motor.vel += (r_motor.acc * 0.001);
 
-	} else if (r_motor.tar_vel - spec.kp_r * spec.diff <= r_motor.vel) {
+	} else if (r_motor.tar_vel - spec.kp_r * spec.diff
+			- spec.kd_r * (spec.diff - spec.prev_diff) <= r_motor.vel) {
 		r_motor.vel -= (r_motor.acc * 0.001);
 	}
-
+	spec.prev_diff = spec.diff;
 	//limit motor velocity
 	if (fabs(r_motor.vel) < spec.motor_min_vel) {
 		if (r_motor.tar_vel > 0) {

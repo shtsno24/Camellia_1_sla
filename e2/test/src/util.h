@@ -55,7 +55,10 @@ typedef struct spc {
 	float batt;
 	float kp_l;
 	float kp_r;
+	float kd_l;
+	float kd_r;
 	float diff;
+	float prev_diff;
 	float r_distance;
 	float l_distance;
 	float full_block;
