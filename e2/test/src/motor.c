@@ -518,7 +518,7 @@ void move_half_400(char flag) {
 }
 
 void move_Forward_400() {
-	drv_Motor(spec.full_block, 700.0, 700.0, 0.0, 0.0, 0.0, 2000.0, straight,
+	drv_Motor(spec.full_block, 400.0, 400.0, 0.0, 0.0, 0.0, 2000.0, straight,
 			off);
 }
 
@@ -625,8 +625,18 @@ void move_Right_180(unsigned char flag) {
 			0.0, 12000.0, straight, off);
 }
 
-void move_Left() {
-	move_half_400(on);
+void move_half(char flag, float offset) {
+	if (flag == on) {
+		drv_Motor(spec.half_block - offset, 400.0, spec.motor_min_vel, 0.0, 0.0,
+				0.0, 2000.0, straight, flag);
+	} else {
+		drv_Motor(spec.half_block - offset, 400.0, 400.0, 0.0, 0.0, 0.0, 2000.0,
+				straight, flag);
+	}
+}
+
+void move_Left(float offset) {
+	move_half(on, offset);
 	drv_Status_LED(Red, on);
 	wait_ms(50);
 	drv_Motor(0.0, 0.0, 0.0, 90.0, 330.0, 0.0, 750.0, left, on);
@@ -636,8 +646,8 @@ void move_Left() {
 	drv_Status_LED(Rst_status_LED, off);
 }
 
-void move_Right() {
-	move_half_400(on);
+void move_Right(float offset) {
+	move_half(on, offset);
 	drv_Status_LED(Red, on);
 	wait_ms(50);
 	drv_Motor(0.0, 0.0, 0.0, 90.0, 330.0, 0.0, 750.0, right, on);
@@ -647,9 +657,9 @@ void move_Right() {
 	drv_Status_LED(Rst_status_LED, off);
 }
 
-void move_Forward() {
-	drv_Motor(spec.full_block, 450.0, 450.0, 0.0, 0.0, 0.0, 1200.0, straight,
-			off);
+void move_Forward(float offset) {
+	drv_Motor(spec.full_block - offset, 700.0, 700.0, 0.0, 0.0, 0.0, 2000.0,
+			straight, off);
 }
 
 void move_Backward() {
@@ -666,14 +676,14 @@ void move_Backward() {
 			1200.0, back, on);
 	drv_Status_LED(Green, on);
 	wait_ms(50);
-	drv_Motor(spec.half_block + 13.0, 450.0, 450.0, 0.0, 0.0, 0.0, 1200.0,
+	drv_Motor(spec.half_block + 13.0, 400.0, 400.0, 0.0, 0.0, 0.0, 1200.0,
 			straight, off);
 	drv_Status_LED(Rst_status_LED, off);
 }
 
-void move_Backward_2() {
+void move_Backward_2(float offset) {
 	drv_Status_LED(Rst_status_LED, off);
-	move_half_400(on);
+	move_half(on, offset);
 	wait_ms(50);
 	drv_Status_LED(Red, on);
 	drv_Motor(0.0, 0.0, 0.0, 180.0, 330.0, 0.0, 1000.0, right, on);

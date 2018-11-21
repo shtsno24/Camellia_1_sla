@@ -28,6 +28,8 @@
 
 int route_index, i;
 float vel, m_vel, OFFSET;
+unsigned char target_area[2][2];
+unsigned char searchtimes = 0;
 PRM* p;
 
 extern SPC spec;
@@ -43,6 +45,22 @@ extern PRM params[4];
 enum mode {
 	astar_sla = 0, astar = 1, show_map = 2, test = 3, run = 4
 };
+
+void init_target() {
+//			unsigned char target_area[4][2] = {{mp_size-2,0},{map.goal_x,map.goal_y},{0,mp_size-2},{0,0}};//[point][i=0;pos_x,i=1;pos_y]
+	target_area[0][0] = 9;
+	target_area[0][1] = 0;
+
+	target_area[1][0] = map.goal_x;
+	target_area[1][1] = map.goal_y;
+
+	target_area[2][0] = 1;
+	target_area[2][1] = 4;
+
+	target_area[3][0] = 0;
+	target_area[3][1] = 0;
+	//{{, map.goal_y}, {0, 0}};//[point][i=0;pos_x,i=1;pos_y]
+}
 
 void sen_calibration() {
 
@@ -83,6 +101,7 @@ int main(void) {
 	float v_l = 0;
 	init_sci1();
 	init_ALL();
+	init_target();
 
 	switch_Motor(off);
 
@@ -171,7 +190,7 @@ int main(void) {
 									* map.path_test[route_index].block_num, vel,
 							m_vel, 0.0, 0.0, 0.0, 1800.0, straight, off);
 				} else {
-					move_Backward_2();
+					move_Backward_2(0);
 				}
 				route_index += 1;
 			}
@@ -298,6 +317,7 @@ int main(void) {
 
 		case run:
 			wait_ms(1000);
+			Switch.rot_sw = 0;
 			while (PB.DR.BIT.B5 != 0) {
 				myprintf("params : %d\n", Switch.rot_sw);
 				select_Params(4);
@@ -358,7 +378,7 @@ int main(void) {
 									* map.path_test[route_index].block_num, vel,
 							m_vel, 0.0, 0.0, 0.0, 1800.0, straight, off);
 				} else {
-					move_Backward_2();
+					move_Backward_2(0);
 				}
 				route_index += 1;
 			}
@@ -370,23 +390,37 @@ int main(void) {
 			break;
 
 		case astar:
-//			unsigned char target_area[4][2] = {{mp_size-2,0},{map.goal_x,map.goal_y},{0,mp_size-2},{0,0}};//[point][i=0;pos_x,i=1;pos_y]
-//			unsigned char target_area[2][2] = {{map.goal_x,map.goal_y},{0,0}};//[point][i=0;pos_x,i=1;pos_y]
-//			i = 0;
+			wait_ms(1000);
+			Switch.rot_sw = 0;
+			while (PB.DR.BIT.B5 != 0) {
+				myprintf("params : %d\n", Switch.rot_sw);
+				select_Params(2);
+				wait_ms(200);
+			}
+			wait_ms(100);
+			drv_Status_LED(Rst_status_LED, off);
+			searchtimes = Switch.rot_sw;
+
+			i = 0;
 			spec.sta_LED_flag = 0;
 			map.pos_x = 0;
 			map.pos_y = 1;
 			map.direction = 0;
-			map.tar_x = map.goal_x;
-			map.tar_y = map.goal_y;
-//			map.tar_x = target_area[i][0];
-//			map.tar_y = target_area[i][1];
+
+			if (searchtimes == 0) {
+				map.tar_x = target_area[i][0];
+				map.tar_y = target_area[i][1];
+			} else {
+				map.tar_x = map.goal_x;
+				map.tar_y = map.goal_y;
+			}
+
 			spec.run_interruption = 0;
-			spec.tire_dim = 51.5; //[mm]
+			spec.tire_dim = 50.5; //[mm]
 			spec.step_dist = spec.tire_dim * 3.1415926
 					* (spec.step_angle / 360.0); //[mm]
-			spec.kp_l = 0.35;
-			spec.kp_r = 0.35;
+			spec.kp_l = 0.37;
+			spec.kp_r = 0.37;
 			UX_effect(alart);
 
 			switch_Motor(on);
@@ -394,50 +428,55 @@ int main(void) {
 			move_half_400(off);
 
 			while (spec.run_interruption != 1) {
-//				vehicle.dist = 0;
+				vehicle.dist = 0;
 				init_A_dist_map();
 				update_Wall_map();
 				update_A_dist_map();
 				map.tmp_path = generate_A_path();
-//				OFFSET = vehicle.dist;
+				OFFSET = vehicle.dist;
 				if (map.tmp_path == R_small) {
 					map.direction += 1;
-					move_Right();
+					move_Right(OFFSET);
 				} else if (map.tmp_path == L_small) {
 					map.direction += 3;
-					move_Left();
+					move_Left(OFFSET);
 				} else if (map.tmp_path == Forward) {
 					map.direction += 0;
-					move_Forward_400();
+					move_Forward(OFFSET);
 				} else if (map.tmp_path == Backward) {
 					map.direction += 2;
 					if (map.wall == 7 || map.wall == 11 || map.wall == 13
 							|| map.wall == 14) {
 						move_Backward();
 					} else {
-						move_Backward_2();
+						move_Backward_2(OFFSET);
 					}
 				}
 				map.direction %= 4;
 				detect_Direction();
-				if (check_pos() == 1) {
-					if (map.pos_x == 0 && map.pos_y == 0) {
-						spec.run_interruption = 1;
-					} else {
-						map.tar_x = 0;
-						map.tar_y = 0;
-					}
-				}
-
 //				if (check_pos() == 1) {
 //					if (map.pos_x == 0 && map.pos_y == 0) {
 //						spec.run_interruption = 1;
 //					} else {
-//						i += 1;
-//						map.tar_x = target_area[i][0];
-//						map.tar_y = target_area[i][1];
+//						map.tar_x = 0;
+//						map.tar_y = 0;
 //					}
 //				}
+
+				if (check_pos() == 1) {
+					if (map.pos_x == 0 && map.pos_y == 0) {
+						spec.run_interruption = 1;
+					} else {
+						if (searchtimes == 0) {
+							i += 1;
+							map.tar_x = target_area[i][0];
+							map.tar_y = target_area[i][1];
+						} else {
+							map.tar_x = 0;
+							map.tar_y = 0;
+						}
+					}
+				}
 
 			}
 			update_Wall_map();
@@ -461,6 +500,7 @@ int main(void) {
 			init_Dist_map();
 			update_Dist_map();
 			generate_Path();
+			searchtimes = 1;
 			break;
 
 		case show_map:

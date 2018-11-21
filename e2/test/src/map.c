@@ -810,8 +810,8 @@ void generate_Path() {
 			i += 1;
 		}
 //TODO
-		myprintf("(%d,%d) %d\n", map.path_test[i - 1].index,
-				map.path_test[i - 1].block_num, i - 1);
+//TODO		myprintf("(%d,%d) %d\n", map.path_test[i - 1].index,
+//TODO	map.path_test[i - 1].block_num, i - 1);
 	}
 	map.path_test[0].block_num -= 1;
 	if (map.path_test[i - 1].index == Forward) {

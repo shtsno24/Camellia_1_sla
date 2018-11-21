@@ -42,7 +42,7 @@ void calc_diff(void) {
 	} else if (vehicle.tar_vel < 130) {
 		spec.diff = 0.0;
 		return;
-	} else if (r_motor.acc > 8000) {
+	} else if (r_motor.acc > 7000) {
 		spec.diff = 0.0;
 		return;
 	} else {
@@ -88,10 +88,13 @@ void calc_diff(void) {
 		}
 		if (fabs(vehicle.vel) > 1400.0) {
 			spec.diff *= 1.7;
+			return;
 		} else if (fabs(vehicle.vel) > 800.0) {
 			spec.diff *= 1.4;
+			return;
 		} else if (fabs(vehicle.vel) > 550.0) {
 			spec.diff *= 1.2;
+			return;
 		}
 	}
 }
