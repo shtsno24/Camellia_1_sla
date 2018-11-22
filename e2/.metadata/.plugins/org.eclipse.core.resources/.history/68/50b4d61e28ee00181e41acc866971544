@@ -1,0 +1,208 @@
+/*
+ * util.c
+ *
+ *  Created on: 2018/04/13
+ *      Author: shts
+ */
+
+#include "iodefine.h"
+#include "util.h"
+#include "LED.h"
+#include "CMT.h"
+#include "sensor.h"
+#include "motor.h"
+
+#define round(A)((int)(A + 0.5))
+
+SPC spec;
+SW Switch;
+VEH vehicle;
+
+void init_Vehicle() {
+	vehicle.dist = 0.0;
+	vehicle.tar_dist = 0.0;
+	vehicle.vel = 0.0;
+	vehicle.tar_vel = 0.0;
+	vehicle.tar_acc = 0.0;
+	vehicle.buff_vel = 0.0;
+	vehicle.ang = 0.0;
+	vehicle.tar_ang = 0.0;
+	vehicle.rot_vel = 0.0;
+	vehicle.tar_rot_vel = 0.0;
+	vehicle.buff_rot_vel = 0.0;
+	vehicle.tar_acc = 0.0;
+	vehicle.end_flag = 0;
+	vehicle.select_flag = 0;
+
+	spec.vehicle_max_acc = 1000;
+	spec.vehicle_max_vel = 1000;
+}
+
+void init_Spec() {
+	spec.tread = 84.4; //[mm]
+	spec.tire_dim = 50.5; //[mm]
+	spec.step_angle = 0.9; //[deg]
+	spec.step_dist = spec.tire_dim * 3.1415926 * (spec.step_angle / 360.0); //[mm]
+
+	spec.pwm_base_clock = 6250 - 1; //(interrupt duty : 1ms(@6.25MHz))
+	spec.pwm_half_clock = round((6250 - 1) / 2);
+	spec.r_distance = (int) ((90.0 / 180 * 3.141592) * (spec.tread / 2) - 2.6);
+	spec.l_distance = (int) ((90.0 / 180 * 3.141592) * (spec.tread / 2) - 2.6);
+	spec.full_block = 180.0;
+	spec.half_block = 90.0;
+
+	spec.kp_l = 0.4;
+	spec.kp_r = 0.4;
+	spec.kd_l = 5.0;
+	spec.kd_r = 5.0;
+	spec.cnt_ctl = 0;
+	spec.diff = 0.0;
+	spec.prev_diff = 0.0;
+	spec.sta_LED_flag = 0;
+}
+
+void init_IO(void) {
+	PFC.PEIORL.BIT.B0 = 1; //R_Clock
+	PFC.PEIORL.BIT.B1 = 1; //R_CW/CCW
+	PFC.PEIORL.BIT.B2 = 1; //reset_motor
+	PFC.PEIORL.BIT.B3 = 1; //excitation_enable
+	PFC.PEIORL.BIT.B4 = 1; //L_Clock
+	PFC.PEIORL.BIT.B5 = 1; //L_CW/CCW
+	PFC.PEIORL.BIT.B6 = 1; //LED_yellow
+	PFC.PEIORL.BIT.B7 = 1; //buzzer
+	PFC.PEIORL.BIT.B8 = 1; //LED_red
+	PFC.PEIORL.BIT.B9 = 1; //sensor_right
+	PFC.PEIORL.BIT.B10 = 1; //rotary_encoder_LED
+	PFC.PEIORL.BIT.B11 = 1; //sensor_center_right
+	PFC.PEIORL.BIT.B12 = 1; //sensor_left
+	PFC.PEIORL.BIT.B13 = 1; //sensor_center_left
+	PFC.PEIORL.BIT.B14 = 0; //rotary_encoder_a
+	PFC.PEIORL.BIT.B15 = 0; //rotary_encoder_b
+	PFC.PBIORL.BIT.B5 = 0; //select_switch
+
+	PFC.PECRL4.BIT.PE13MD = 0; //sensor_center_left
+	PFC.PECRL4.BIT.PE12MD = 0; //sensor_left
+	PFC.PECRL3.BIT.PE11MD = 0; //sensor_center_right
+	PFC.PECRL3.BIT.PE10MD = 0; //green_LED
+	PFC.PECRL3.BIT.PE9MD = 0; //sensor_right
+	PFC.PECRL3.BIT.PE8MD = 0; //red_LED
+	PFC.PECRL2.BIT.PE7MD = 0; //buzzer
+	PFC.PECRL2.BIT.PE6MD = 0; //yellow_LED
+	PFC.PECRL2.BIT.PE5MD = 0; //L_CW/CCW
+	PFC.PECRL2.BIT.PE4MD = 1; //L_motor clock
+	PFC.PECRL1.BIT.PE3MD = 0; //excitation_enable
+	PFC.PECRL1.BIT.PE2MD = 0; //reset_motor
+	PFC.PECRL1.BIT.PE1MD = 0; //R_CW/CCW
+	PFC.PECRL1.BIT.PE0MD = 1; //R_motor clock
+}
+
+void init_CPU(void) {
+	CPG.FRQCR.BIT.IFC = 1;     //Iφ / 2 = 50Mhz(初期値/4)
+	CPG.FRQCR.BIT.BFC = 3;     // Bφ / 4 = 25MHz
+	CPG.FRQCR.BIT._PFC = 3;    // Pφ / 4 = 25MHz
+	CPG.FRQCR.BIT.MPFC = 3;    // MPφ / 4 = 25MHz
+}
+
+void init_Buzzer(void) {
+	PE.DRL.BIT.B7 = 0;
+}
+
+void drv_Buzzer(char status) {
+	PE.DRL.BIT.B7 = status;
+}
+
+void UX_effect(char pattern) {
+	switch (pattern) {
+	case error:
+		drv_Status_LED(Red, on);
+		drv_Buzzer(on);
+		wait_ms(25);
+		drv_Status_LED(Red, off);
+		drv_Buzzer(off);
+		wait_ms(25);
+		break;
+
+	case click:
+		drv_Buzzer(on);
+		wait_ms(25);
+		drv_Buzzer(off);
+		break;
+
+	case alart:
+		drv_Buzzer(on);
+		drv_Status_LED(Red, on);
+		wait_ms(750);
+		drv_Status_LED(Red, off);
+		drv_Buzzer(off);
+		break;
+	}
+}
+
+void init_Switch(void) {
+	Switch.rot_sw = 0;
+	Switch.rot_sw_now = 0;
+	Switch.rot_sw_old = 0;
+	Switch.tact_sw = 0;
+}
+
+void detect_Rotate(void) {
+	Switch.rot_sw_now = PE.DRL.BIT.B14;
+	Switch.rot_sw_now = Switch.rot_sw_now << 1;
+	Switch.rot_sw_now += PE.DRL.BIT.B15;
+
+	if (Switch.rot_sw_now == 3) {
+		Switch.rot_sw_now = 2;
+	} else if (Switch.rot_sw_now == 2) {
+		Switch.rot_sw_now = 3;
+	}
+
+	if (Switch.rot_sw_old == 0 && Switch.rot_sw_now == 3) {
+		Switch.rot_sw -= 1;
+		UX_effect(click);
+	} else if (Switch.rot_sw_old == 3 && Switch.rot_sw_now == 0) {
+		Switch.rot_sw += 1;
+		UX_effect(click);
+	} else if (Switch.rot_sw_now > Switch.rot_sw_old) {
+		Switch.rot_sw += 1;
+		UX_effect(click);
+	} else if (Switch.rot_sw_now < Switch.rot_sw_old) {
+		Switch.rot_sw -= 1;
+		UX_effect(click);
+	} else {
+		Switch.rot_sw += 0;
+	}
+	Switch.rot_sw_old = Switch.rot_sw_now;
+}
+
+void select_Mode() {
+	detect_Rotate();
+	if (Switch.rot_sw > 4) {
+		Switch.rot_sw = 4;
+	}
+	if (Switch.rot_sw < 0) {
+		Switch.rot_sw = 0;
+	}
+	drv_Status_LED(Red, (Switch.rot_sw & 1));
+	drv_Status_LED(Yerrow, (Switch.rot_sw & 2) >> 1);
+	drv_Status_LED(Green, (Switch.rot_sw & 4) >> 2);
+}
+
+void select_Params(unsigned char size) {
+	detect_Rotate();
+	if (Switch.rot_sw > size - 1) {
+		Switch.rot_sw = size - 1;
+	}
+	if (Switch.rot_sw < 0) {
+		Switch.rot_sw = 0;
+	}
+	drv_Status_LED(Red, (Switch.rot_sw & 1));
+	drv_Status_LED(Yerrow, (Switch.rot_sw & 2) >> 1);
+	drv_Status_LED(Green, (Switch.rot_sw & 4) >> 2);
+}
+
+void get_Battery_Voltage(void) {
+	float vol_ad;
+	vol_ad = (float) get_Sensor(3, ad_1) / 1024.0 * 5.0;
+	spec.batt = vol_ad * ((100.0 + 51.0) / 51.0);
+}
+
