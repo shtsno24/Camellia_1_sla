@@ -628,7 +628,7 @@ void move_Right_180(unsigned char flag) {
 void move_half(char flag, float offset) {
 	if (flag == on) {
 		drv_Motor(spec.half_block - offset, 400.0, spec.motor_min_vel, 0.0, 0.0,
-				0.0, 2000.0, straight, flag);
+				0.0, 3000.0, straight, flag);
 	} else {
 		drv_Motor(spec.half_block - offset, 400.0, 400.0, 0.0, 0.0, 0.0, 1700.0,
 				straight, flag);
