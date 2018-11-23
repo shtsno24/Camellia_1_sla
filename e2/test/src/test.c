@@ -59,7 +59,6 @@ void init_target() {
 
 	target_area[3][0] = 0;
 	target_area[3][1] = 0;
-	//{{, map.goal_y}, {0, 0}};//[point][i=0;pos_x,i=1;pos_y]
 }
 
 void sen_calibration() {
@@ -141,182 +140,6 @@ int main(void) {
 			switch_Motor(on);
 			wait_ms(10000);
 			break;
-//			spec.sta_LED_flag = 0;
-//			map.pos_x = 0;
-//			map.pos_y = 1;
-//			map.direction = 0;
-//			spec.run_interruption = 0;
-//			spec.tire_dim = 50.5; //[mm]
-//			spec.step_dist = spec.tire_dim * 3.1415926
-//					* (spec.step_angle / 360.0); //[mm]
-//			spec.kp_l = 0.35;
-//			spec.kp_r = 0.35;
-
-//			route_index = 0;
-//
-//			switch_Motor(on);
-//			wait_ms(1000);
-//			move_half_400(off);
-//			p = &params[Switch.rot_sw];
-//
-//			while (map.path_test[route_index].index != End) {
-//
-//				if (map.path_test[route_index].index == R_small) {
-//					move_Right_400(p);
-//				} else if (map.path_test[route_index].index == L_small) {
-//					move_Left_400(p);
-//				} else if (map.path_test[route_index].index == R_180) {
-//					move_Right_180_s(map.path_test[route_index].block_num, p);
-//				} else if (map.path_test[route_index].index == L_180) {
-//					move_Left_180_s(map.path_test[route_index].block_num, p);
-//				} else if (map.path_test[route_index].index == Forward) {
-//					if (map.path_test[route_index].block_num <= 4) {
-//						vel = p->straight.min_vel
-//								+ 100 * map.path_test[route_index].block_num;
-//						i = 0;
-//					} else {
-//						vel = p->straight.max_vel;
-//						i = 2;
-//					}
-//					if (map.path_test[route_index + 1].index == R_180
-//							|| map.path_test[route_index + 1].index == L_180) {
-//						m_vel = p->straight.mid_vel;
-//						if (vel < m_vel) {
-//							vel = m_vel;
-//						}
-//					} else {
-//						m_vel = p->straight.min_vel;
-//					}
-//
-//					drv_Motor(
-//							(spec.full_block + i)
-//									* map.path_test[route_index].block_num, vel,
-//							m_vel, 0.0, 0.0, 0.0, 1800.0, straight, off);
-//				} else {
-//					move_Backward_2(0);
-//				}
-//				route_index += 1;
-//			}
-//			move_half_400(on);
-//
-//			wait_ms(300);
-//			switch_Motor(off);
-//			spec.sta_LED_flag = 0;
-//			break;
-//			spec.sta_LED_flag = 0;
-//			map.pos_x = 0;
-//			map.pos_y = 1;
-//			map.tar_x = map.goal_x;
-//			map.tar_y = map.goal_y;
-//			map.direction = 0;
-//			spec.run_interruption = 0;
-//			UX_effect(alart);
-//
-//			switch_Motor(on);
-//			wait_ms(1000);
-//			move_half_450(off);
-//
-//			while (spec.run_interruption != 1) {
-//				init_A_dist_map();
-//				update_Wall_map();
-//				update_A_dist_map();
-//				map.tmp_path = generate_A_path();
-//
-//				if (map.tmp_path == 1) {
-//					map.direction += 1;
-//					move_Right_400();
-//				} else if (map.tmp_path == 3) {
-//					map.direction += 3;
-//					move_Left_400();
-//				} else if (map.tmp_path == 0) {
-//					map.direction += 0;
-//					move_Forward_400();
-//				} else if (map.tmp_path == 2) {
-//					map.direction += 2;
-//					if (map.wall == 7 || map.wall == 11 || map.wall == 13
-//							|| map.wall == 14) {
-//						move_Backward();
-//					} else {
-//						move_Backward_2();
-//					}
-//				}
-//				map.direction %= 4;
-//
-//				detect_Direction();
-//				if (map.pos_x == map.tar_x & map.pos_y == map.tar_y) {
-//					spec.run_interruption = 1;
-//				}
-//			}
-//			update_Wall_map();
-//			move_Backward_break();
-//			map.direction += 2;
-//			map.direction %= 4;
-//			detect_Direction();
-//
-//			map.tar_x = 0;
-//			map.tar_y = 0;
-//			update_Wall_map();
-//			update_A_dist_map();
-//			init_Path();
-//			init_Dist_map();
-//			update_Dist_map();
-//			generate_Path();
-//
-//			spec.run_interruption = 0;
-//
-//			wait_ms(300);
-//
-//			UX_effect(alart);
-//
-//			while (spec.run_interruption != 1) {
-//				init_A_dist_map();
-//				update_Wall_map();
-//				update_A_dist_map();
-//				map.tmp_path = generate_A_path();
-//
-//				if (map.tmp_path == 1) {
-//					map.direction += 1;
-//					move_Right_400();
-//				} else if (map.tmp_path == 3) {
-//					map.direction += 3;
-//					move_Left_400();
-//				} else if (map.tmp_path == 0) {
-//					map.direction += 0;
-//					move_Forward_400();
-//				} else if (map.tmp_path == 2) {
-//					map.direction += 2;
-//					if (map.wall == 7 || map.wall == 11 || map.wall == 13
-//							|| map.wall == 14) {
-//						move_Backward();
-//					} else {
-//						move_Backward_2();
-//					}
-//				}
-//				map.direction %= 4;
-//
-//				detect_Direction();
-//				if (map.pos_x == map.tar_x && map.pos_y == map.tar_y) {
-//					spec.run_interruption = 1;
-//				}
-//			}
-//			update_Wall_map();
-//			move_half_400(on);
-//			wait_ms(300);
-//			drv_Motor(0.0, 0.0, 180.0, 400.0, 2000.0, on, left, on);
-//			wait_ms(300);
-//			drv_Motor(spec.half_block + 30.0, 200.0, 0.0, 0.0, 1000.0, on, back,
-//					on);
-//			wait_ms(300);
-//
-//			switch_Motor(off);
-//			spec.sta_LED_flag = 0;
-//			map.pos_x = 0;
-//			map.pos_y = 0;
-//			init_Path();
-//			init_Dist_map();
-//			update_Dist_map();
-//			generate_Path();
-//			break;
 
 		case run:
 			wait_ms(1000);
@@ -395,16 +218,7 @@ int main(void) {
 
 		case astar:
 			wait_ms(1000);
-//			Switch.rot_sw = 0;
-//			while (PB.DR.BIT.B5 != 0) {
-//				myprintf("params : %d\n", Switch.rot_sw);
-//				select_Params(2);
-//				wait_ms(200);
-//			}
-//			wait_ms(100);
 			drv_Status_LED(Rst_status_LED, off);
-//			searchtimes = Switch.rot_sw;
-
 			i = 0;
 			spec.sta_LED_flag = 0;
 			map.pos_x = 0;
@@ -458,14 +272,6 @@ int main(void) {
 				}
 				map.direction %= 4;
 				detect_Direction();
-//				if (check_pos() == 1) {
-//					if (map.pos_x == 0 && map.pos_y == 0) {
-//						spec.run_interruption = 1;
-//					} else {
-//						map.tar_x = 0;
-//						map.tar_y = 0;
-//					}
-//				}
 
 				if (check_pos() == 1) {
 					if (map.pos_x == 0 && map.pos_y == 0) {

@@ -130,7 +130,7 @@ void change_Duty_MTU20(void) {
 	if (vehicle.end_flag > 0) {
 		r_motor.cnt = 0;
 	}
-	r_motor.dist = spec.step_dist * r_motor.cnt;
+//	r_motor.dist = spec.step_dist * r_motor.cnt;
 
 	//change duty
 	MTU20.TCNT = 0; //reset counter
@@ -165,7 +165,7 @@ void change_Duty_MTU21(void) {
 		l_motor.cnt = 0;
 	}
 
-	l_motor.dist = spec.step_dist * l_motor.cnt;
+//	l_motor.dist = spec.step_dist * l_motor.cnt;
 	//change duty
 	MTU21.TCNT = 0; //reset counter
 	MTU21.TGRA = abs(l_motor.duty);

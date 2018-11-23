@@ -65,7 +65,6 @@ void init_Params(void);
 
 void init_Motor(void);
 
-//void drv_Motor2(float, float, float, float, float, unsigned char, unsigned char, unsigned char);
 void drv_Motor(float, float, float, float, float, float, float, unsigned char,
 		unsigned char);
 
@@ -79,23 +78,15 @@ void mot_app2(float, float, int, char, char);
 
 void mot_sla_app(float, float, float, float, float, int, char);
 
-void move_Left_400(PRM*);
+void move_half_400(char);
 
-void move_Forward_400(void);
+void move_Left_400(PRM*);
 
 void move_Right_400(PRM*);
 
 void move_Left_180_s(unsigned char, PRM*);
 
 void move_Right_180_s(unsigned char, PRM*);
-
-void move_Left_180(unsigned char);
-
-void move_Right_180(unsigned char);
-
-void move_Left_450(void);
-
-void move_Forward_450(void);
 
 void move_half_450(char);
 
