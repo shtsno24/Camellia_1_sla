@@ -29,7 +29,7 @@
 int route_index, i;
 float vel, m_vel, OFFSET;
 unsigned char target_area[2][2];
-unsigned char searchtimes = 0;
+unsigned char searchtimes = 0, fast_in = 0;
 PRM* p;
 
 extern SPC spec;
@@ -49,12 +49,12 @@ enum mode {
 void init_target() {
 //			unsigned char target_area[4][2] = {{mp_size-2,0},{map.goal_x,map.goal_y},{0,mp_size-2},{0,0}};//[point][i=0;pos_x,i=1;pos_y]
 	target_area[0][0] = 0;
-	target_area[0][1] = 5;
+	target_area[0][1] = 3;
 
 	target_area[1][0] = map.goal_x;
 	target_area[1][1] = map.goal_y;
 
-	target_area[2][0] = 5;
+	target_area[2][0] = 3;
 	target_area[2][1] = 0;
 
 	target_area[3][0] = 0;
@@ -237,8 +237,8 @@ int main(void) {
 			spec.tire_dim = 50.5; //[mm]
 			spec.step_dist = spec.tire_dim * 3.1415926
 					* (spec.step_angle / 360.0); //[mm]
-			spec.kp_l = 0.45;
-			spec.kp_r = 0.45;
+			spec.kp_l = 0.4;
+			spec.kp_r = 0.4;
 			UX_effect(alart);
 
 			switch_Motor(on);
@@ -255,14 +255,18 @@ int main(void) {
 				if (map.tmp_path == R_small) {
 					map.direction += 1;
 					move_Right(OFFSET);
+//					fast_in = 0;
 				} else if (map.tmp_path == L_small) {
 					map.direction += 3;
 					move_Left(OFFSET);
+//					fast_in = 0;
 				} else if (map.tmp_path == Forward) {
 					map.direction += 0;
 					move_Forward(OFFSET);
+//					fast_in = 1;
 				} else if (map.tmp_path == Backward) {
 					map.direction += 2;
+//					fast_in = 0;
 					if (map.wall == 7 || map.wall == 11 || map.wall == 13
 							|| map.wall == 14) {
 						move_Backward();
@@ -295,7 +299,7 @@ int main(void) {
 			drv_Motor(0.0, 0.0, 0.0, 180.0, 330.0, 0.0, 1000.0, right, on);
 			drv_Status_LED(Green, on);
 			wait_ms(50);
-			drv_Motor(spec.full_block - 40, 180.0, spec.motor_min_vel, 0.0, 0.0,
+			drv_Motor(spec.full_block - 50, 180.0, spec.motor_min_vel, 0.0, 0.0,
 					0.0, 1200.0, back, on);
 
 			wait_ms(300);
@@ -336,6 +340,8 @@ int main(void) {
 
 			UX_effect(alart);
 			switch_Motor(on);
+			spec.kp_l = 0.5;
+			spec.kp_r = 0.5;
 			spec.sta_LED_flag = 0;
 			wait_ms(300);
 			spec.tire_dim = 50.4; //[mm]
@@ -351,29 +357,29 @@ int main(void) {
 //				wait_ms(300);
 //			}
 
-//			drv_Motor(spec.half_block, 500.0, 500.0, 0.0, 0.0, 0.0, 1800.0,
+//			drv_Motor(spec.half_block, 600.0, 600.0, 0.0, 0.0, 0.0, 1800.0,
 //					straight, off);
 //			for (i = 0; i < 4; i++) {
-//				drv_Motor(spec.full_block, 500.0, 500, 0.0, 0.0, 0.0, 1800.0,
+//				drv_Motor(spec.full_block, 600.0, 600.0, 0.0, 0.0, 0.0, 1800.0,
 //						straight, off);
-//				move_Left_400(&params[0]);
+//				move_Left_400(&params[2]);
 //			}
-//			drv_Motor(spec.full_block, 500.0, 500, 0.0, 0.0, 0.0, 1800.0,
+//			drv_Motor(spec.full_block, 600.0, 600, 0.0, 0.0, 0.0, 1800.0,
 //					straight, off);
-//			drv_Motor(spec.half_block, 500.0, spec.motor_min_vel, 0.0, 0.0, 0.0,
+//			drv_Motor(spec.half_block, 600.0, spec.motor_min_vel, 0.0, 0.0, 0.0,
 //					1800.0, straight, on);
 
-			drv_Motor(spec.half_block, 600.0, 600.0, 0.0, 0.0, 0.0, 1800.0,
+			drv_Motor(spec.half_block * 3, 750.0, 750.0, 0.0, 0.0, 0.0, 1800.0,
 					straight, off);
 			for (i = 0; i < 4; i++) {
-				drv_Motor(spec.full_block, 600.0, 600, 0.0, 0.0, 0.0, 1800.0,
+				drv_Motor(spec.full_block, 750.0, 750, 0.0, 0.0, 0.0, 1800.0,
 						straight, off);
-				move_Left_180_s(3,&params[0]);
+				move_Left_180_s(3, &params[2]);
 			}
-			drv_Motor(spec.full_block, 600.0, 600, 0.0, 0.0, 0.0, 1800.0,
-					straight, off);
-			drv_Motor(spec.half_block, 600.0, spec.motor_min_vel, 0.0, 0.0, 0.0,
-					1800.0, straight, on);
+//			drv_Motor(spec.full_block, 800.0, 800, 0.0, 0.0, 0.0, 1800.0,
+//					straight, off);
+			drv_Motor(spec.half_block * 3, 750.0, spec.motor_min_vel, 0.0, 0.0,
+					0.0, 1800.0, straight, on);
 
 			wait_ms(300);
 			drv_Status_LED(Red, off);
