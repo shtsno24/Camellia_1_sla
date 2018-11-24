@@ -45,7 +45,7 @@ void calc_diff(void) {
 		spec.diff = 0.0;
 		spec.prev_diff = spec.diff;
 		return;
-	} else if (r_motor.acc > 7000) {
+	} else if (r_motor.acc > 3000) {
 		spec.diff = 0.0;
 		spec.prev_diff = spec.diff;
 		return;
@@ -93,10 +93,10 @@ void calc_diff(void) {
 		if (fabs(vehicle.vel) > 1400.0) {
 			spec.diff *= 1.5;
 			return;
-		} else if (fabs(vehicle.vel) > 650.0) {
+		} else if (fabs(vehicle.vel) > 800.0) {
 			spec.diff *= 1.3;
 			return;
-		} else if (fabs(vehicle.vel) > 550.0) {
+		} else if (fabs(vehicle.vel) > 600.0) {
 			spec.diff *= 1.2;
 			return;
 		}
