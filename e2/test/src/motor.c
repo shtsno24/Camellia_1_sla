@@ -26,14 +26,14 @@ void init_Params() {
 	params[0].pow_turn.angle = 82.6;
 	params[0].pow_turn.max_rot_vel = 425.0;
 	params[0].pow_turn.vel = params[0].straight.min_vel;
-	params[0].pow_turn.offset_dist_in = 18.0;
-	params[0].pow_turn.offset_dist_out = 18.0;
+	params[0].pow_turn.offset_dist_in = 22.5;
+	params[0].pow_turn.offset_dist_out = 22.5;
 
-	params[0].pow_turn_180.angle = 177.5;
-	params[0].pow_turn_180.max_rot_vel = 390.0;
+	params[0].pow_turn_180.angle = 175.0;
+	params[0].pow_turn_180.max_rot_vel = 380.0;
 	params[0].pow_turn_180.vel = params[0].straight.mid_vel;
-	params[0].pow_turn_180.offset_dist_in = 70;
-	params[0].pow_turn_180.offset_dist_out = 85;
+	params[0].pow_turn_180.offset_dist_in = 80;
+	params[0].pow_turn_180.offset_dist_out = 100;
 	//=====================================
 	params[1].straight.max_vel = 1200;
 	params[1].straight.mid_vel = 600;
@@ -41,15 +41,15 @@ void init_Params() {
 
 	params[1].pow_turn.angle = 82.6;
 	params[1].pow_turn.max_rot_vel = 425.0;
-	params[1].pow_turn.vel = params[0].straight.min_vel;
-	params[1].pow_turn.offset_dist_in = 18.0;
-	params[1].pow_turn.offset_dist_out = 18.0;
+	params[1].pow_turn.vel = params[1].straight.min_vel;
+	params[1].pow_turn.offset_dist_in = 22.5;
+	params[1].pow_turn.offset_dist_out = 22.5;
 
-	params[1].pow_turn_180.angle = 177.5;
-	params[1].pow_turn_180.max_rot_vel = 390.0;
-	params[1].pow_turn_180.vel = params[0].straight.mid_vel;
-	params[1].pow_turn_180.offset_dist_in = 70;
-	params[1].pow_turn_180.offset_dist_out = 85;
+	params[1].pow_turn_180.angle = 175.0;
+	params[1].pow_turn_180.max_rot_vel = 380.0;
+	params[1].pow_turn_180.vel = params[1].straight.mid_vel;
+	params[1].pow_turn_180.offset_dist_in = 80;
+	params[1].pow_turn_180.offset_dist_out = 100;
 	//=====================================
 	params[2].straight.max_vel = 1000;
 	params[2].straight.mid_vel = 750;
@@ -256,9 +256,9 @@ void drv_Motor(float dist, float max_vel, float end_vel, float ang,
 					+ (vel * vel - end_vel * end_vel) / (4.0 * mot_acc);
 		}
 
-		if(deceleration > dist){
+		if (deceleration > dist) {
 			deceleration = dist;
-		}else if (deceleration<0){
+		} else if (deceleration < 0) {
 			deceleration = 0;
 		}
 		acceleration = dist - deceleration;
@@ -332,7 +332,7 @@ void drv_Motor(float dist, float max_vel, float end_vel, float ang,
 void move_half_400(char flag) {
 	if (flag == on) {
 		drv_Motor(spec.half_block, 450.0, spec.motor_min_vel, 0.0, 0.0, 0.0,
-				2300.0, straight, flag);
+				1800.0, straight, flag);
 	} else {
 		drv_Motor(spec.half_block, 400.0, 400.0, 0.0, 0.0, 0.0, 1800.0,
 				straight, flag);
@@ -342,32 +342,32 @@ void move_half_400(char flag) {
 void move_Left_400(PRM* prm) {
 	drv_Status_LED(Rst_status_LED, off);
 	drv_Motor(prm->pow_turn.offset_dist_in, prm->pow_turn.vel,
-			prm->pow_turn.vel, 0.0, 0.0, 0.0, 1800.0, straight, off);
+			prm->pow_turn.vel, 0.0, 0.0, 0.0, 1500.0, straight, off);
 	drv_Status_LED(Yerrow, on);
 	drv_Motor(0.0, prm->pow_turn.vel, prm->pow_turn.vel, prm->pow_turn.angle,
 			prm->pow_turn.max_rot_vel, 0.0, 12000.0, left, off);
 	drv_Status_LED(Green, on);
 	drv_Motor(prm->pow_turn.offset_dist_out, prm->pow_turn.vel,
-			prm->pow_turn.vel, 0.0, 0.0, 0.0, 10000.0, straight, off);
+			prm->pow_turn.vel, 0.0, 0.0, 0.0, 9000.0, straight, off);
 	drv_Status_LED(Rst_status_LED, off);
 }
 
 void move_Right_400(PRM* prm) {
 	drv_Status_LED(Rst_status_LED, off);
 	drv_Motor(prm->pow_turn.offset_dist_in, prm->pow_turn.vel,
-			prm->pow_turn.vel, 0.0, 0.0, 0.0, 1800.0, straight, off);
+			prm->pow_turn.vel, 0.0, 0.0, 0.0, 1500.0, straight, off);
 	drv_Status_LED(Yerrow, on);
 	drv_Motor(0.0, prm->pow_turn.vel, prm->pow_turn.vel, prm->pow_turn.angle,
 			prm->pow_turn.max_rot_vel, 0.0, 12000.0, right, off);
 	drv_Status_LED(Green, on);
 	drv_Motor(prm->pow_turn.offset_dist_out, prm->pow_turn.vel,
-			prm->pow_turn.vel, 0.0, 0.0, 0.0, 10000.0, straight, off);
+			prm->pow_turn.vel, 0.0, 0.0, 0.0, 9000.0, straight, off);
 	drv_Status_LED(Rst_status_LED, off);
 }
 
 void move_Left_180_s(unsigned char flag, PRM* prm) {
 	drv_Motor(spec.half_block * (flag & 1) + prm->pow_turn_180.offset_dist_in,
-			prm->pow_turn_180.vel, prm->pow_turn_180.vel, 0.0, 0.0, 0.0, 1800.0,
+			prm->pow_turn_180.vel, prm->pow_turn_180.vel, 0.0, 0.0, 0.0, 1500.0,
 			straight, off);
 	drv_Motor(0.0, prm->pow_turn_180.vel, prm->pow_turn_180.vel,
 			prm->pow_turn_180.angle, prm->pow_turn_180.max_rot_vel, 0.0, 8000.0,
@@ -375,12 +375,12 @@ void move_Left_180_s(unsigned char flag, PRM* prm) {
 	drv_Motor(
 			spec.half_block * ((flag & 2) >> 1)
 					+ prm->pow_turn_180.offset_dist_out, prm->pow_turn_180.vel,
-			prm->pow_turn_180.vel, 0.0, 0.0, 0.0, 10000.0, straight, off);
+			prm->pow_turn_180.vel, 0.0, 0.0, 0.0, 9000.0, straight, off);
 }
 
 void move_Right_180_s(unsigned char flag, PRM* prm) {
 	drv_Motor(spec.half_block * (flag & 1) + prm->pow_turn_180.offset_dist_in,
-			prm->pow_turn_180.vel, prm->pow_turn_180.vel, 0.0, 0.0, 0.0, 1800.0,
+			prm->pow_turn_180.vel, prm->pow_turn_180.vel, 0.0, 0.0, 0.0, 1500.0,
 			straight, off);
 	drv_Motor(0.0, prm->pow_turn_180.vel, prm->pow_turn_180.vel,
 			prm->pow_turn_180.angle, prm->pow_turn_180.max_rot_vel, 0.0, 8000.0,
@@ -388,13 +388,13 @@ void move_Right_180_s(unsigned char flag, PRM* prm) {
 	drv_Motor(
 			spec.half_block * ((flag & 2) >> 1)
 					+ prm->pow_turn_180.offset_dist_out, prm->pow_turn_180.vel,
-			prm->pow_turn_180.vel, 0.0, 0.0, 0.0, 10000.0, straight, off);
+			prm->pow_turn_180.vel, 0.0, 0.0, 0.0, 9000.0, straight, off);
 }
 
 void move_half(char flag, float offset) {
 	if (flag == on) {
-		drv_Motor(spec.half_block - offset, vehicle.vel, spec.motor_min_vel, 0.0, 0.0,
-				0.0, 1800.0, straight, flag);
+		drv_Motor(spec.half_block - offset, vehicle.vel, spec.motor_min_vel,
+				0.0, 0.0, 0.0, 1800.0, straight, flag);
 	} else {
 		drv_Motor(spec.half_block - offset, 400.0, 400.0, 0.0, 0.0, 0.0, 1800.0,
 				straight, flag);
@@ -424,7 +424,7 @@ void move_Right(float offset) {
 }
 
 void move_Forward(float offset) {
-	drv_Motor(spec.full_block - offset, 650.0, 650.0, 0.0, 0.0, 0.0, 1900.0,
+	drv_Motor(spec.full_block - offset, 650.0, 650.0, 0.0, 0.0, 0.0, 1800.0,
 			straight, off);
 }
 
@@ -433,7 +433,7 @@ void move_Backward() {
 	move_half(on, 0);
 	wait_ms(50);
 	drv_Status_LED(Red, on);
-	drv_Motor(0.0, 0.0, 0.0, 180.0, 330.0, 0.0, 1000.0, right, on);
+	drv_Motor(0.0, 0.0, 0.0, 180.0, 400.0, 0.0, 750.0, right, on);
 	drv_Status_LED(Green, on);
 	drv_Status_LED(Rst_status_LED, off);
 	wait_ms(50);
@@ -452,7 +452,7 @@ void move_Backward_2(float offset) {
 	move_half(on, offset);
 	wait_ms(50);
 	drv_Status_LED(Red, on);
-	drv_Motor(0.0, 0.0, 0.0, 180.0, 330.0, 0.0, 1000.0, right, on);
+	drv_Motor(0.0, 0.0, 0.0, 180.0, 400.0, 0.0, 750.0, right, on);
 	drv_Status_LED(Rst_status_LED, off);
 	wait_ms(50);
 	drv_Status_LED(Red, on);
@@ -465,7 +465,7 @@ void move_Backward_break() {
 	move_half_400(on);
 	wait_ms(50);
 	drv_Status_LED(Red, on);
-	drv_Motor(0.0, 0.0, 0.0, 180.0, 330.0, 0.0, 1000.0, right, on);
+	drv_Motor(0.0, 0.0, 0.0, 180.0, 400.0, 0.0, 750.0, right, on);
 	drv_Status_LED(Rst_status_LED, off);
 	wait_ms(50);
 	drv_Status_LED(Red, on);

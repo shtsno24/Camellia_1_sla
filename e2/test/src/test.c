@@ -49,12 +49,12 @@ enum mode {
 void init_target() {
 //			unsigned char target_area[4][2] = {{mp_size-2,0},{map.goal_x,map.goal_y},{0,mp_size-2},{0,0}};//[point][i=0;pos_x,i=1;pos_y]
 	target_area[0][0] = 0;
-	target_area[0][1] = 3;
+	target_area[0][1] = mp_size - 2;
 
 	target_area[1][0] = map.goal_x;
 	target_area[1][1] = map.goal_y;
 
-	target_area[2][0] = 3;
+	target_area[2][0] = mp_size - 2;
 	target_area[2][1] = 0;
 
 	target_area[3][0] = 0;
@@ -142,6 +142,7 @@ int main(void) {
 			break;
 
 		case run:
+			PE.DRL.BIT.B2 = 1; //reset (0 : off, 1 : on)
 			wait_ms(1000);
 			Switch.rot_sw = 0;
 			while (PB.DR.BIT.B5 != 0) {
@@ -157,14 +158,17 @@ int main(void) {
 			map.pos_y = 1;
 			map.direction = 0;
 			spec.run_interruption = 0;
-			spec.tire_dim = 50.5; //[mm]
+			spec.tire_dim = 50.4; //[mm]
 			spec.step_dist = spec.tire_dim * 3.1415926
 					* (spec.step_angle / 360.0); //[mm]
 			spec.kp_l = 0.5;
 			spec.kp_r = 0.5;
+			spec.kd_l = 4.0;
+			spec.kd_r = 4.0;
 			UX_effect(alart);
 			route_index = 0;
 
+			PE.DRL.BIT.B2 = 0; //reset (0 : off, 1 : on)
 			switch_Motor(on);
 			wait_ms(1000);
 			move_half_400(off);
@@ -218,6 +222,7 @@ int main(void) {
 
 		case astar:
 			wait_ms(1000);
+			PE.DRL.BIT.B2 = 1; //reset (0 : off, 1 : on)
 			drv_Status_LED(Rst_status_LED, off);
 			i = 0;
 			spec.sta_LED_flag = 0;
@@ -234,13 +239,16 @@ int main(void) {
 			}
 
 			spec.run_interruption = 0;
-			spec.tire_dim = 50.5; //[mm]
+			spec.tire_dim = 50.6; //[mm]
 			spec.step_dist = spec.tire_dim * 3.1415926
 					* (spec.step_angle / 360.0); //[mm]
-			spec.kp_l = 0.4;
-			spec.kp_r = 0.4;
+			spec.kp_l = 0.35;
+			spec.kp_r = 0.35;
+			spec.kd_l = 1.0;
+			spec.kd_r = 1.0;
 			UX_effect(alart);
 
+			PE.DRL.BIT.B2 = 0; //reset (0 : off, 1 : on)
 			switch_Motor(on);
 			wait_ms(1000);
 			move_half_400(off);
@@ -262,7 +270,7 @@ int main(void) {
 //					fast_in = 0;
 				} else if (map.tmp_path == Forward) {
 					map.direction += 0;
-					move_Forward(OFFSET);
+					move_Forward(vehicle.dist);
 //					fast_in = 1;
 				} else if (map.tmp_path == Backward) {
 					map.direction += 2;
@@ -271,7 +279,7 @@ int main(void) {
 							|| map.wall == 14) {
 						move_Backward();
 					} else {
-						move_Backward_2(OFFSET);
+						move_Backward_2(vehicle.dist);
 					}
 				}
 				map.direction %= 4;
@@ -299,7 +307,7 @@ int main(void) {
 			drv_Motor(0.0, 0.0, 0.0, 180.0, 330.0, 0.0, 1000.0, right, on);
 			drv_Status_LED(Green, on);
 			wait_ms(50);
-			drv_Motor(spec.full_block - 50, 180.0, spec.motor_min_vel, 0.0, 0.0,
+			drv_Motor(spec.full_block - 50, 230.0, spec.motor_min_vel, 0.0, 0.0,
 					0.0, 1200.0, back, on);
 
 			wait_ms(300);
