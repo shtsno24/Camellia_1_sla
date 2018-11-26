@@ -6,20 +6,20 @@
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="" key="selection"/>
+		<item value="PE.DRL.BIT.B2" key="selection"/>
 		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="PE.DRL.BIT.B2"/>
+			<item value="&#x09;PE.DRL.BIT.B2"/>
+			<item value="MTU20.TSR.BIT.TGFA"/>
 			<item value="&amp;params"/>
 			<item value="prm"/>
 			<item value="prm."/>
 			<item value="drv_Motor2"/>
 			<item value="pos_x"/>
-			<item value="myprintf"/>
-			<item value="stop_flag"/>
-			<item value="direction"/>
 		</list>
 		<list key="replacehistory">
 			<item value="prm -&gt;"/>

@@ -98,11 +98,17 @@ void move_Left(float);
 
 void move_Right(float);
 
-void move_Forward(float);
+void move_Left_sla(float, PRM*);
 
-void move_Backward(void);
+void move_Right_sla(float, PRM*);
+
+void move_Forward(float, float);
+
+void move_Backward(float);
 
 void move_Backward_2(float);
+
+void move_Backward_sla(float);
 
 void move_Backward_break(void);
 
