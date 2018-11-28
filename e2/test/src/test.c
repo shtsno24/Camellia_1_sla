@@ -159,8 +159,8 @@ int main(void) {
 					* (spec.step_angle / 360.0); //[mm]
 			spec.kp_l = 0.37;
 			spec.kp_r = 0.37;
-			spec.kd_l = 0.8;
-			spec.kd_r = 0.8;
+			spec.kd_l = 0.7;
+			spec.kd_r = 0.7;
 			UX_effect(alart);
 
 			PE.DRL.BIT.B2 = 0; //reset (0 : off, 1 : on)
@@ -198,7 +198,7 @@ int main(void) {
 					spec.step_dist = spec.tire_dim * 3.1415926
 							* (spec.step_angle / 360.0); //[mm]
 
-					move_Forward(vehicle.dist, 600);
+					move_Forward(vehicle.dist, 550);
 				} else if (map.tmp_path == Backward) {
 					map.direction += 2;
 					spec.tire_dim = params[0].pow_turn.tire_dim; //[mm]
@@ -277,8 +277,8 @@ int main(void) {
 			spec.step_dist = spec.tire_dim * 3.1415926
 					* (spec.step_angle / 360.0); //[mm]
 
-			spec.kp_l = 0.5;
-			spec.kp_r = 0.5;
+			spec.kp_l = 0.55;
+			spec.kp_r = 0.55;
 			spec.kd_l = 4.0;
 			spec.kd_r = 4.0;
 			UX_effect(alart);
@@ -293,33 +293,33 @@ int main(void) {
 			while (map.path_test[route_index].index != End) {
 
 				if (map.path_test[route_index].index == R_small) {
-//					spec.tire_dim = (p->pow_turn.tire_dim); //[mm]
-//					spec.step_dist = spec.tire_dim * 3.1415926
-//							* (spec.step_angle / 360.0); //[mm]
+					spec.tire_dim = (p->pow_turn.tire_dim); //[mm]
+					spec.step_dist = spec.tire_dim * 3.1415926
+							* (spec.step_angle / 360.0); //[mm]
 
 					move_Right_400(p);
 				} else if (map.path_test[route_index].index == L_small) {
-//					spec.tire_dim = (p->pow_turn.tire_dim); //[mm]
-//					spec.step_dist = spec.tire_dim * 3.1415926
-//							* (spec.step_angle / 360.0); //[mm]
+					spec.tire_dim = (p->pow_turn.tire_dim); //[mm]
+					spec.step_dist = spec.tire_dim * 3.1415926
+							* (spec.step_angle / 360.0); //[mm]
 
 					move_Left_400(p);
 				} else if (map.path_test[route_index].index == R_180) {
-//					spec.tire_dim = (p->pow_turn.tire_dim); //[mm]
-//					spec.step_dist = spec.tire_dim * 3.1415926
-//							* (spec.step_angle / 360.0); //[mm]
+					spec.tire_dim = (p->pow_turn_180.tire_dim); //[mm]
+					spec.step_dist = spec.tire_dim * 3.1415926
+							* (spec.step_angle / 360.0); //[mm]
 
 					move_Right_180_s(map.path_test[route_index].block_num, p);
 				} else if (map.path_test[route_index].index == L_180) {
-//					spec.tire_dim = (p->pow_turn.tire_dim); //[mm]
-//					spec.step_dist = spec.tire_dim * 3.1415926
-//							* (spec.step_angle / 360.0); //[mm]
+					spec.tire_dim = (p->pow_turn_180.tire_dim); //[mm]
+					spec.step_dist = spec.tire_dim * 3.1415926
+							* (spec.step_angle / 360.0); //[mm]
 
 					move_Left_180_s(map.path_test[route_index].block_num, p);
 				} else if (map.path_test[route_index].index == Forward) {
-//					spec.tire_dim = (p->pow_turn.tire_dim); //[mm]
-//					spec.step_dist = spec.tire_dim * 3.1415926
-//							* (spec.step_angle / 360.0); //[mm]
+					spec.tire_dim = (p->straight.tire_dim); //[mm]
+					spec.step_dist = spec.tire_dim * 3.1415926
+							* (spec.step_angle / 360.0); //[mm]
 
 					if (map.path_test[route_index].block_num <= 4) {
 						vel = p->straight.min_vel
@@ -327,7 +327,7 @@ int main(void) {
 						i = 0;
 					} else {
 						vel = p->straight.max_vel;
-						i = 2;
+						i = 0;
 					}
 					if (map.path_test[route_index + 1].index == R_180
 							|| map.path_test[route_index + 1].index == L_180) {
@@ -344,9 +344,9 @@ int main(void) {
 									* map.path_test[route_index].block_num, vel,
 							m_vel, 0.0, 0.0, 0.0, 2000.0, straight, off);
 				} else {
-//					spec.tire_dim = (p->pow_turn.tire_dim); //[mm]
-//					spec.step_dist = spec.tire_dim * 3.1415926
-//							* (spec.step_angle / 360.0); //[mm]
+					spec.tire_dim = (p->pow_turn.tire_dim); //[mm]
+					spec.step_dist = spec.tire_dim * 3.1415926
+							* (spec.step_angle / 360.0); //[mm]
 
 					move_Backward_2(0);
 				}
@@ -543,17 +543,18 @@ int main(void) {
 //			spec.sta_LED_flag = 0;
 //			break;
 
-			wait_ms(1000);
-			while (PB.DR.BIT.B5 != 0) {
-				myprintf("params : %d\n", Switch.rot_sw);
-				select_Params(4);
-				wait_ms(200);
-			}
-			wait_ms(100);
+//			wait_ms(1000);
+//			while (PB.DR.BIT.B5 != 0) {
+//				myprintf("params : %d\n", Switch.rot_sw);
+//				select_Params(4);
+//				wait_ms(200);
+//			}
+//			wait_ms(100);
 			drv_Status_LED(Rst_status_LED, off);
 			UX_effect(alart);
 			switch_Motor(on);
 			wait_ms(10000);
+			switch_Motor(off);
 			break;
 
 		}

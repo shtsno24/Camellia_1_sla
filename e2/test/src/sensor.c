@@ -17,8 +17,8 @@ void init_Sensor(void) {
 	l_sen.non_threshold = 120;
 
 	r_sen.diff_threshold = 3;
-	cr_sen.diff_threshold = 450;
-	cl_sen.diff_threshold = 350;
+	cr_sen.diff_threshold = 240;
+	cl_sen.diff_threshold = 190;
 	l_sen.diff_threshold = 3;
 
 //	r_sen.ref_wall = 357;

@@ -27,15 +27,15 @@ void init_Params() {
 	params[0].pow_turn.angle = 82.6;
 	params[0].pow_turn.max_rot_vel = 425.0;
 	params[0].pow_turn.vel = params[0].straight.min_vel;
-	params[0].pow_turn.offset_dist_in = 22.7;
-	params[0].pow_turn.offset_dist_out = 22.7;
+	params[0].pow_turn.offset_dist_in = 22.0;
+	params[0].pow_turn.offset_dist_out = 22.0;
 	params[0].pow_turn.tire_dim = 50.4;
 
 	params[0].pow_turn_180.angle = 175.0;
 	params[0].pow_turn_180.max_rot_vel = 385.0;
 	params[0].pow_turn_180.vel = params[0].straight.mid_vel;
 	params[0].pow_turn_180.offset_dist_in = 80;
-	params[0].pow_turn_180.offset_dist_out = 100;
+	params[0].pow_turn_180.offset_dist_out = 90;
 	params[0].pow_turn_180.tire_dim = 50.4;
 	//=====================================
 	params[1].straight.max_vel = 1200;
@@ -54,41 +54,47 @@ void init_Params() {
 	params[1].pow_turn_180.max_rot_vel = 385.0;
 	params[1].pow_turn_180.vel = params[1].straight.mid_vel;
 	params[1].pow_turn_180.offset_dist_in = 80;
-	params[1].pow_turn_180.offset_dist_out = 100;
+	params[1].pow_turn_180.offset_dist_out = 90;
 	params[1].pow_turn_180.tire_dim = 50.4;
 	//=====================================
 	params[2].straight.max_vel = 1000;
 	params[2].straight.mid_vel = 750;
 	params[2].straight.min_vel = 600;
+	params[2].straight.tire_dim = 51.0;
 
-	params[2].pow_turn.angle = 81.5;
+	params[2].pow_turn.angle = 80.5;
 	params[2].pow_turn.max_rot_vel = 480.0;
 	params[2].pow_turn.vel = params[2].straight.min_vel;
-	params[2].pow_turn.offset_dist_in = 3;
-	params[2].pow_turn.offset_dist_out = 25;
+	params[2].pow_turn.offset_dist_in = 19.5;
+	params[2].pow_turn.offset_dist_out = 19.5;
+	params[2].pow_turn.tire_dim = 50.4;
 
-	params[2].pow_turn_180.angle = 170.0;
+	params[2].pow_turn_180.angle = 169.5;
 	params[2].pow_turn_180.max_rot_vel = 487.0;
 	params[2].pow_turn_180.vel = params[2].straight.mid_vel;
-	params[2].pow_turn_180.offset_dist_in = 70;
-	params[2].pow_turn_180.offset_dist_out = 110;
+	params[2].pow_turn_180.offset_dist_in = 90;
+	params[2].pow_turn_180.offset_dist_out = 100;
+	params[2].pow_turn_180.tire_dim = 50.4;
+
 	//=====================================
 	params[3].straight.max_vel = 1500;
 	params[3].straight.mid_vel = 750;
 	params[3].straight.min_vel = 600;
+	params[3].straight.tire_dim = 51.0;
 
-	params[3].pow_turn.angle = 81.5;
+	params[3].pow_turn.angle = 80.5;
 	params[3].pow_turn.max_rot_vel = 480.0;
-	params[3].pow_turn.vel = params[2].straight.min_vel;
-	params[3].pow_turn.offset_dist_in = 3;
-	params[3].pow_turn.offset_dist_out = 25;
+	params[3].pow_turn.vel = params[3].straight.min_vel;
+	params[3].pow_turn.offset_dist_in = 19.5;
+	params[3].pow_turn.offset_dist_out = 19.5;
+	params[3].pow_turn.tire_dim = 50.4;
 
-	params[3].pow_turn_180.angle = 170.0;
+	params[3].pow_turn_180.angle = 169.5;
 	params[3].pow_turn_180.max_rot_vel = 487.0;
-	params[3].pow_turn_180.vel = params[2].straight.mid_vel;
-	params[3].pow_turn_180.offset_dist_in = 70;
-	params[3].pow_turn_180.offset_dist_out = 110;
-
+	params[3].pow_turn_180.vel = params[3].straight.mid_vel;
+	params[3].pow_turn_180.offset_dist_in = 90;
+	params[3].pow_turn_180.offset_dist_out = 100;
+	params[3].pow_turn_180.tire_dim = 50.4;
 }
 
 void init_Motor(void) {
@@ -478,11 +484,11 @@ void move_Backward(float offset) {
 	wait_ms(50);
 
 	drv_Status_LED(Red, on);
-	drv_Motor(110, spec.motor_min_vel, spec.motor_min_vel, 0.0, 0.0, 0.0,
-			1200.0, back, on);
+	drv_Motor(50, spec.motor_min_vel, spec.motor_min_vel, 0.0, 0.0, 0.0,
+			500.0, back, on);
 	drv_Status_LED(Green, on);
-	wait_ms(50);
-	drv_Motor(spec.half_block + 13.0, 400.0, 400.0, 0.0, 0.0, 0.0, 1200.0,
+	wait_ms(500);
+	drv_Motor(spec.half_block + 13.0, 400.0, 400.0, 0.0, 0.0, 0.0, 800.0,
 			straight, off);
 	drv_Status_LED(Rst_status_LED, off);
 }
@@ -505,13 +511,6 @@ void move_Backward_sla(float offset) {
 	move_half(on, offset);
 	wait_ms(50);
 
-	drv_Motor(160, spec.motor_min_vel, spec.motor_min_vel, 0.0, 0.0, 0.0,
-			1800.0, back, on);
-	wait_ms(100);
-	drv_Motor(160, spec.motor_min_vel + 200, spec.motor_min_vel, 0.0, 0.0, 0.0,
-			1800.0, straight, on);
-	wait_ms(100);
-
 	drv_Status_LED(Red, on);
 	drv_Motor(0.0, 0.0, 0.0, 180.0, 400.0, 0.0, 750.0, right, on);
 	drv_Status_LED(Green, on);
@@ -519,10 +518,11 @@ void move_Backward_sla(float offset) {
 	wait_ms(50);
 
 	drv_Status_LED(Red, on);
-	drv_Motor(90, 160.0, spec.motor_min_vel, 0.0, 0.0, 0.0, 1200.0, back, on);
+	drv_Motor(50, spec.motor_min_vel, spec.motor_min_vel, 0.0, 0.0, 0.0, 500.0,
+			back, on);
 	drv_Status_LED(Green, on);
-	wait_ms(50);
-	drv_Motor(spec.half_block + 13.0, 400.0, 400.0, 0.0, 0.0, 0.0, 1200.0,
+	wait_ms(500);
+	drv_Motor(spec.half_block + 10.0, 400.0, 400.0, 0.0, 0.0, 0.0, 1800.0,
 			straight, off);
 	drv_Status_LED(Rst_status_LED, off);
 }
@@ -532,7 +532,7 @@ void move_Backward_break() {
 	move_half_400(on);
 	wait_ms(50);
 	drv_Status_LED(Red, on);
-	drv_Motor(0.0, 0.0, 0.0, 180.0, 400.0, 0.0, 750.0, right, on);
+	drv_Motor(0.0, 0.0, 0.0, 180.0, 200.0, 0.0, 750.0, right, on);
 	drv_Status_LED(Rst_status_LED, off);
 	wait_ms(50);
 	drv_Status_LED(Red, on);
