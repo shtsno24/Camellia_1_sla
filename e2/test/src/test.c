@@ -155,7 +155,6 @@ int main(void) {
 			}
 
 			spec.run_interruption = 0;
-			spec.tire_dim = 51.0; //[mm]
 			spec.step_dist = spec.tire_dim * 3.1415926
 					* (spec.step_angle / 360.0); //[mm]
 			spec.kp_l = 0.37;
@@ -178,28 +177,31 @@ int main(void) {
 				OFFSET = vehicle.dist;
 				if (map.tmp_path == R_small) {
 					map.direction += 1;
-					spec.tire_dim -= 0.6; //[mm]
+
+					spec.tire_dim = params[0].pow_turn.tire_dim; //[mm]
 					spec.step_dist = spec.tire_dim * 3.1415926
 							* (spec.step_angle / 360.0); //[mm]
 
 					move_Right_sla(vehicle.dist, &params[0]);
-					spec.tire_dim += 0.6; //[mm]
 				} else if (map.tmp_path == L_small) {
 					map.direction += 3;
-					spec.tire_dim -= 0.6; //[mm]
+
+					spec.tire_dim = params[0].pow_turn.tire_dim; //[mm]
 					spec.step_dist = spec.tire_dim * 3.1415926
 							* (spec.step_angle / 360.0); //[mm]
 
 					move_Left_sla(vehicle.dist, &params[0]);
-					spec.tire_dim += 0.6; //[mm]
 				} else if (map.tmp_path == Forward) {
 					map.direction += 0;
+					spec.tire_dim = params[0].straight.tire_dim; //[mm]
+
 					spec.step_dist = spec.tire_dim * 3.1415926
 							* (spec.step_angle / 360.0); //[mm]
+
 					move_Forward(vehicle.dist, 600);
 				} else if (map.tmp_path == Backward) {
 					map.direction += 2;
-					spec.tire_dim -= 0.6; //[mm]
+					spec.tire_dim = params[0].pow_turn.tire_dim; //[mm]
 					spec.step_dist = spec.tire_dim * 3.1415926
 							* (spec.step_angle / 360.0); //[mm]
 
@@ -209,7 +211,6 @@ int main(void) {
 					} else {
 						move_Backward_2(vehicle.dist);
 					}
-					spec.tire_dim += 0.6; //[mm]
 				}
 				map.direction %= 4;
 				detect_Direction();
@@ -271,9 +272,11 @@ int main(void) {
 			map.pos_y = 1;
 			map.direction = 0;
 			spec.run_interruption = 0;
+
 			spec.tire_dim = 50.4; //[mm]
 			spec.step_dist = spec.tire_dim * 3.1415926
 					* (spec.step_angle / 360.0); //[mm]
+
 			spec.kp_l = 0.5;
 			spec.kp_r = 0.5;
 			spec.kd_l = 4.0;
@@ -290,14 +293,34 @@ int main(void) {
 			while (map.path_test[route_index].index != End) {
 
 				if (map.path_test[route_index].index == R_small) {
+//					spec.tire_dim = (p->pow_turn.tire_dim); //[mm]
+//					spec.step_dist = spec.tire_dim * 3.1415926
+//							* (spec.step_angle / 360.0); //[mm]
+
 					move_Right_400(p);
 				} else if (map.path_test[route_index].index == L_small) {
+//					spec.tire_dim = (p->pow_turn.tire_dim); //[mm]
+//					spec.step_dist = spec.tire_dim * 3.1415926
+//							* (spec.step_angle / 360.0); //[mm]
+
 					move_Left_400(p);
 				} else if (map.path_test[route_index].index == R_180) {
+//					spec.tire_dim = (p->pow_turn.tire_dim); //[mm]
+//					spec.step_dist = spec.tire_dim * 3.1415926
+//							* (spec.step_angle / 360.0); //[mm]
+
 					move_Right_180_s(map.path_test[route_index].block_num, p);
 				} else if (map.path_test[route_index].index == L_180) {
+//					spec.tire_dim = (p->pow_turn.tire_dim); //[mm]
+//					spec.step_dist = spec.tire_dim * 3.1415926
+//							* (spec.step_angle / 360.0); //[mm]
+
 					move_Left_180_s(map.path_test[route_index].block_num, p);
 				} else if (map.path_test[route_index].index == Forward) {
+//					spec.tire_dim = (p->pow_turn.tire_dim); //[mm]
+//					spec.step_dist = spec.tire_dim * 3.1415926
+//							* (spec.step_angle / 360.0); //[mm]
+
 					if (map.path_test[route_index].block_num <= 4) {
 						vel = p->straight.min_vel
 								+ 100 * map.path_test[route_index].block_num;
@@ -321,6 +344,10 @@ int main(void) {
 									* map.path_test[route_index].block_num, vel,
 							m_vel, 0.0, 0.0, 0.0, 2000.0, straight, off);
 				} else {
+//					spec.tire_dim = (p->pow_turn.tire_dim); //[mm]
+//					spec.step_dist = spec.tire_dim * 3.1415926
+//							* (spec.step_angle / 360.0); //[mm]
+
 					move_Backward_2(0);
 				}
 				route_index += 1;
@@ -361,13 +388,15 @@ int main(void) {
 			}
 
 			spec.run_interruption = 0;
+
 			spec.tire_dim = 50.6; //[mm]
 			spec.step_dist = spec.tire_dim * 3.1415926
 					* (spec.step_angle / 360.0); //[mm]
+
 			spec.kp_l = 0.35;
 			spec.kp_r = 0.35;
-			spec.kd_l = 1.0;
-			spec.kd_r = 1.0;
+			spec.kd_l = 0.7;
+			spec.kd_r = 0.7;
 			UX_effect(alart);
 
 			PE.DRL.BIT.B2 = 0; //reset (0 : off, 1 : on)

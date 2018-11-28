@@ -22,34 +22,40 @@ void init_Params() {
 	params[0].straight.max_vel = 1000;
 	params[0].straight.mid_vel = 600;
 	params[0].straight.min_vel = 500;
+	params[0].straight.tire_dim = 51.0;
 
 	params[0].pow_turn.angle = 82.6;
 	params[0].pow_turn.max_rot_vel = 425.0;
 	params[0].pow_turn.vel = params[0].straight.min_vel;
 	params[0].pow_turn.offset_dist_in = 22.7;
 	params[0].pow_turn.offset_dist_out = 22.7;
+	params[0].pow_turn.tire_dim = 50.4;
 
 	params[0].pow_turn_180.angle = 175.0;
 	params[0].pow_turn_180.max_rot_vel = 385.0;
 	params[0].pow_turn_180.vel = params[0].straight.mid_vel;
 	params[0].pow_turn_180.offset_dist_in = 80;
 	params[0].pow_turn_180.offset_dist_out = 100;
+	params[0].pow_turn_180.tire_dim = 50.4;
 	//=====================================
 	params[1].straight.max_vel = 1200;
 	params[1].straight.mid_vel = 600;
 	params[1].straight.min_vel = 500;
+	params[1].straight.tire_dim = 51.0;
 
 	params[1].pow_turn.angle = 82.6;
 	params[1].pow_turn.max_rot_vel = 425.0;
 	params[1].pow_turn.vel = params[1].straight.min_vel;
-	params[1].pow_turn.offset_dist_in = 22.5;
-	params[1].pow_turn.offset_dist_out = 22.5;
+	params[1].pow_turn.offset_dist_in = 22.7;
+	params[1].pow_turn.offset_dist_out = 22.7;
+	params[1].pow_turn.tire_dim = 50.4;
 
 	params[1].pow_turn_180.angle = 175.0;
-	params[1].pow_turn_180.max_rot_vel = 380.0;
+	params[1].pow_turn_180.max_rot_vel = 385.0;
 	params[1].pow_turn_180.vel = params[1].straight.mid_vel;
 	params[1].pow_turn_180.offset_dist_in = 80;
 	params[1].pow_turn_180.offset_dist_out = 100;
+	params[1].pow_turn_180.tire_dim = 50.4;
 	//=====================================
 	params[2].straight.max_vel = 1000;
 	params[2].straight.mid_vel = 750;
@@ -472,7 +478,8 @@ void move_Backward(float offset) {
 	wait_ms(50);
 
 	drv_Status_LED(Red, on);
-	drv_Motor(110, spec.motor_min_vel, spec.motor_min_vel, 0.0, 0.0, 0.0, 1200.0, back, on);
+	drv_Motor(110, spec.motor_min_vel, spec.motor_min_vel, 0.0, 0.0, 0.0,
+			1200.0, back, on);
 	drv_Status_LED(Green, on);
 	wait_ms(50);
 	drv_Motor(spec.half_block + 13.0, 400.0, 400.0, 0.0, 0.0, 0.0, 1200.0,
