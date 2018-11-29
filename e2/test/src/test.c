@@ -240,7 +240,7 @@ int main(void) {
 			drv_Motor(0.0, 0.0, 0.0, 180.0, 330.0, 0.0, 1000.0, right, on);
 			drv_Status_LED(Green, on);
 			wait_ms(50);
-			drv_Motor(spec.full_block - 50, 230.0, spec.motor_min_vel, 0.0, 0.0,
+			drv_Motor(70, 230.0, spec.motor_min_vel, 0.0, 0.0,
 					0.0, 1200.0, back, on);
 
 			wait_ms(300);
@@ -471,7 +471,7 @@ int main(void) {
 			drv_Motor(0.0, 0.0, 0.0, 180.0, 330.0, 0.0, 1000.0, right, on);
 			drv_Status_LED(Green, on);
 			wait_ms(50);
-			drv_Motor(spec.full_block - 50, 230.0, spec.motor_min_vel, 0.0, 0.0,
+			drv_Motor(70, 230.0, spec.motor_min_vel, 0.0, 0.0,
 					0.0, 1200.0, back, on);
 
 			wait_ms(300);
