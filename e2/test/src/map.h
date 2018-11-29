@@ -39,7 +39,7 @@ typedef struct map {
 	unsigned char tmp_path;
 	unsigned char map_size;
 //	unsigned char path[mp_size * mp_size];
-	PATH path_test[mp_size * mp_size];
+	PATH path_test[256];
 	unsigned char dist_map[mp_size][mp_size];
 	unsigned char a_dist_map[mp_size][mp_size];
 	unsigned int wall_map_x[mp_size - 1];

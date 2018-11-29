@@ -100,6 +100,10 @@ void move_Left_180_s(unsigned char, PRM*);
 
 void move_Right_180_s(unsigned char, PRM*);
 
+void move_Left_90_s(unsigned char, PRM*);
+
+void move_Right_90_s(unsigned char, PRM*);
+
 void move_half_450(char);
 
 void move_Right_450(void);
