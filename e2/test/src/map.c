@@ -780,7 +780,7 @@ void generate_Path() {
 			}
 
 			i += 1;
-		} else if (rel_dir == 0 && map.path_test[i - 1].index == L_small
+		} else if (rel_dir == Forward && map.path_test[i - 1].index == L_small
 				&& map.path_test[i - 2].index == L_small
 				&& map.path_test[i - 3].index != R_small
 				&& map.path_test[i - 3].index != L_small) {
@@ -804,6 +804,52 @@ void generate_Path() {
 			}
 
 			i += 1;
+
+//		} else if (rel_dir == Forward && map.path_test[i - 1].index == R_small
+//						&& map.path_test[i - 2].index != R_small
+//						&& map.path_test[i - 2].index != L_small) {
+//					i -= 2;
+//					if (map.path_test[i - 1].index == R_180
+//							|| map.path_test[i - 1].index == L_180||map.path_test[i - 1].index == R_90||map.path_test[i - 1].index == L_90) {
+//						map.path_test[i - 1].block_num &= 1;
+//						map.path_test[i].block_num = 2;
+//					} else {
+//						map.path_test[i].block_num = 3;
+//						map.path_test[i - 1].block_num -= 1;
+//					}
+//					map.path_test[i].index = R_90;
+//
+//					if (map.path_test[i - 1].index == Forward
+//							&& map.path_test[i - 1].block_num == 0) {
+//						map.path_test[i - 1].index = map.path_test[i].index;
+//						map.path_test[i - 1].block_num = map.path_test[i].block_num;
+//						i -= 1;
+//					}
+//
+//					i += 1;
+//				} else if (rel_dir == Forward && map.path_test[i - 1].index == L_small
+//						&& map.path_test[i - 2].index != R_small
+//						&& map.path_test[i - 2].index != L_small) {
+//					i -= 2;
+//					if (map.path_test[i - 1].index == R_180
+//							|| map.path_test[i - 1].index == L_180||map.path_test[i - 1].index == R_90||map.path_test[i - 1].index == L_90) {
+//						map.path_test[i - 1].block_num &= 1;
+//						map.path_test[i].block_num = 2;
+//					} else {
+//						map.path_test[i].block_num = 3;
+//						map.path_test[i - 1].block_num -= 1;
+//					}
+//					map.path_test[i].index = L_90;
+//
+//					if (map.path_test[i - 1].index == Forward
+//							&& map.path_test[i - 1].block_num == 0) {
+//						map.path_test[i - 1].index = map.path_test[i].index;
+//						map.path_test[i - 1].block_num = map.path_test[i].block_num;
+//						i -= 1;
+//					}
+//
+//					i += 1;
+//
 		} else {
 			map.path_test[i].index = rel_dir;
 			map.path_test[i].block_num = 1;
@@ -820,17 +866,11 @@ void generate_Path() {
 		map.path_test[i].index = Forward;
 		map.path_test[i].block_num = 1;
 	}
-//	myprintf("(%d,%d) %d\n", map.path_test[i].index, map.path_test[i].block_num,
-//			i);
 	i += 1;
-//	myprintf("(%d,%d) %d\n", map.path_test[i].index, map.path_test[i].block_num,
-//			i);
 	if (map.path_test[i].index != 4) {
 		map.path_test[i].index = 4;
 	}
-//	myprintf("(%d,%d) %d\n", map.path_test[i].index, map.path_test[i].block_num,
-//			i);
-//	myprintf("===\n");
+
 }
 
 void init_Path() {

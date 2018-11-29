@@ -109,6 +109,7 @@ int main(void) {
 			get_Battery_Voltage();
 			myprintf("Low_battery\n");
 			UX_effect(error);
+			myprintf("\033[1A");
 		}
 
 		drv_Status_LED(Red, off);
@@ -120,6 +121,7 @@ int main(void) {
 			myprintf("sen : %d | %d | %d | %d\n", l_sen.sen, cl_sen.sen,
 					cr_sen.sen, r_sen.sen);
 			myprintf("mode : %d\n", Switch.rot_sw);
+			myprintf("\033[3A");
 			wait_ms(100);
 		}
 		UX_effect(click);
@@ -133,6 +135,7 @@ int main(void) {
 			while (PB.DR.BIT.B5 != 0) {
 				myprintf("params : %d\n", Switch.rot_sw);
 				select_Params(2);
+				myprintf("\033[1A");
 				wait_ms(200);
 			}
 			wait_ms(1000);
@@ -263,6 +266,7 @@ int main(void) {
 				myprintf("params : %d\n", Switch.rot_sw);
 				select_Params(4);
 				wait_ms(200);
+				myprintf("\033[1A");
 			}
 			wait_ms(100);
 			drv_Status_LED(Rst_status_LED, off);
@@ -316,7 +320,19 @@ int main(void) {
 							* (spec.step_angle / 360.0); //[mm]
 
 					move_Left_180_s(map.path_test[route_index].block_num, p);
-				} else if (map.path_test[route_index].index == Forward) {
+//				}  else if (map.path_test[route_index].index == R_90) {
+//					spec.tire_dim = (p->pow_turn_180.tire_dim); //[mm]
+//					spec.step_dist = spec.tire_dim * 3.1415926
+//							* (spec.step_angle / 360.0); //[mm]
+//
+//					move_Right_180_s(map.path_test[route_index].block_num, p);
+//				} else if (map.path_test[route_index].index == L_90) {
+//					spec.tire_dim = (p->pow_turn_180.tire_dim); //[mm]
+//					spec.step_dist = spec.tire_dim * 3.1415926
+//							* (spec.step_angle / 360.0); //[mm]
+//
+//					move_Left_180_s(map.path_test[route_index].block_num, p);
+				}else if (map.path_test[route_index].index == Forward) {
 					spec.tire_dim = (p->straight.tire_dim); //[mm]
 					spec.step_dist = spec.tire_dim * 3.1415926
 							* (spec.step_angle / 360.0); //[mm]
@@ -367,6 +383,7 @@ int main(void) {
 				myprintf("params : %d\n", Switch.rot_sw);
 				select_Params(2);
 				wait_ms(200);
+				myprintf("\033[1A");
 			}
 			wait_ms(1000);
 			drv_Status_LED(Rst_status_LED, off);

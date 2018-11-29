@@ -33,6 +33,15 @@ typedef struct prm {
 		float vel;
 		float max_rot_vel;
 	} pow_turn_180;
+	struct {
+		float offset_dist_in;
+		float offset_dist_out;
+		float tire_dim;
+
+		float angle;
+		float vel;
+		float max_rot_vel;
+	} pow_turn_90;
 } PRM;
 
 enum motor {

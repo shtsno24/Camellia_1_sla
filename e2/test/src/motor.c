@@ -471,11 +471,6 @@ void move_Backward(float offset) {
 	drv_Status_LED(Rst_status_LED, off);
 	move_half(on, offset);
 	wait_ms(50);
-//
-//	drv_Motor(150, spec.motor_min_vel, spec.motor_min_vel, 0.0, 0.0, 0.0, 1800.0, back, on);
-//	wait_ms(100);
-//	drv_Motor(150, spec.motor_min_vel+50, spec.motor_min_vel, 0.0, 0.0, 0.0, 1800.0, straight, on);
-//	wait_ms(100);
 
 	drv_Status_LED(Red, on);
 	drv_Motor(0.0, 0.0, 0.0, 180.0, 400.0, 0.0, 750.0, right, on);

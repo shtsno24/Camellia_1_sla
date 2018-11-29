@@ -17,7 +17,9 @@ enum move{
 	L_small = 3,
 	End = 4,
 	R_180 = 5,
-	L_180 = 6
+	L_180 = 6,
+	R_90 = 7,
+	L_90 = 8
 };
 
 typedef struct path {
