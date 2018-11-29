@@ -10,6 +10,10 @@
 
 typedef struct prm {
 	struct {
+		float kp;
+		float kd;
+	} gain;
+	struct {
 		float max_vel;
 		float mid_vel;
 		float min_vel;

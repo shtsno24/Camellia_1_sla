@@ -20,8 +20,8 @@ void init_Map(void) {
 	map.pos_x = 0;
 	map.pos_y = 0;
 	map.direction = 0;
-	map.goal_x = 1;
-	map.goal_y = 0;
+	map.goal_x = 2;
+	map.goal_y = 5;
 	map.tar_x = map.goal_x;
 	map.tar_y = map.goal_y;
 	map.map_size = mp_size;
@@ -910,7 +910,11 @@ unsigned char check_pos() {
 	for (i = 0; i < lim; i++) {
 		for (j = 0; j < lim; j++) {
 			if (map.pos_x == map.tar_x + i && map.pos_y == map.tar_y + j) {
-				return 1;
+				if (map.tar_x == map.goal_x && map.tar_y == map.goal_y) {
+					return 2;
+				} else {
+					return 1;
+				}
 			}
 		}
 	}

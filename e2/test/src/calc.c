@@ -45,7 +45,7 @@ void calc_diff(void) {
 		spec.diff = 0.0;
 		spec.prev_diff = spec.diff;
 		return;
-	} else if (r_motor.acc > 3000) {
+	} else if (r_motor.acc > 10000) {
 		spec.diff = 0.0;
 		spec.prev_diff = spec.diff;
 		return;

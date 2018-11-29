@@ -29,7 +29,7 @@
 int route_index, i;
 float vel, m_vel, OFFSET;
 unsigned char target_area[2][2];
-unsigned char searchtimes = 0, fast_in = 0;
+unsigned char searchtimes = 0, flag = 0;
 PRM* p;
 
 extern SPC spec;
@@ -161,10 +161,10 @@ int main(void) {
 			spec.run_interruption = 0;
 			spec.step_dist = spec.tire_dim * 3.1415926
 					* (spec.step_angle / 360.0); //[mm]
-			spec.kp_l = 0.37;
-			spec.kp_r = 0.37;
-			spec.kd_l = 0.7;
-			spec.kd_r = 0.7;
+			spec.kp_l = 0.2;
+			spec.kp_r = 0.2;
+			spec.kd_l = 0.3;
+			spec.kd_r = 0.3;
 			UX_effect(alart);
 
 			PE.DRL.BIT.B2 = 0; //reset (0 : off, 1 : on)
@@ -197,7 +197,7 @@ int main(void) {
 					move_Left_sla(vehicle.dist, &params[0]);
 				} else if (map.tmp_path == Forward) {
 					map.direction += 0;
-					spec.tire_dim = params[0].straight.tire_dim; //[mm]
+					spec.tire_dim = 51.0; //[mm]
 
 					spec.step_dist = spec.tire_dim * 3.1415926
 							* (spec.step_angle / 360.0); //[mm]
@@ -218,8 +218,9 @@ int main(void) {
 				}
 				map.direction %= 4;
 				detect_Direction();
+				flag = check_pos();
 
-				if (check_pos() == 1) {
+				if (flag > 0) {
 					if (map.pos_x == 0 && map.pos_y == 0) {
 						spec.run_interruption = 1;
 					} else {
@@ -230,6 +231,17 @@ int main(void) {
 						} else {
 							map.tar_x = 0;
 							map.tar_y = 0;
+						}
+						if (flag == 2) {
+							map.direction += 0;
+							spec.tire_dim = params[0].straight.tire_dim; //[mm]
+
+							spec.step_dist = spec.tire_dim * 3.1415926
+									* (spec.step_angle / 360.0); //[mm]
+
+							move_Forward(0, 550);
+							map.direction %= 4;
+							detect_Direction();
 						}
 					}
 				}
@@ -282,10 +294,11 @@ int main(void) {
 			spec.step_dist = spec.tire_dim * 3.1415926
 					* (spec.step_angle / 360.0); //[mm]
 
-			spec.kp_l = 0.55;
-			spec.kp_r = 0.55;
-			spec.kd_l = 4.0;
-			spec.kd_r = 4.0;
+			p = &params[Switch.rot_sw];
+			spec.kp_l = p->gain.kp;
+			spec.kp_r = p->gain.kp;
+			spec.kd_l = p->gain.kd;
+			spec.kd_r = p->gain.kd;
 			UX_effect(alart);
 			route_index = 0;
 
@@ -293,7 +306,7 @@ int main(void) {
 			switch_Motor(on);
 			wait_ms(1000);
 			move_half_400(off);
-			p = &params[Switch.rot_sw];
+
 
 			while (map.path_test[route_index].index != End) {
 
