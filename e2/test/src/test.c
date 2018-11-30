@@ -362,7 +362,7 @@ int main(void) {
 					spec.step_dist = spec.tire_dim * 3.1415926
 							* (spec.step_angle / 360.0); //[mm]
 
-					if (map.path_test[route_index].block_num <= 4) {
+					if (map.path_test[route_index].block_num <= 8) {
 						vel = p->straight.min_vel
 								+ p->straight.step * map.path_test[route_index].block_num;
 						i = 0;
