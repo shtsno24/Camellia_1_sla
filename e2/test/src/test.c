@@ -177,6 +177,9 @@ int main(void) {
 				init_A_dist_map();
 				update_Wall_map();
 				update_A_dist_map();
+				if (spec.run_interruption == 2) {
+					break;
+				}
 				map.tmp_path = generate_A_path();
 				OFFSET = vehicle.dist;
 				if (map.tmp_path == R_small) {
@@ -213,7 +216,7 @@ int main(void) {
 							|| map.wall == 14) {
 						move_Backward(vehicle.dist);
 					} else {
-						move_Backward_2(-12);
+						move_Backward_2(-5);
 					}
 				}
 				map.direction %= 4;
@@ -247,29 +250,38 @@ int main(void) {
 				}
 
 			}
-			update_Wall_map();
-			move_half_400(on);
-			wait_ms(300);
-			drv_Motor(0.0, 0.0, 0.0, 180.0, 330.0, 0.0, 1000.0, right, on);
-			drv_Status_LED(Green, on);
-			wait_ms(50);
-			drv_Motor(70, 230.0, spec.motor_min_vel, 0.0, 0.0, 0.0, 1200.0,
-					back, on);
 
-			wait_ms(300);
-			switch_Motor(off);
-			spec.sta_LED_flag = 0;
-			map.pos_x = 0;
-			map.pos_y = 0;
-			map.tar_x = map.goal_x;
-			map.tar_y = map.goal_y;
-			map.direction = 0;
-			init_Path();
-			init_Dist_map();
-			update_Dist_map();
-			generate_Path();
-			searchtimes = 1;
-			Switch.rot_sw = astar;
+			if (spec.run_interruption == 1) {
+				update_Wall_map();
+				move_half_400(on);
+				wait_ms(300);
+				drv_Motor(0.0, 0.0, 0.0, 180.0, 330.0, 0.0, 1000.0, right, on);
+				drv_Status_LED(Green, on);
+				wait_ms(50);
+				drv_Motor(70, 230.0, spec.motor_min_vel, 0.0, 0.0, 0.0, 1200.0,
+						back, on);
+
+				wait_ms(300);
+				switch_Motor(off);
+				spec.sta_LED_flag = 0;
+				map.pos_x = 0;
+				map.pos_y = 0;
+				map.tar_x = map.goal_x;
+				map.tar_y = map.goal_y;
+				map.direction = 0;
+				init_Path();
+				init_Dist_map();
+				update_Dist_map();
+				generate_Path();
+				searchtimes = 1;
+				Switch.rot_sw = astar_sla;
+			} else if (spec.run_interruption == 2) {
+				move_half(on, vehicle.dist);
+				wait_ms(300);
+				UX_effect(error);
+				UX_effect(error);
+				UX_effect(error);
+			}
 			break;
 		case run:
 			PE.DRL.BIT.B2 = 1; //reset (0 : off, 1 : on)
@@ -306,7 +318,6 @@ int main(void) {
 			switch_Motor(on);
 			wait_ms(1000);
 			move_half_400(off);
-
 
 			while (map.path_test[route_index].index != End) {
 
@@ -353,7 +364,7 @@ int main(void) {
 
 					if (map.path_test[route_index].block_num <= 4) {
 						vel = p->straight.min_vel
-								+ 100 * map.path_test[route_index].block_num;
+								+ p->straight.step * map.path_test[route_index].block_num;
 						i = 0;
 					} else {
 						vel = p->straight.max_vel;
@@ -440,8 +451,10 @@ int main(void) {
 				init_A_dist_map();
 				update_Wall_map();
 				update_A_dist_map();
+				if (spec.run_interruption == 2) {
+					break;
+				}
 				map.tmp_path = generate_A_path();
-				OFFSET = vehicle.dist;
 				if (map.tmp_path == R_small) {
 					map.direction += 1;
 					move_Right(vehicle.dist);
@@ -479,29 +492,38 @@ int main(void) {
 				}
 
 			}
-			update_Wall_map();
-			move_half_400(on);
-			wait_ms(300);
-			drv_Motor(0.0, 0.0, 0.0, 180.0, 330.0, 0.0, 1000.0, right, on);
-			drv_Status_LED(Green, on);
-			wait_ms(50);
-			drv_Motor(70, 230.0, spec.motor_min_vel, 0.0, 0.0, 0.0, 1200.0,
-					back, on);
 
-			wait_ms(300);
-			switch_Motor(off);
-			spec.sta_LED_flag = 0;
-			map.pos_x = 0;
-			map.pos_y = 0;
-			map.tar_x = map.goal_x;
-			map.tar_y = map.goal_y;
-			map.direction = 0;
-			init_Path();
-			init_Dist_map();
-			update_Dist_map();
-			generate_Path();
-			searchtimes = 1;
-			Switch.rot_sw = astar;
+			if (spec.run_interruption == 1) {
+				update_Wall_map();
+				move_half_400(on);
+				wait_ms(300);
+				drv_Motor(0.0, 0.0, 0.0, 180.0, 330.0, 0.0, 1000.0, right, on);
+				drv_Status_LED(Green, on);
+				wait_ms(50);
+				drv_Motor(70, 230.0, spec.motor_min_vel, 0.0, 0.0, 0.0, 1200.0,
+						back, on);
+
+				wait_ms(300);
+				switch_Motor(off);
+				spec.sta_LED_flag = 0;
+				map.pos_x = 0;
+				map.pos_y = 0;
+				map.tar_x = map.goal_x;
+				map.tar_y = map.goal_y;
+				map.direction = 0;
+				init_Path();
+				init_Dist_map();
+				update_Dist_map();
+				generate_Path();
+				searchtimes = 1;
+				Switch.rot_sw = astar;
+			} else if (spec.run_interruption == 2) {
+				move_half(on, vehicle.dist);
+				wait_ms(300);
+				UX_effect(error);
+				UX_effect(error);
+				UX_effect(error);
+			}
 			break;
 
 		case show_map:

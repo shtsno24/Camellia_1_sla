@@ -18,6 +18,7 @@ typedef struct prm {
 		float mid_vel;
 		float min_vel;
 		float tire_dim;
+		float step;
 	} straight;
 	struct {
 		float offset_dist_in;

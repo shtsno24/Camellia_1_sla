@@ -9,10 +9,12 @@
 #include "LED.h"
 #include "sensor.h"
 #include "serial.h"
+#include "util.h"
 
 MAP map;
 
 extern SEN r_sen, l_sen, cr_sen, cl_sen;
+extern SPC spec;
 
 void init_Map(void) {
 	int i, j;
@@ -20,8 +22,8 @@ void init_Map(void) {
 	map.pos_x = 0;
 	map.pos_y = 0;
 	map.direction = 0;
-	map.goal_x = 2;
-	map.goal_y = 5;
+	map.goal_x = 1;
+	map.goal_y = 0;
 	map.tar_x = map.goal_x;
 	map.tar_y = map.goal_y;
 	map.map_size = mp_size;
@@ -418,6 +420,10 @@ void update_A_dist_map() {
 			}
 		}
 		dist += 1;
+		if (dist>=254) {
+			spec.run_interruption = 2;
+			break;
+		}
 	}
 
 }
@@ -463,7 +469,6 @@ char generate_A_path() {
 			}
 		}
 	}
-
 	if ((wall & 2) == 0) {
 		if (x + 1 < map.map_size) {
 			if (map.a_dist_map[x + 1][y] < dist) {
