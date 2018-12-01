@@ -205,7 +205,7 @@ int main(void) {
 					spec.step_dist = spec.tire_dim * 3.1415926
 							* (spec.step_angle / 360.0); //[mm]
 
-					move_Forward(vehicle.dist, 550);
+					move_Forward(vehicle.dist, 575);
 				} else if (map.tmp_path == Backward) {
 					map.direction += 2;
 					spec.tire_dim = params[0].pow_turn.tire_dim; //[mm]
