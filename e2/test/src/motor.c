@@ -79,7 +79,7 @@ void init_Params() {
 	params[1].pow_turn_90.offset_dist_out = 77;
 	params[1].pow_turn_90.tire_dim = 50.4;
 	//=====================================
-	params[2].gain.kp = 0.28;
+	params[2].gain.kp = 0.27;
 	params[2].gain.kd = 0.2;
 
 	params[2].straight.max_vel = 1000;
@@ -91,8 +91,8 @@ void init_Params() {
 	params[2].pow_turn.angle = 80.5;
 	params[2].pow_turn.max_rot_vel = 480.0;
 	params[2].pow_turn.vel = params[2].straight.min_vel;
-	params[2].pow_turn.offset_dist_in = 19.8;
-	params[2].pow_turn.offset_dist_out = 19.8;
+	params[2].pow_turn.offset_dist_in = 19.5;
+	params[2].pow_turn.offset_dist_out = 19.5;
 	params[2].pow_turn.tire_dim = 50.4;
 
 	params[2].pow_turn_180.angle = 169.5;
@@ -121,8 +121,8 @@ void init_Params() {
 	params[3].pow_turn.angle = 80.5;
 	params[3].pow_turn.max_rot_vel = 480.0;
 	params[3].pow_turn.vel = params[3].straight.min_vel;
-	params[3].pow_turn.offset_dist_in = 19.8;
-	params[3].pow_turn.offset_dist_out = 19.8;
+	params[3].pow_turn.offset_dist_in = 19.5;
+	params[3].pow_turn.offset_dist_out = 19.5;
 	params[3].pow_turn.tire_dim = 50.4;
 
 	params[3].pow_turn_180.angle = 169.5;
@@ -542,7 +542,7 @@ void move_Backward(float offset) {
 	wait_ms(50);
 
 	drv_Status_LED(Red, on);
-	drv_Motor(0.0, 0.0, 0.0, 180.0, 400.0, 0.0, 750.0, right, on);
+	drv_Motor(0.0, 0.0, 0.0, 179.0, 400.0, 0.0, 750.0, right, on);
 	drv_Status_LED(Green, on);
 	drv_Status_LED(Rst_status_LED, off);
 	wait_ms(50);
@@ -562,7 +562,7 @@ void move_Backward_2(float offset) {
 	move_half(on, offset);
 	wait_ms(50);
 	drv_Status_LED(Red, on);
-	drv_Motor(0.0, 0.0, 0.0, 180.0, 400.0, 0.0, 750.0, right, on);
+	drv_Motor(0.0, 0.0, 0.0, 179.0, 400.0, 0.0, 750.0, right, on);
 	drv_Status_LED(Rst_status_LED, off);
 	wait_ms(50);
 	drv_Status_LED(Red, on);
@@ -576,7 +576,7 @@ void move_Backward_sla(float offset) {
 	wait_ms(50);
 
 	drv_Status_LED(Red, on);
-	drv_Motor(0.0, 0.0, 0.0, 180.0, 400.0, 0.0, 750.0, right, on);
+	drv_Motor(0.0, 0.0, 0.0, 179.0, 400.0, 0.0, 750.0, right, on);
 	drv_Status_LED(Green, on);
 	drv_Status_LED(Rst_status_LED, off);
 	wait_ms(50);
@@ -596,7 +596,7 @@ void move_Backward_break() {
 	move_half_400(on);
 	wait_ms(50);
 	drv_Status_LED(Red, on);
-	drv_Motor(0.0, 0.0, 0.0, 180.0, 200.0, 0.0, 750.0, right, on);
+	drv_Motor(0.0, 0.0, 0.0, 179.0, 200.0, 0.0, 750.0, right, on);
 	drv_Status_LED(Rst_status_LED, off);
 	wait_ms(50);
 	drv_Status_LED(Red, on);

@@ -123,6 +123,7 @@ int main(void) {
 			myprintf("mode : %d\n", Switch.rot_sw);
 			wait_ms(100);
 			myprintf("\033[3A");
+			myprintf("\033[2J");
 		}
 		myprintf("\033[2J");
 		UX_effect(click);
@@ -205,7 +206,7 @@ int main(void) {
 					spec.step_dist = spec.tire_dim * 3.1415926
 							* (spec.step_angle / 360.0); //[mm]
 
-					move_Forward(vehicle.dist, 575);
+					move_Forward(vehicle.dist, 550);
 				} else if (map.tmp_path == Backward) {
 					map.direction += 2;
 					spec.tire_dim = params[0].pow_turn.tire_dim; //[mm]
@@ -281,6 +282,20 @@ int main(void) {
 				UX_effect(error);
 				UX_effect(error);
 				UX_effect(error);
+
+				switch_Motor(off);
+				spec.sta_LED_flag = 0;
+				map.pos_x = 0;
+				map.pos_y = 0;
+				map.tar_x = map.goal_x;
+				map.tar_y = map.goal_y;
+				map.direction = 0;
+				init_Path();
+				init_Dist_map();
+				update_Dist_map();
+				generate_Path();
+				searchtimes = 1;
+				Switch.rot_sw = astar_sla;
 			}
 			break;
 		case run:
@@ -364,7 +379,8 @@ int main(void) {
 
 					if (map.path_test[route_index].block_num <= 8) {
 						vel = p->straight.min_vel
-								+ p->straight.step * map.path_test[route_index].block_num;
+								+ p->straight.step
+										* map.path_test[route_index].block_num;
 						i = 0;
 					} else {
 						vel = p->straight.max_vel;
@@ -523,6 +539,20 @@ int main(void) {
 				UX_effect(error);
 				UX_effect(error);
 				UX_effect(error);
+
+				switch_Motor(off);
+				spec.sta_LED_flag = 0;
+				map.pos_x = 0;
+				map.pos_y = 0;
+				map.tar_x = map.goal_x;
+				map.tar_y = map.goal_y;
+				map.direction = 0;
+				init_Path();
+				init_Dist_map();
+				update_Dist_map();
+				generate_Path();
+				searchtimes = 1;
+				Switch.rot_sw = astar_sla;
 			}
 			break;
 
