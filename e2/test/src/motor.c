@@ -91,8 +91,8 @@ void init_Params() {
 	params[2].pow_turn.angle = 80.5;
 	params[2].pow_turn.max_rot_vel = 480.0;
 	params[2].pow_turn.vel = params[2].straight.min_vel;
-	params[2].pow_turn.offset_dist_in = 19.5;
-	params[2].pow_turn.offset_dist_out = 19.5;
+	params[2].pow_turn.offset_dist_in = 19.6;
+	params[2].pow_turn.offset_dist_out = 19.6;
 	params[2].pow_turn.tire_dim = 50.4;
 
 	params[2].pow_turn_180.angle = 169.5;
@@ -121,8 +121,8 @@ void init_Params() {
 	params[3].pow_turn.angle = 80.5;
 	params[3].pow_turn.max_rot_vel = 480.0;
 	params[3].pow_turn.vel = params[3].straight.min_vel;
-	params[3].pow_turn.offset_dist_in = 19.5;
-	params[3].pow_turn.offset_dist_out = 19.5;
+	params[3].pow_turn.offset_dist_in = 19.6;
+	params[3].pow_turn.offset_dist_out = 19.6;
 	params[3].pow_turn.tire_dim = 50.4;
 
 	params[3].pow_turn_180.angle = 169.5;
