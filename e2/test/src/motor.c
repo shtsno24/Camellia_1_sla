@@ -52,7 +52,7 @@ void init_Params() {
 	params[1].gain.kp = 0.275;
 	params[1].gain.kd = 0.2;
 
-	params[1].straight.max_vel = 1200;
+	params[1].straight.max_vel = 1300;
 	params[1].straight.mid_vel = 600;
 	params[1].straight.min_vel = 500;
 	params[1].straight.step = 80;
@@ -112,7 +112,7 @@ void init_Params() {
 	params[3].gain.kp = 0.126;
 	params[3].gain.kd = 0.01;
 
-	params[3].straight.max_vel = 1500;
+	params[3].straight.max_vel = 1300;
 	params[3].straight.mid_vel = 750;
 	params[3].straight.min_vel = 600;
 	params[3].straight.step = 85;

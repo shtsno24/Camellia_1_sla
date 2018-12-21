@@ -1,4 +1,4 @@
-Optimizing Linkage Editor (V.10.02.01.000)        02-Dec-2018 09:14:41
+Optimizing Linkage Editor (V.10.02.01.000)        21-Dec-2018 11:21:19
 
 *** Options ***
 
@@ -23,7 +23,7 @@ Optimizing Linkage Editor (V.10.02.01.000)        02-Dec-2018 09:14:41
 -input="./src/util.obj"
 -input="./src/vector_table.obj"
 -start=DVECTTBL,DINTTBL,PIntPRG/0,PResetPRG/0800,P,C,C$BSEC,C$DSEC,D/01000,B,R/0FFFFA000,S/0FFFFBC00
--library=C:\D\mice\CAMELL~3\Camellia_1_sla\e2\test\Release\test.lib
+-library=C:\D\mice\Camellia_2\Camellia_1_sla\e2\test\Release\test.lib
 -noprelink
 -list=test.map
 -nooptimize
