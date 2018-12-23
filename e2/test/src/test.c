@@ -49,12 +49,12 @@ enum mode {
 void init_target() {
 //			unsigned char target_area[4][2] = {{mp_size-2,0},{map.goal_x,map.goal_y},{0,mp_size-2},{0,0}};//[point][i=0;pos_x,i=1;pos_y]
 	target_area[0][0] = 0;
-	target_area[0][1] = mp_size - 2;
+	target_area[0][1] = 5;
 
 	target_area[1][0] = map.goal_x;
 	target_area[1][1] = map.goal_y;
 
-	target_area[2][0] = mp_size - 2;
+	target_area[2][0] = 5;
 	target_area[2][1] = 0;
 
 	target_area[3][0] = 0;
