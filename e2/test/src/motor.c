@@ -110,12 +110,12 @@ void init_Params() {
 	params[2].pow_turn_90.tire_dim = 50.4;
 	//=====================================
 	params[3].gain.kp = 0.126;
-	params[3].gain.kd = 0.012;
+	params[3].gain.kd = 0.01;
 
 	params[3].straight.max_vel = 1350;
 	params[3].straight.mid_vel = 800;
 	params[3].straight.min_vel = 600;
-	params[3].straight.step = 85;
+	params[3].straight.step = 100;
 	params[3].straight.tire_dim = 50.15;
 
 	params[3].pow_turn.angle = 80.5;
