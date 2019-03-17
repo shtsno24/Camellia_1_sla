@@ -6,22 +6,23 @@
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="params[1]" key="selection"/>
+		<item value="test_map" key="selection"/>
 		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="map"/>
+			<item value="astar"/>
+			<item value="run"/>
 			<item value="params[0]"/>
 			<item value="params[2]"/>
 			<item value="turn_180"/>
 			<item value="[0]"/>
 			<item value="PE.DRL.BIT.B2"/>
-			<item value="&#x09;PE.DRL.BIT.B2"/>
-			<item value="MTU20.TSR.BIT.TGFA"/>
-			<item value="&amp;params"/>
 		</list>
 		<list key="replacehistory">
+			<item value="test_map"/>
 			<item value="params[1]"/>
 			<item value="params[3]"/>
 			<item value="turn_90"/>
@@ -29,7 +30,6 @@
 			<item value="[1]"/>
 			<item value="prm -&gt;"/>
 			<item value="_400"/>
-			<item value="vehicle"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">

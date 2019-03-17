@@ -38,7 +38,7 @@ extern MOT r_motor, l_motor;
 extern VEH vehicle;
 extern SW Switch;
 extern CMT_01 tim;
-extern MAP map;
+extern MAP map, test_map;
 extern LOG logger;
 extern PRM params[4];
 
@@ -576,16 +576,16 @@ int main(void) {
 
 		case test:
 //
-			UX_effect(alart);
-			switch_Motor(on);
-			spec.kp_l = 0.5;
-			spec.kp_r = 0.5;
-			spec.sta_LED_flag = 0;
-			wait_ms(300);
-			spec.tire_dim = 51.0; //[mm]
-			spec.step_dist = spec.tire_dim * 3.1415926
-					* (spec.step_angle / 360.0); //[mm]
-			drv_Status_LED(Rst_status_LED, off);
+//			UX_effect(alart);
+//			switch_Motor(on);
+//			spec.kp_l = 0.5;
+//			spec.kp_r = 0.5;
+//			spec.sta_LED_flag = 0;
+//			wait_ms(300);
+//			spec.tire_dim = 51.0; //[mm]
+//			spec.step_dist = spec.tire_dim * 3.1415926
+//					* (spec.step_angle / 360.0); //[mm]
+//			drv_Status_LED(Rst_status_LED, off);
 
 //			drv_Motor(spec.full_block * 6, 750.0, spec.motor_min_vel, 0.0,
 //					0.0, 0.0, 1800.0, straight, on);
@@ -607,36 +607,204 @@ int main(void) {
 //			drv_Motor(spec.half_block, 600.0, spec.motor_min_vel, 0.0, 0.0, 0.0,
 //					1800.0, straight, on);
 //
-			drv_Motor(spec.half_block * 3, 750.0, 750.0, 0.0, 0.0, 0.0, 1800.0,
-					straight, off);
-			for (i = 0; i < 1; i++) {
-				spec.tire_dim = 51.0; //[mm]
-				spec.step_dist = spec.tire_dim * 3.1415926
-						* (spec.step_angle / 360.0); //[mm]
+//			drv_Motor(spec.half_block * 3, 750.0, 750.0, 0.0, 0.0, 0.0, 1800.0,
+//					straight, off);
+//			for (i = 0; i < 1; i++) {
+//				spec.tire_dim = 51.0; //[mm]
+//				spec.step_dist = spec.tire_dim * 3.1415926
+//						* (spec.step_angle / 360.0); //[mm]
+//
+//				drv_Motor(spec.full_block, 750.0, 750, 0.0, 0.0, 0.0, 1800.0,
+//						straight, off);
+//
+//				spec.tire_dim = 50.4; //[mm]
+//				spec.step_dist = spec.tire_dim * 3.1415926
+//						* (spec.step_angle / 360.0); //[mm]
+//
+//				move_Right_90_s(3, &params[2]);
+//			}
+//			spec.tire_dim = 51.0; //[mm]
+//			spec.step_dist = spec.tire_dim * 3.1415926
+//					* (spec.step_angle / 360.0); //[mm]
+//
+//			drv_Motor(spec.full_block, 750.0, 750, 0.0, 0.0, 0.0, 1800.0,
+//					straight, off);
+//			drv_Motor(spec.half_block * 3, 750.0, spec.motor_min_vel, 0.0, 0.0,
+//					0.0, 1800.0, straight, on);
 
-				drv_Motor(spec.full_block, 750.0, 750, 0.0, 0.0, 0.0, 1800.0,
-						straight, off);
-
-				spec.tire_dim = 50.4; //[mm]
-				spec.step_dist = spec.tire_dim * 3.1415926
-						* (spec.step_angle / 360.0); //[mm]
-
-				move_Right_90_s(3, &params[2]);
+			PE.DRL.BIT.B2 = 1; //reset (0 : off, 1 : on)
+			wait_ms(1000);
+			Switch.rot_sw = 0;
+			while (PB.DR.BIT.B5 != 0) {
+				myprintf("params : %d\n", Switch.rot_sw);
+				select_Params(4);
+				wait_ms(200);
+				myprintf("\033[1A");
 			}
-			spec.tire_dim = 51.0; //[mm]
+			wait_ms(100);
+			drv_Status_LED(Rst_status_LED, off);
+
+			spec.sta_LED_flag = 0;
+			map.pos_x = 0;
+			map.pos_y = 1;
+			map.direction = 0;
+			spec.run_interruption = 0;
+
+			spec.tire_dim = 50.4; //[mm]
 			spec.step_dist = spec.tire_dim * 3.1415926
 					* (spec.step_angle / 360.0); //[mm]
 
-			drv_Motor(spec.full_block, 750.0, 750, 0.0, 0.0, 0.0, 1800.0,
-					straight, off);
-			drv_Motor(spec.half_block * 3, 750.0, spec.motor_min_vel, 0.0, 0.0,
-					0.0, 1800.0, straight, on);
+			p = &params[Switch.rot_sw];
+			spec.kp_l = p->gain.kp;
+			spec.kp_r = p->gain.kp;
+			spec.kd_l = p->gain.kd;
+			spec.kd_r = p->gain.kd;
+			UX_effect(alart);
+			route_index = 0;
+
+			PE.DRL.BIT.B2 = 0; //reset (0 : off, 1 : on)
+			switch_Motor(on);
+			wait_ms(1000);
+			move_half_400(off);
+
+			test_map.path_test[0].index = Forward;
+			test_map.path_test[0].block_num = 13;
+
+			test_map.path_test[1].index = R_90;
+			test_map.path_test[1].block_num = 3;
+
+			test_map.path_test[2].index = Forward;
+			test_map.path_test[2].block_num = 4;
+
+			test_map.path_test[3].index = R_90;
+			test_map.path_test[3].block_num = 3;
+
+			test_map.path_test[4].index = Forward;
+			test_map.path_test[4].block_num = 12;
+
+			test_map.path_test[5].index = R_90;
+			test_map.path_test[5].block_num = 3;
+
+			test_map.path_test[6].index = Forward;
+			test_map.path_test[6].block_num = 4;
+
+			test_map.path_test[7].index = R_90;
+			test_map.path_test[7].block_num = 3;
+//---------------lap 2-------------------------------
+			test_map.path_test[8].index = Forward;
+			test_map.path_test[8].block_num = 12;
+
+			test_map.path_test[9].index = R_90;
+			test_map.path_test[9].block_num = 3;
+
+			test_map.path_test[10].index = Forward;
+			test_map.path_test[10].block_num = 4;
+
+			test_map.path_test[11].index = R_90;
+			test_map.path_test[11].block_num = 3;
+
+			test_map.path_test[12].index = Forward;
+			test_map.path_test[12].block_num = 12;
+
+			test_map.path_test[13].index = R_90;
+			test_map.path_test[13].block_num = 3;
+
+			test_map.path_test[14].index = Forward;
+			test_map.path_test[14].block_num = 4;
+
+			test_map.path_test[15].index = R_90;
+			test_map.path_test[15].block_num = 3;
+
+			test_map.path_test[16].index = End;
+//---------------lap 3-------------------------------
+//			move_half_400(on);
+			while (test_map.path_test[route_index].index != End) {
+
+				if (test_map.path_test[route_index].index == R_small) {
+					spec.tire_dim = (p->pow_turn.tire_dim); //[mm]
+					spec.step_dist = spec.tire_dim * 3.1415926
+							* (spec.step_angle / 360.0); //[mm]
+
+					move_Right_400(p);
+				} else if (test_map.path_test[route_index].index == L_small) {
+					spec.tire_dim = (p->pow_turn.tire_dim); //[mm]
+					spec.step_dist = spec.tire_dim * 3.1415926
+							* (spec.step_angle / 360.0); //[mm]
+
+					move_Left_400(p);
+				} else if (test_map.path_test[route_index].index == R_180) {
+					spec.tire_dim = (p->pow_turn_180.tire_dim); //[mm]
+					spec.step_dist = spec.tire_dim * 3.1415926
+							* (spec.step_angle / 360.0); //[mm]
+
+					move_Right_180_s(test_map.path_test[route_index].block_num,
+							p);
+				} else if (test_map.path_test[route_index].index == L_180) {
+					spec.tire_dim = (p->pow_turn_180.tire_dim); //[mm]
+					spec.step_dist = spec.tire_dim * 3.1415926
+							* (spec.step_angle / 360.0); //[mm]
+
+					move_Left_180_s(test_map.path_test[route_index].block_num,
+							p);
+				} else if (test_map.path_test[route_index].index == R_90) {
+					spec.tire_dim = (p->pow_turn_180.tire_dim); //[mm]
+					spec.step_dist = spec.tire_dim * 3.1415926
+							* (spec.step_angle / 360.0); //[mm]
+
+					move_Right_90_s(test_map.path_test[route_index].block_num,
+							p);
+				} else if (test_map.path_test[route_index].index == L_90) {
+					spec.tire_dim = (p->pow_turn_180.tire_dim); //[mm]
+					spec.step_dist = spec.tire_dim * 3.1415926
+							* (spec.step_angle / 360.0); //[mm]
+
+					move_Left_90_s(test_map.path_test[route_index].block_num,
+							p);
+				} else if (test_map.path_test[route_index].index == Forward) {
+					spec.tire_dim = (p->straight.tire_dim); //[mm]
+					spec.step_dist = spec.tire_dim * 3.1415926
+							* (spec.step_angle / 360.0); //[mm]
+
+					if (test_map.path_test[route_index].block_num <= 8) {
+						vel =
+								p->straight.min_vel
+										+ p->straight.step
+												* test_map.path_test[route_index].block_num;
+						i = 0;
+					} else {
+						vel = p->straight.max_vel;
+						i = 0;
+					}
+					if (test_map.path_test[route_index + 1].index == R_90
+							|| test_map.path_test[route_index + 1].index
+									== L_90) {
+						m_vel = p->straight.mid_vel;
+						if (vel < m_vel) {
+							vel = m_vel;
+						}
+					} else {
+						m_vel = p->straight.min_vel;
+					}
+
+					drv_Motor(
+							(spec.full_block + i)
+									* test_map.path_test[route_index].block_num,
+							vel, m_vel, 0.0, 0.0, 0.0, 2000.0, straight, off);
+				} else {
+					spec.tire_dim = (p->pow_turn.tire_dim); //[mm]
+					spec.step_dist = spec.tire_dim * 3.1415926
+							* (spec.step_angle / 360.0); //[mm]
+
+					move_Backward_2(0);
+				}
+				route_index += 1;
+			}
+			move_half_400(on);
 
 			wait_ms(300);
-			drv_Status_LED(Red, off);
-			drv_Status_LED(Green, off);
-			logger.run = 0; //stop logger
+			switch_Motor(off);
 			spec.sta_LED_flag = 0;
+			Switch.rot_sw = run;
 			break;
 
 //			drv_Status_LED(Rst_status_LED, off);
