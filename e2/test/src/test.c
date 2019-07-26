@@ -387,7 +387,9 @@ int main(void) {
 						i = 0;
 					}
 					if (map.path_test[route_index + 1].index == R_180
-							|| map.path_test[route_index + 1].index == L_180) {
+							|| map.path_test[route_index + 1].index == L_180
+							|| map.path_test[route_index + 1].index == L_90
+							|| map.path_test[route_index + 1].index == R_90) {
 						m_vel = p->straight.mid_vel;
 						if (vel < m_vel) {
 							vel = m_vel;
@@ -669,6 +671,9 @@ int main(void) {
 
 			test_map.path_test[0].index = Forward;
 			test_map.path_test[0].block_num = 13;
+
+			//terminate process
+			test_map.path_test[0].index = End;
 
 			test_map.path_test[1].index = R_90;
 			test_map.path_test[1].block_num = 3;
